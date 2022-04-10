@@ -1,6 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import dotenv from 'dotenv';
-dotenv.config({ path: `.env.development` });
+dotenv.config({ path: `.env.local` });
 
 /*
  * For a detailed explanation regarding each configuration property and type check, visit:
