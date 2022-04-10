@@ -2,14 +2,16 @@ import User from '../../../server/db/models/user.model';
 import RoleEnum from '../../enums/roles';
 
 class UserDTO {
-  private id: number;
-  private email: string;
-  private updatedAt: string;
-  private createdAt: string;
-  private roles: RoleEnum[];
+  public id: number;
+  public username: string;
+  public email: string;
+  public updatedAt: string;
+  public createdAt: string;
+  public roles: RoleEnum[];
 
   constructor(user: User) {
     this.id = user.id;
+    this.username = user.username;
     this.email = user.email;
     this.updatedAt = user.updatedAt;
     this.createdAt = user.updatedAt;

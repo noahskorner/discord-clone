@@ -13,13 +13,13 @@ server
 
     // DATABASE
     const db = require('./db/models').default;
-    // db.sequelize.sync();
-    if (process.env.NODE_ENV !== 'production') {
-      db.sequelize.sync({ force: true }).then(() => {
-        console.log('Dropping, re-syncing, and seeding database');
-        require('./db').default();
-      });
-    }
+    db.sequelize.sync();
+    // if (process.env.NODE_ENV !== 'production') {
+    //   db.sequelize.sync({ force: true }).then(() => {
+    //     console.log('Dropping, re-syncing, and seeding database');
+    //     require('./db').default();
+    //   });
+    // }
 
     // ROUTES
     const router = require('./routes').default;

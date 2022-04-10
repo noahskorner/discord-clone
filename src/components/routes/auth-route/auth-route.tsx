@@ -1,5 +1,6 @@
 import { useRouter } from 'next/router';
 import { useEffect } from 'react';
+import { UserProvder } from '../../../utils/contexts/user-context';
 import useAuth from '../../../utils/hooks/use-auth';
 
 interface AuthRouteProps {
@@ -18,8 +19,9 @@ const AuthRoute = ({ element }: AuthRouteProps) => {
   if (loading) {
     return <></>;
   } else {
-    if (isAuthenticated) return element;
-    else {
+    if (isAuthenticated) {
+      return <UserProvder>{element}</UserProvder>;
+    } else {
       router.push('/login');
       return <></>;
     }

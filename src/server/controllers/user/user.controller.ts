@@ -15,8 +15,9 @@ class UserController {
       return res.status(400).json(validationResult);
     }
 
-    const { email, password } = req.body as CreateUserRequest;
+    const { username, email, password } = req.body as CreateUserRequest;
     const { user, errors } = await this._userService.createUser(
+      username,
       email,
       password,
     );

@@ -1,10 +1,10 @@
-import axios from 'axios';
 import { createContext, useEffect, useState } from 'react';
 import RequestUser from '../types/dtos/request-user';
 import jwtDecode from 'jwt-decode';
 import AuthService from '../../services/auth-service';
 import { useRouter } from 'next/router';
 import JwtToken from '../types/interfaces/jwt-token';
+import API from '../../services/api';
 
 interface AuthContextInterface {
   isAuthenticated: boolean;
@@ -39,6 +39,8 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
   const router = useRouter();
 
   const setAuth = (accessToken: string) => {
+    API.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+
     const { exp, ...rest } = jwtDecode<JwtToken>(accessToken);
     const requestUser = rest as RequestUser;
 
@@ -46,6 +48,7 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
     silentRefresh(exp);
     setUser(requestUser);
     setIsAuthenticated(true);
+    setLoading(false);
   };
 
   const refreshAccessToken = async () => {
@@ -55,7 +58,6 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
     } catch {
       // refresh token is expired
       router.push('/login');
-    } finally {
       setLoading(false);
     }
   };
@@ -68,12 +70,10 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
   };
 
   useEffect(() => {
-    if (accessToken == null) {
-      delete axios.defaults.headers.common['Authorization'];
-    } else {
-      axios.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
+    if (!loading && accessToken == null) {
+      delete API.defaults.headers.common['Authorization'];
     }
-  }, [accessToken]);
+  }, [accessToken, loading]);
 
   return (
     <AuthContext.Provider

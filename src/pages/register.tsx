@@ -15,9 +15,11 @@ import CreateUserRequest from '../utils/types/requests/user/create-user';
 const RegisterPage: NextPage = () => {
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<ErrorInterface[]>([]);
+  const [username, setUsername] = useState('');
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');
+  const usernameErrors = errors.filter((error) => error.field === 'username');
   const emailErrors = errors.filter((error) => error.field === 'email');
   const passwordErrors = errors.filter((error) => error.field === 'password');
   const confirmPasswordErrors = errors.filter(
@@ -27,7 +29,12 @@ const RegisterPage: NextPage = () => {
   const { success } = useToasts();
 
   const registerUser = async () => {
-    const payload = { email, password, confirmPassword } as CreateUserRequest;
+    const payload = {
+      username,
+      email,
+      password,
+      confirmPassword,
+    } as CreateUserRequest;
     const errors = UserValidator.register(payload);
 
     if (errors.length > 0) {
@@ -54,6 +61,11 @@ const RegisterPage: NextPage = () => {
 
   const handleOnKeyPress = (event: KeyboardEvent) => {
     if (event.key === 'Enter') registerUser();
+  };
+
+  const handleOnInputUsername = (value: string) => {
+    setErrors((prev) => prev.filter((error) => error.field !== 'username'));
+    setUsername(value);
   };
 
   const handleOnInputEmail = (value: string) => {
@@ -84,6 +96,13 @@ const RegisterPage: NextPage = () => {
             <h1 className="font-extrabold text-2xl">Create an account</h1>
           </div>
           <Errors errors={errors.filter((error) => error.field == null)} />
+          <TextField
+            value={username}
+            onInput={handleOnInputUsername}
+            label="Username"
+            color="primary"
+            errors={usernameErrors}
+          />
           <TextField
             value={email}
             onInput={handleOnInputEmail}

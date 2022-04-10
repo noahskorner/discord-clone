@@ -23,6 +23,7 @@ module.exports = {
       height: {
         header: '3rem',
         body: 'calc(100% - 3rem)',
+        13: '3.5rem',
       },
       boxShadow: {
         header:

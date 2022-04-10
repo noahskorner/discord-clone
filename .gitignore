@@ -36,4 +36,4 @@ yarn-error.log*
 *.env.*
 
 # config files
-src/config/config.json
+src/server/db/config.json

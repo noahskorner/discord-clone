@@ -6,6 +6,12 @@
       "type": "node-terminal",
       "request": "launch",
       "command": "npm run dev"
+    },
+    {
+      "name": "Client",
+      "type": "pwa-chrome",
+      "request": "launch",
+      "url": "http://localhost:3000"
     }
   ]
 }

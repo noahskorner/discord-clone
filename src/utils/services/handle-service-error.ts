@@ -13,7 +13,7 @@ const handleServiceError = (
         const errors = axiosError.response.data as ErrorInterface[];
         return {
           status,
-          errors,
+          errors: errors != null ? errors : [],
         };
       } catch {
         return { status: 500, errors: [ERROR_UNKOWN] };

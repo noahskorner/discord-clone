@@ -43,6 +43,7 @@ class UserService {
   };
 
   public createUser = async (
+    username: string,
     email: string,
     password: string,
   ): Promise<{ errors?: ErrorInterface[]; user?: UserDTO }> => {
@@ -58,6 +59,7 @@ class UserService {
       expiresIn: env.VERIFY_EMAIL_EXPIRATION,
     });
     const user = await User.create({
+      username: username,
       email: email,
       password: hashedPassword,
       verificationToken: verificationToken,
