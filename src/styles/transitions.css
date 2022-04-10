@@ -1,12 +1,16 @@
 .slide-in-enter {
   transform: translateX(-100%);
+  --webkit-transform: translateX(-100%);
 }
 .slide-in-enter-active {
   transform: translateX(0%);
   transition: 200ms;
+  --webkit-transform: translateX(0%);
+  --webkit-transition: 200ms;
 }
 .slide-in-enter-done {
   transform: translateX(0%);
+  --webkit-transform:: translateX(0%);
 }
 .slide-in-appear {
   transform: none;
@@ -19,13 +23,17 @@
 }
 .slide-in-exit {
   transform: translateX(0%);
+  --webkit-transform: translateX(0%);
 }
 .slide-in-exit-active {
   transform: translateX(-100%);
   transition: 200ms;
+  --webkit-transform: translateX(-100%);
+  --webkit-transition: 200ms;
 }
 .slide-in-exit-done {
   transform: translateX(-100%);
+  --webkit-transform: translateX(-100%);
 }
 
 .fade-in-enter {
@@ -34,6 +42,7 @@
 .fade-in-enter-active {
   opacity: 1;
   transition: 200ms;
+  --webkit-transition: 200ms;
 }
 .fade-in-enter-done {
   opacity: 1;
@@ -44,6 +53,7 @@
 .fade-in-exit-active {
   opacity: 0;
   transition: 200ms;
+  --webkit-transition: 200ms;
 }
 .fade-in-exit-done {
   opacity: 0;

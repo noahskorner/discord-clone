@@ -15,7 +15,9 @@ const Sidebar = () => {
       <div className="h-13 bg-slate-1000 absolute bottom-0 left-0 right-0 p-2 flex justify-between items-center">
         <div className="flex items-center space-x-2">
           <div className="w-9 h-9 rounded-full bg-green-500"></div>
-          <h6 className="font-semibold text-white text-xs">{user?.username}</h6>
+          <h6 className="font-semibold text-white text-xs truncate md:w-28">
+            {user?.username}
+          </h6>
         </div>
         <div className="flex items-center space-x-1">
           <button className="flex justify-center items-center p-1 hover:bg-slate-700 rounded-md">

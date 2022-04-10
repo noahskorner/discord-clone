@@ -7,6 +7,7 @@ module.exports = {
       [
         {
           id: 1,
+          username: 'noah-got-hacked',
           email: 'noahskorner@gmail.com',
           password:
             '$2b$10$NAuxXaLjfkhINbeN1KD9EONfRfQZZH60.VqOxHNWyDjkxYd3N6hSO',

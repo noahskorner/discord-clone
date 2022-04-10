@@ -88,9 +88,9 @@ const RegisterPage: NextPage = () => {
   return (
     <div
       onKeyPress={handleOnKeyPress}
-      className="w-full h-full flex flex-col justify-center items-center p-6 bg-indigo-500 text-primary bg-login overflow-auto"
+      className="w-full h-full flex flex-col justify-center items-center sm:p-6 bg-indigo-500 text-primary bg-login overflow-auto"
     >
-      <div className="w-full max-w-lg bg-slate-700 rounded border-primary shadow-md border dark:border-0 dark:shadow-xl p-8 bounce-in">
+      <div className="h-full sm:h-auto w-full sm:max-w-lg bg-slate-700 sm:rounded border-primary shadow-md border dark:border-0 dark:shadow-xl p-6 sm:p-8 bounce-in">
         <div className="flex flex-col space-y-4">
           <div className="space-y-1 w-full text-center">
             <h1 className="font-extrabold text-2xl">Create an account</h1>
