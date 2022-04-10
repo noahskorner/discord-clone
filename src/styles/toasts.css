@@ -1,0 +1,13 @@
+/* Tailwind */
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer components {
+  .toast-success {
+    @apply border-y border-y-slate-900/10 dark:border-y-slate-300/10 border-r border-r-slate-900/10 dark:border-r-slate-300/10 border-l-4 border-l-green-500;
+  }
+  .toast-danger {
+    @apply border-y border-y-slate-900/10 dark:border-y-slate-300/10 border-r border-r-slate-900/10 dark:border-r-slate-300/10 border-l-4 border-l-red-500;
+  }
+}

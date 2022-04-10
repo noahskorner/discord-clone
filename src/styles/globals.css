@@ -1,0 +1,44 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+@import './variables.css';
+@import './spinners.css';
+@import './transitions.css';
+@import './toasts.css';
+@import './backgrounds.css';
+@import './animations.css';
+
+/* Inter */
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@100;200;300;400;500;600;700;800;900&display=swap');
+
+/* Global Styles */
+* {
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+:focus:not(:focus-visible) {
+  outline: none;
+  box-shadow: none;
+}
+
+textarea:focus,
+input:focus {
+  outline: none;
+}
+
+*:focus {
+  outline: none;
+}
+
+/* Fonts */
+.font-primary {
+  font-family: var(--font-primary);
+}
+
+/* Utils */
+.scrollbar-none::-webkit-scrollbar {
+  width: 0;
+  height: 0;
+  background: transparent;
+}

@@ -1,0 +1,32 @@
+.bounce-in {
+  animation: bounce-in 0.5s;
+}
+
+@keyframes bounce-in {
+  0% {
+    transform: translateY(-25px) scale(1.25);
+  }
+  50% {
+    transform: translateY(0);
+  }
+  75% {
+    transform: translateY(-5px);
+  }
+  100% {
+    transform: translateY(0) scale(1);
+  }
+}
+@-webkit-keyframes bounce-in {
+  0% {
+    -webkit-transform: translateY(-25px) scale(1.25);
+  }
+  50% {
+    -webkit-transform: translateY(0);
+  }
+  75% {
+    -webkit-transform: translateY(-5px);
+  }
+  100% {
+    -webkit-transform: translateY(0) scale(1);
+  }
+}
