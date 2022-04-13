@@ -1,12 +1,12 @@
 import express from 'express';
 import errorHandler from './middleware/error-handler';
 import cookieParser from 'cookie-parser';
-import RequestUser from '../utils/types/dtos/request-user';
 import apiLimiter from '../config/api.config';
 import cors from 'cors';
 import env from '../config/env.config';
 import router from './routes';
 import db from './db/models';
+import RequestUser from '../utils/types/dtos/request-user';
 
 declare global {
   // eslint-disable-next-line no-unused-vars

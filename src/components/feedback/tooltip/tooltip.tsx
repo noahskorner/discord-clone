@@ -42,7 +42,7 @@ const Tooltip = ({ text, children, direction }: TooltipProps) => {
           className={`${TOOLTIP_CLASSES[direction]} absolute flex items-center ml-4`}
         >
           <div className={`arrow-${direction} border-black/80`}></div>
-          <div className="relative bg-black/80 text-white font-bold text-center py-1 px-2 rounded-md whitespace-nowrap">
+          <div className="relative bg-black/80 text-white font-semibold text-sm text-center py-1 px-2 rounded-md whitespace-nowrap">
             {text}
           </div>
         </div>

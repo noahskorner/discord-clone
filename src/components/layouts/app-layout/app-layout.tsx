@@ -6,6 +6,7 @@ import Servers from './servers';
 import Sidebar from './sidebar';
 import { CSSTransition } from 'react-transition-group';
 import AuthRoute from '../../routes/auth-route';
+import { VideoProvider } from '../../../utils/contexts/video-context';
 
 interface AppLayoutProps {
   children: JSX.Element;
@@ -13,9 +14,11 @@ interface AppLayoutProps {
 
 const AppLayout = (props: AppLayoutProps) => {
   return (
-    <AppProvider>
-      <Layout {...props}></Layout>
-    </AppProvider>
+    <VideoProvider>
+      <AppProvider>
+        <Layout {...props}></Layout>
+      </AppProvider>
+    </VideoProvider>
   );
 };
 
@@ -49,7 +52,7 @@ const Layout = ({ children }: AppLayoutProps) => {
               ></button>
             </div>
           </CSSTransition>
-          <div style={{ height: heightStyle }} className="w-full flex">
+          <div style={{ height: heightStyle }} className="w-full flex flex-col">
             <Header />
             <div className="h-body">{children}</div>
           </div>

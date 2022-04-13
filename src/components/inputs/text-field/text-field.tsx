@@ -1,5 +1,6 @@
-import { EyeIcon, EyeOffIcon } from '@heroicons/react/outline';
-import { ExclamationCircleIcon } from '@heroicons/react/solid';
+import EyeIcon from '../../icons/eye.svg';
+import EyeOffIcon from '../../icons/eye-off.svg';
+import ExclamationCircleIcon from '../../icons/exclamation-circle.svg';
 import { useRef, useState } from 'react';
 import InputProps from '../../../utils/types/props/input';
 import Errors from '../errors';

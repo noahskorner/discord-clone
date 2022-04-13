@@ -1,15 +1,16 @@
-import next from 'next';
+import createNext from 'next';
 import { Response, Request } from 'express';
 
 const dev = process.env.NODE_ENV !== 'production';
-const server = next({ dev });
-const handle = server.getRequestHandler();
+const next = createNext({ dev });
+const handle = next.getRequestHandler();
 
-server
+next
   .prepare()
   .then(() => {
     const env = require('../config/env.config').default;
     const app = require('./app').default;
+    const server = require('./server').default;
 
     // NEXT PAGES
     app.get('*', (req: Request, res: Response) => {
@@ -17,7 +18,7 @@ server
     });
 
     // START APP
-    app.listen(env.PORT, () => {
+    server.listen(env.PORT, () => {
       console.log(`Server now listening on port ${env.PORT}`);
     });
   })
