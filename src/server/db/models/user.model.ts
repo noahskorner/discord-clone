@@ -54,7 +54,7 @@ class User extends Model {
   createdServers!: Server[];
 
   @HasMany(() => ServerUser)
-  servers!: Server[];
+  servers!: ServerUser[];
 }
 
 export default User;
