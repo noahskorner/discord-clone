@@ -4,8 +4,8 @@ import {
   Model,
   DataType,
   ForeignKey,
-  BelongsTo,
   Unique,
+  BelongsTo,
 } from 'sequelize-typescript';
 import User from './user.model';
 
@@ -17,10 +17,10 @@ class Server extends Model {
 
   @ForeignKey(() => User)
   @Column(DataType.INTEGER)
-  createdBy!: number;
+  createdById!: number;
 
   @BelongsTo(() => User)
-  user!: User;
+  createdBy!: User;
 }
 
 export default Server;

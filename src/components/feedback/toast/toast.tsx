@@ -1,6 +1,7 @@
 import useToasts from '../../../utils/hooks/use-toasts';
 import ToastInterface from '../../../utils/types/interfaces/toast-interface';
 import CloseIcon from '../../icons/close.svg';
+import IconButton from '../../inputs/icon-button';
 
 const TOAST_CLASSES = {
   success: 'toast-success',
@@ -16,19 +17,16 @@ const Toast = ({ id, color, title, body }: ToastInterface) => {
 
   return (
     <div
-      className={`${TOAST_CLASSES[color]} w-full rounded bg-white dark:bg-slate-700 shadow-md dark:shadow-2xl flex items-stretch text-sm`}
+      className={`${TOAST_CLASSES[color]} w-full rounded bg-slate-800 shadow-md dark:shadow-2xl flex items-stretch text-sm`}
     >
-      <div className="w-full py-5 pl-4 space-y-2 bg-slate-700 rounded">
+      <div className="w-full py-5 pl-4 space-y-2 rounded">
         <h6 className="font-semibold text-white">{title}</h6>
         {body && <p className="text-slate-500 dark:text-slate-300">{body}</p>}
       </div>
       <div className="p-1">
-        <button
-          onClick={handleToastClick}
-          className="w-6 h-6 rounded-md flex justify-center items-center hover:bg-slate-600 hover:rotate-90"
-        >
+        <IconButton onClick={handleToastClick}>
           <CloseIcon />
-        </button>
+        </IconButton>
       </div>
     </div>
   );

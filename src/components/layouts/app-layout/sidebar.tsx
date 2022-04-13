@@ -2,6 +2,7 @@ import useUser from '../../../utils/hooks/use-user';
 import useWindowSize from '../../../utils/hooks/use-window-size';
 import MicrophoneIcon from '../../icons/microphone.svg';
 import SettingsIcon from '../../icons/settings.svg';
+import IconButton from '../../inputs/icon-button';
 
 const Sidebar = () => {
   const { heightStyle } = useWindowSize();
@@ -22,12 +23,12 @@ const Sidebar = () => {
           </h6>
         </div>
         <div className="flex items-center space-x-1">
-          <button className="flex justify-center items-center p-1 hover:bg-slate-700 rounded-md">
+          <IconButton>
             <MicrophoneIcon />
-          </button>
-          <button className="flex justify-center items-center p-1 hover:bg-slate-700 rounded-md">
+          </IconButton>
+          <IconButton>
             <SettingsIcon />
-          </button>
+          </IconButton>
         </div>
       </div>
     </div>

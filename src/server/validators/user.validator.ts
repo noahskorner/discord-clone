@@ -22,7 +22,7 @@ const UserValidator = {
     password,
     confirmPassword,
   }: CreateUserRequest): ErrorInterface[] => {
-    let errors: ErrorInterface[] = [];
+    const errors: ErrorInterface[] = [];
 
     if (!isLength(username, { min: 4 })) errors.push(ERROR_INVALID_USERNAME);
     if (!isEmail(email)) errors.push(ERROR_INVALID_EMAIL);
@@ -53,7 +53,7 @@ const UserValidator = {
     password,
     confirmPassword,
   }: ConfirmResetPasswordRequest): ErrorInterface[] => {
-    let errors: ErrorInterface[] = [];
+    const errors: ErrorInterface[] = [];
 
     if (password == null)
       errors.push({ field: 'password', message: 'Must provide a password.' });

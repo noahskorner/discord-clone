@@ -1,11 +1,17 @@
+import { MouseEventHandler } from 'react';
+
 interface IconButtonProps {
-  icon: JSX.Element;
+  children: JSX.Element;
+  onClick?: MouseEventHandler<HTMLButtonElement>;
 }
 
-const IconButton = ({ icon }: IconButtonProps) => {
+const IconButton = ({ children, onClick = () => {} }: IconButtonProps) => {
   return (
-    <button className="flex justify-center items-center p-1 hover:bg-slate-700 rounded-md">
-      {icon}
+    <button
+      onClick={onClick}
+      className="flex justify-center items-center p-1 hover:bg-slate-700 rounded-md text-slate-300"
+    >
+      {children}
     </button>
   );
 };
