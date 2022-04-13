@@ -5,7 +5,7 @@ import API from './api';
 
 const ServerService = {
   create: (payload: CreateServerRequest): Promise<AxiosResponse<ServerDTO>> => {
-    return API.post('/user', payload);
+    return API.post('/server', payload);
   },
 };
 

@@ -9,18 +9,58 @@ import useUser from '../../../../utils/hooks/use-user';
 import useModal from '../../../../utils/hooks/use-modal';
 import { useState } from 'react';
 import Tooltip from '../../../feedback/tooltip';
+import ServerService from '../../../../services/server-service';
+import CreateServerRequest from '../../../../utils/types/requests/server/create-server';
+import ServerValidator from '../../../../server/validators/server.validator';
+import ErrorInterface from '../../../../utils/types/interfaces/error';
+import handleServiceError from '../../../../utils/services/handle-service-error';
+import Spinner from '../../../inputs/spinner';
+import useToasts from '../../../../utils/hooks/use-toasts';
 
 const CreateServerModal = () => {
   const { showModal, setShowModal } = useModal();
+  const { success } = useToasts();
   const { user } = useUser();
   const [serverName, setServerName] = useState(
-    `${user?.username}'s server` ?? '',
+    user?.username ? `${user.username}'s server` : '',
   );
+  const [errors, setErrors] = useState<ErrorInterface[]>([]);
+  const serverNameErrors = errors.filter((error) => error.field === 'name');
+  const [loading, setLoading] = useState(false);
+
+  const handleServerNameInput = (value: string) => {
+    setErrors((prev) => prev.filter((error) => error.field !== 'name'));
+    setServerName(value);
+  };
   const handleAddServerButtonClick = () => {
     setShowModal(true);
   };
   const handleCloseModalButtonClick = () => {
     setShowModal(false);
+  };
+  const handleCreateButtonClick = async () => {
+    const payload = { name: serverName } as CreateServerRequest;
+    const errors = ServerValidator.create(payload);
+    if (errors.length > 0) {
+      setErrors(errors);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await ServerService.create(payload);
+      const server = response.data;
+      success(
+        'Successfully created server!',
+        `${server.name} will be a great place`,
+      );
+      setShowModal(false);
+    } catch (error) {
+      const { errors } = handleServiceError(error);
+      setErrors(errors);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -63,7 +103,8 @@ const CreateServerModal = () => {
             <TextField
               label="Server name"
               value={serverName}
-              onInput={setServerName}
+              errors={serverNameErrors}
+              onInput={handleServerNameInput}
             />
           </div>
           <div className="w-full p-4 bg-slate-700 relative bottom-0 mt-8 rounded-b-md flex justify-between items-center">
@@ -73,8 +114,12 @@ const CreateServerModal = () => {
             >
               Close
             </button>
-            <button className="py-2 px-4 bg-indigo-500 hover:bg-indigo-700 rounded-md text-sm">
-              Create
+            <button
+              onClick={handleCreateButtonClick}
+              className="py-2 px-4 bg-indigo-500 hover:bg-indigo-700 rounded-md text-sm"
+            >
+              <span className={`${loading && 'opacity-0 w-0'}`}>Create</span>
+              {loading && <Spinner size="sm" />}
             </button>
           </div>
         </div>
