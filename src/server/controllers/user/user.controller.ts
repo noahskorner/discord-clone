@@ -7,7 +7,11 @@ import ResetPasswordRequest from '../../../utils/types/requests/user/reset-passw
 import ConfirmResetPasswordRequest from '../../../utils/types/requests/user/confirm-reset-password';
 
 class UserController {
-  private _userService = new UserService();
+  private _userService;
+
+  constructor() {
+    this._userService = new UserService();
+  }
 
   public register = catchAsync(async (req: Request, res: Response) => {
     const validationResult = UserValidator.register({ ...req.body });

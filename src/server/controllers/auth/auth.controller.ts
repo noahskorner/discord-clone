@@ -8,7 +8,11 @@ import JwtToken from '../../../utils/types/interfaces/jwt-token';
 const REFRESH_TOKEN_COOKIE = 'token';
 
 class AuthController {
-  private _userService = new UserService();
+  private _userService;
+
+  constructor() {
+    this._userService = new UserService();
+  }
 
   public login = catchAsync(async (req: Request, res: Response) => {
     const validationErrors = AuthValidator.login({ ...req.body });
