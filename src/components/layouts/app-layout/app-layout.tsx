@@ -2,7 +2,7 @@ import { AppProvider } from '../../../utils/contexts/app-context';
 import useApp from '../../../utils/hooks/use-app';
 import useWindowSize from '../../../utils/hooks/use-window-size';
 import Header from './header';
-import Servers from './servers';
+import Servers from './servers/servers';
 import Sidebar from './sidebar';
 import { CSSTransition } from 'react-transition-group';
 import AuthRoute from '../../routes/auth-route';
