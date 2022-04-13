@@ -27,23 +27,23 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
   const [user, setUser] = useState<UserDTO | null>(defaultValues.user);
   const [loading, setLoading] = useState(false);
 
-  const loadUser = async (userId: number) => {
-    setLoading(true);
-    try {
-      const { data } = await UserService.get(userId);
-      setUser(data);
-    } catch (error) {
-      const { errors } = handleServiceError(error);
-      errors.forEach((error) => {
-        danger(error.message);
-      });
-    } finally {
-      setLoading(false);
-    }
-  };
-
   useEffect(() => {
     if (loadingAuth || requestUser == null) return;
+
+    const loadUser = async (userId: number) => {
+      setLoading(true);
+      try {
+        const { data } = await UserService.get(userId);
+        setUser(data);
+      } catch (error) {
+        const { errors } = handleServiceError(error);
+        errors.forEach((error) => {
+          danger(error.message);
+        });
+      } finally {
+        setLoading(false);
+      }
+    };
 
     loadUser(requestUser.id);
     // eslint-disable-next-line react-hooks/exhaustive-deps

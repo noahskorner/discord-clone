@@ -10,26 +10,27 @@ const VerifyEmailPage: NextPage = () => {
   const { token } = router.query as { token?: string };
   const { success, danger } = useToasts();
 
-  const verifyEmail = async () => {
-    if (token == null) return;
-
-    try {
-      await UserService.verifyEmail(token);
-      success('Email verified!', 'You can login now, champ.');
-      return router.push('/login');
-    } catch (error) {
-      const response = handleServiceError(error);
-      response.errors.forEach((error) => {
-        danger('Uh oh!', error.message);
-      });
-      return router.push('/login');
-    }
-  };
-
   useEffect(() => {
+    const verifyEmail = async () => {
+      if (token == null) return;
+
+      try {
+        await UserService.verifyEmail(token);
+        success('Email verified!', 'You can login now, champ.');
+        return router.push('/login');
+      } catch (error) {
+        const response = handleServiceError(error);
+        response.errors.forEach((error) => {
+          danger('Uh oh!', error.message);
+        });
+        return router.push('/login');
+      }
+    };
+
     verifyEmail();
+
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [router.query]);
+  }, [token]);
 
   return <></>;
 };
