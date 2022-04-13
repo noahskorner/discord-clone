@@ -1,7 +1,7 @@
 import { NextPage } from 'next';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { KeyboardEvent, useState } from 'react';
+import { KeyboardEvent, useEffect, useState } from 'react';
 import Errors from '../components/inputs/errors';
 import Spinner from '../components/inputs/spinner';
 import TextField from '../components/inputs/text-field';
@@ -19,7 +19,12 @@ const LoginPage: NextPage = () => {
   const [password, setPassword] = useState('');
   const emailErrors = errors.filter((error) => error.field === 'email');
   const passwordErrors = errors.filter((error) => error.field === 'password');
-  const { setAuth } = useAuth();
+  const {
+    isAuthenticated,
+    loading: loadingAuth,
+    refreshAccessToken,
+    setAuth,
+  } = useAuth();
   const router = useRouter();
 
   const loginUser = async () => {
@@ -57,6 +62,18 @@ const LoginPage: NextPage = () => {
     setErrors((prev) => prev.filter((error) => error.field !== 'password'));
     setPassword(value);
   };
+
+  useEffect(() => {
+    if (!loadingAuth && isAuthenticated) {
+      router.push('/');
+    }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [loadingAuth, isAuthenticated]);
+
+  useEffect(() => {
+    refreshAccessToken();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, []);
 
   return (
     <div

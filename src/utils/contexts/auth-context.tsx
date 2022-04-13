@@ -2,7 +2,6 @@ import { createContext, useEffect, useState } from 'react';
 import RequestUser from '../types/dtos/request-user';
 import jwtDecode from 'jwt-decode';
 import AuthService from '../../services/auth-service';
-import { useRouter } from 'next/router';
 import JwtToken from '../types/interfaces/jwt-token';
 import API from '../../services/api';
 
@@ -36,7 +35,6 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
   );
   const [user, setUser] = useState<RequestUser | null>(defaultValues.user);
   const [loading, setLoading] = useState<boolean>(defaultValues.loading);
-  const router = useRouter();
 
   const setAuth = (accessToken: string) => {
     API.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -57,7 +55,6 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
       setAuth(response.data);
     } catch {
       // refresh token is expired
-      router.push('/login');
       setLoading(false);
     }
   };
