@@ -7,6 +7,7 @@ import {
   DefaultScope,
 } from 'sequelize-typescript';
 import RefreshToken from './refresh-token.model';
+import ServerUser from './server-user.model';
 import Server from './server.model';
 import UserRole from './user-role.model';
 
@@ -51,6 +52,9 @@ class User extends Model {
     onDelete: 'SET NULL',
   })
   createdServers!: Server[];
+
+  @HasMany(() => ServerUser)
+  servers!: Server[];
 }
 
 export default User;

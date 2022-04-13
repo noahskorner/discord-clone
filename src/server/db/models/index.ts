@@ -4,8 +4,9 @@ import User from './user.model';
 import RefreshToken from './refresh-token.model';
 import UserRole from './user-role.model';
 import Server from './server.model';
+import ServerUser from './server-user.model';
 
-sequelize.addModels([User, RefreshToken, UserRole, Server]);
+sequelize.addModels([User, RefreshToken, UserRole, Server, ServerUser]);
 
 const db = {
   Sequelize,
@@ -14,6 +15,7 @@ const db = {
   RefreshToken,
   UserRole,
   Server,
+  ServerUser,
 };
 
 export default db;
