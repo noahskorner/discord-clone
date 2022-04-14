@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import useUser from '../../../utils/hooks/use-user';
 import useWindowSize from '../../../utils/hooks/use-window-size';
 import MicrophoneIcon from '../../icons/microphone.svg';
@@ -7,13 +8,17 @@ import IconButton from '../../inputs/icon-button';
 const Sidebar = () => {
   const { heightStyle } = useWindowSize();
   const { user } = useUser();
+  const router = useRouter();
+  const isServerPage = router.pathname.toLowerCase().includes('server');
 
   return (
     <div
       style={{ height: heightStyle }}
       className="relative w-full overflow-hidden rounded-r-3xl bg-slate-800 md:w-sidebar md:rounded-r-none"
     >
-      <div className="h-header shadow-header"></div>
+      <div className="h-header shadow-header">
+        {JSON.stringify(isServerPage)}
+      </div>
       <div className="h-body space-y-2 overflow-y-auto"></div>
       <div className="absolute bottom-0 left-0 right-0 flex h-13 items-center justify-between bg-slate-1000 p-2">
         <div className="flex items-center space-x-2">

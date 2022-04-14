@@ -8,6 +8,9 @@ import User from '../db/models/user.model';
 const ERROR_USER_NOT_FOUND: ErrorInterface = {
   message: 'User creating this server was not found.',
 };
+export const ERROR_INSUFFICIENT_PERMISSIONS =
+  'User does not belong to this server.';
+export const ERROR_SERVER_NOT_FOUND = 'Server does not exist.';
 
 class ServerService {
   public create = async (
@@ -47,6 +50,41 @@ class ServerService {
     });
 
     return servers.map((server) => new ServerDTO(server));
+  };
+
+  public findById = async (
+    serverId: number,
+    userId: number,
+  ): Promise<ServerDTO> => {
+    if (isNaN(serverId)) throw new Error(ERROR_SERVER_NOT_FOUND);
+
+    const server = await Server.findByPk(serverId, {
+      include: [
+        {
+          model: ServerUser,
+        },
+      ],
+    });
+
+    if (server == null) throw new Error(ERROR_SERVER_NOT_FOUND);
+
+    const userCanRead = await this.userCanRead(serverId, userId);
+    if (!userCanRead) throw new Error(ERROR_INSUFFICIENT_PERMISSIONS);
+    else return new ServerDTO(server);
+  };
+
+  private userCanRead = async (
+    serverId: number,
+    userId: number,
+  ): Promise<boolean> => {
+    const userIsInServer = await ServerUser.findOne({
+      where: {
+        serverId,
+        userId,
+      },
+    });
+
+    return userIsInServer != null;
   };
 }
 

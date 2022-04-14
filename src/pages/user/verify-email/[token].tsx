@@ -7,7 +7,7 @@ import handleServiceError from '../../../utils/services/handle-service-error';
 
 const VerifyEmailPage: NextPage = () => {
   const router = useRouter();
-  const { token } = router.query as { token?: string };
+  const { token } = router.query as { token: string };
   const { success, danger } = useToasts();
 
   useEffect(() => {

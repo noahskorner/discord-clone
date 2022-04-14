@@ -10,7 +10,7 @@ const handleServiceError = (
     if (axiosError.response) {
       const { status, data } = axiosError.response;
       try {
-        const errors = JSON.parse(data) as ErrorInterface[];
+        const errors = data as ErrorInterface[];
         return { status, errors };
       } catch {
         return { status, errors: [ERROR_UNKOWN] };

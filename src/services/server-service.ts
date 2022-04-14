@@ -10,6 +10,9 @@ const ServerService = {
   list: (): Promise<AxiosResponse<ServerDTO[]>> => {
     return API.get('/server');
   },
+  get: (id: string | number): Promise<AxiosResponse<ServerDTO>> => {
+    return API.get(`/server/${id}`);
+  },
 };
 
 export default ServerService;

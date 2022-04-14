@@ -16,9 +16,11 @@ import ErrorInterface from '../../../../utils/types/interfaces/error';
 import handleServiceError from '../../../../utils/services/handle-service-error';
 import Spinner from '../../../inputs/spinner';
 import useToasts from '../../../../utils/hooks/use-toasts';
+import useServers from '../../../../utils/hooks/use-servers';
 
 const CreateServerModal = () => {
   const { showModal, setShowModal } = useModal();
+  const { setServers } = useServers();
   const { success } = useToasts();
   const { user } = useUser();
   const [serverName, setServerName] = useState(
@@ -50,6 +52,7 @@ const CreateServerModal = () => {
     try {
       const response = await ServerService.create(payload);
       const server = response.data;
+      setServers((prev) => [...prev, server]);
       success(
         'Successfully created server!',
         `${server.name} will be a great place`,
