@@ -7,6 +7,7 @@ module.exports = {
     extend: {
       colors: {
         slate: {
+          600: 'rgba(79,84,92,0.4)',
           700: '#36393f',
           800: '#2f3136',
           900: '#202225',
@@ -24,6 +25,9 @@ module.exports = {
         header: '3rem',
         body: 'calc(100% - 3rem)',
         13: '3.5rem',
+      },
+      maxWidth: {
+        80: '80%',
       },
       boxShadow: {
         header:

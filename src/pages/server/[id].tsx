@@ -3,25 +3,32 @@ import { useRouter } from 'next/router';
 import { useEffect } from 'react';
 import AppLayout from '../../components/layouts/app-layout';
 import ServerService from '../../services/server-service';
-import useAuth from '../../utils/hooks/use-auth';
 import useServer from '../../utils/hooks/use-server';
 import useToasts from '../../utils/hooks/use-toasts';
 import handleServiceError from '../../utils/services/handle-service-error';
+import ServerDTO from '../../utils/types/dtos/server';
 
 const ServerPage: NextPage = () => {
+  return (
+    <AppLayout>
+      <ServerPageContent />
+    </AppLayout>
+  );
+};
+
+const ServerPageContent = () => {
   const router = useRouter();
   const { danger } = useToasts();
   const { setServer } = useServer();
   const { id } = router.query as { id: string };
-  const { loading: loadingAuth } = useAuth();
 
   useEffect(() => {
-    if (loadingAuth || id == null) return;
+    if (id == null) return;
 
     const loadServer = async () => {
       try {
         const response = await ServerService.get(id);
-        const server = response.data;
+        const server = response.data as ServerDTO;
         setServer(server);
       } catch (error) {
         const { errors } = handleServiceError(error);
@@ -34,13 +41,9 @@ const ServerPage: NextPage = () => {
 
     loadServer();
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [id, loadingAuth]);
+  }, [id]);
 
-  return (
-    <AppLayout>
-      <div>{id}</div>
-    </AppLayout>
-  );
+  return <div>{id}</div>;
 };
 
 export default ServerPage;

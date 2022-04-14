@@ -2,7 +2,7 @@ import Server from '../../../server/db/models/server.model';
 import ServerUserDto from './server-user';
 
 class ServerDTO {
-  public id: string;
+  public id: number;
   public name: string;
   public createdAt: string;
   public updatedAt: string;
