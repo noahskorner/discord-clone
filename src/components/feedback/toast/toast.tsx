@@ -17,7 +17,7 @@ const Toast = ({ id, color, title, body }: ToastInterface) => {
 
   return (
     <div
-      className={`${TOAST_CLASSES[color]} flex w-full items-stretch rounded bg-slate-800 text-sm shadow-md dark:shadow-2xl`}
+      className={`${TOAST_CLASSES[color]} flex w-full items-stretch rounded bg-slate-800 p-1 text-sm shadow-md dark:shadow-2xl`}
     >
       <div className="w-full space-y-2 rounded py-5 pl-4">
         <h6 className="font-semibold text-white">{title}</h6>
