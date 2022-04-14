@@ -22,7 +22,7 @@ const GlobalLayout = ({ children }: GlobalLayoutProps) => {
           </Head>
           <div
             style={{ width: widthStyle, height: heightStyle }}
-            className="font-primary text-white bg-slate-700"
+            className="font-primary bg-slate-700 text-white"
           >
             {children}
           </div>

@@ -9,7 +9,7 @@ const Errors = ({ errors }: ErrorsProps) => {
     <div>
       {errors.map((error, index) => {
         return (
-          <p key={index} className="text-red-500 font-medium">
+          <p key={index} className="font-medium text-red-500">
             {error.message}
           </p>
         );

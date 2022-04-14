@@ -33,7 +33,7 @@ const Layout = ({ children }: AppLayoutProps) => {
   return (
     <AuthRoute
       element={
-        <div className="w-full h-full flex overflow-hidden relative">
+        <div className="relative flex h-full w-full overflow-hidden">
           <CSSTransition
             in={showSidebar || !isMobileWidth}
             timeout={200}
@@ -41,7 +41,7 @@ const Layout = ({ children }: AppLayoutProps) => {
             unmountOnExit
             appear={true}
           >
-            <div className="w-full h-full flex absolute md:relative md:w-auto">
+            <div className="absolute flex h-full w-full md:relative md:w-auto">
               <div className="flex w-11/12 md:w-auto">
                 <Servers />
                 <Sidebar />
@@ -52,7 +52,7 @@ const Layout = ({ children }: AppLayoutProps) => {
               ></button>
             </div>
           </CSSTransition>
-          <div style={{ height: heightStyle }} className="w-full flex flex-col">
+          <div style={{ height: heightStyle }} className="flex w-full flex-col">
             <Header />
             <div className="h-body">{children}</div>
           </div>

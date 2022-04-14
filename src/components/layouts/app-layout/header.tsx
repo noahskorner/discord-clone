@@ -9,10 +9,10 @@ const Header = () => {
   };
 
   return (
-    <header className="w-full h-header shadow-header flex items-center p-2">
+    <header className="flex h-header w-full items-center p-2 shadow-header">
       <button
         onClick={handleSidebarBtnClick}
-        className="flex md:hidden justify-center items-center hover:bg-slate-800 rounded-md p-1"
+        className="flex items-center justify-center rounded-md p-1 hover:bg-slate-800 md:hidden"
       >
         <BarsIcon />
       </button>

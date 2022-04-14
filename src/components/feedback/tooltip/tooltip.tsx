@@ -29,7 +29,7 @@ const Tooltip = ({ text, children, direction }: TooltipProps) => {
     <div
       onMouseOver={handleTooltipMouseOver}
       onMouseLeave={handleTooltopMouseLeave}
-      className="relative w-12 h-12 flex items-center justify-center"
+      className="relative flex h-12 w-12 items-center justify-center"
     >
       {children}
       <CSSTransition
@@ -39,10 +39,10 @@ const Tooltip = ({ text, children, direction }: TooltipProps) => {
         unmountOnExit
       >
         <div
-          className={`${TOOLTIP_CLASSES[direction]} absolute flex items-center ml-4`}
+          className={`${TOOLTIP_CLASSES[direction]} absolute ml-4 flex items-center`}
         >
           <div className={`arrow-${direction} border-black/70`}></div>
-          <div className="relative bg-black/70 text-white font-semibold text-sm text-center p-2 rounded-md whitespace-nowrap">
+          <div className="relative whitespace-nowrap rounded-md bg-black/70 p-2 text-center text-sm font-semibold text-white">
             {text}
           </div>
         </div>

@@ -48,9 +48,9 @@ const ResetPasswordPage: NextPage = () => {
   return (
     <div
       onKeyPress={handleOnKeyPress}
-      className="w-full h-full flex flex-col sm:justify-center items-center p-6 sm:pb-96 bg-gray-100 dark:bg-slate-900 text-primary"
+      className="text-primary flex h-full w-full flex-col items-center bg-gray-100 p-6 dark:bg-slate-900 sm:justify-center sm:pb-96"
     >
-      <div className="w-full max-w-sm bg-white dark:bg-slate-800 rounded border-primary shadow-md border dark:border-0 dark:shadow-xl p-6">
+      <div className="border-primary w-full max-w-sm rounded border bg-white p-6 shadow-md dark:border-0 dark:bg-slate-800 dark:shadow-xl">
         <div className="flex flex-col space-y-4">
           <Errors errors={errors.filter((error) => error.field == null)} />
           <TextField
@@ -63,7 +63,7 @@ const ResetPasswordPage: NextPage = () => {
           <Link href="/login">
             <a
               tabIndex={-1}
-              className="text-sm hover:underline font-semibold text-indigo-500 text-left"
+              className="text-left text-sm font-semibold text-indigo-500 hover:underline"
             >
               Remembered your password?
             </a>
@@ -71,9 +71,9 @@ const ResetPasswordPage: NextPage = () => {
           <button
             onClick={resetPassword}
             disabled={loading}
-            className="bg-indigo-600 text-white text-sm font-semibold px-3 py-2 border border-indigo-600 rounded hover:bg-indigo-500 flex justify-center items-center space-x-1 active:ring-1"
+            className="flex items-center justify-center space-x-1 rounded border border-indigo-600 bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 active:ring-1"
           >
-            <span className={`${loading && 'opacity-0 w-0'}`}>
+            <span className={`${loading && 'w-0 opacity-0'}`}>
               Reset password
             </span>
             {loading && <Spinner size="sm" />}

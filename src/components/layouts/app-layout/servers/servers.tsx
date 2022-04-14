@@ -9,14 +9,14 @@ const Servers = () => {
   return (
     <div
       style={{ height: heightStyle }}
-      className="w-servers bg-slate-900 space-y-2 scrollbar-none px-2 py-3 flex flex-col items-center relative z-40"
+      className="scrollbar-none relative z-40 flex w-servers flex-col items-center space-y-2 bg-slate-900 px-2 py-3"
     >
       <Tooltip text="Home" direction="left">
-        <button className="w-12 h-12 rounded-2xl bg-indigo-600 text-white flex justify-center items-center">
+        <button className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600 text-white">
           <LogoIcon />
         </button>
       </Tooltip>
-      <div className="w-8 h-[2px] bg-slate-800"></div>
+      <div className="h-[2px] w-8 bg-slate-800"></div>
       <CreateServerModal />
     </div>
   );

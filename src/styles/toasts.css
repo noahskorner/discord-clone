@@ -5,9 +5,9 @@
 
 @layer components {
   .toast-success {
-    @apply border-y border-y-slate-900/10 dark:border-y-slate-300/10 border-r border-r-slate-900/10 dark:border-r-slate-300/10 border-l-4 border-l-green-500;
+    @apply border-y border-r border-l-4 border-y-slate-900/10 border-r-slate-900/10 border-l-green-500 dark:border-y-slate-300/10 dark:border-r-slate-300/10;
   }
   .toast-danger {
-    @apply border-y border-y-slate-900/10 dark:border-y-slate-300/10 border-r border-r-slate-900/10 dark:border-r-slate-300/10 border-l-4 border-l-red-500;
+    @apply border-y border-r border-l-4 border-y-slate-900/10 border-r-slate-900/10 border-l-red-500 dark:border-y-slate-300/10 dark:border-r-slate-300/10;
   }
 }

@@ -11,14 +11,14 @@ const Sidebar = () => {
   return (
     <div
       style={{ height: heightStyle }}
-      className="w-full md:w-sidebar bg-slate-800 overflow-hidden rounded-r-3xl md:rounded-r-none relative"
+      className="relative w-full overflow-hidden rounded-r-3xl bg-slate-800 md:w-sidebar md:rounded-r-none"
     >
       <div className="h-header shadow-header"></div>
-      <div className="h-body overflow-y-auto space-y-2"></div>
-      <div className="h-13 bg-slate-1000 absolute bottom-0 left-0 right-0 p-2 flex justify-between items-center">
+      <div className="h-body space-y-2 overflow-y-auto"></div>
+      <div className="absolute bottom-0 left-0 right-0 flex h-13 items-center justify-between bg-slate-1000 p-2">
         <div className="flex items-center space-x-2">
-          <div className="w-9 h-9 rounded-full bg-green-500"></div>
-          <h6 className="font-semibold text-white text-xs truncate md:w-28">
+          <div className="h-9 w-9 rounded-full bg-green-500"></div>
+          <h6 className="truncate text-xs font-semibold text-white md:w-28">
             {user?.username}
           </h6>
         </div>

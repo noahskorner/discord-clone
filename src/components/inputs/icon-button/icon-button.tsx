@@ -9,7 +9,7 @@ const IconButton = ({ children, onClick = () => {} }: IconButtonProps) => {
   return (
     <button
       onClick={onClick}
-      className="flex justify-center items-center p-1 hover:bg-slate-700 rounded-md text-slate-300"
+      className="flex items-center justify-center rounded-md p-1 text-slate-300 hover:bg-slate-700"
     >
       {children}
     </button>

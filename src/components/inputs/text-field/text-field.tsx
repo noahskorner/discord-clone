@@ -33,11 +33,11 @@ const TextField = ({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className="w-full text-sm relative space-y-1">
+    <div className="relative w-full space-y-1 text-sm">
       {label && (
         <label
           htmlFor=""
-          className="uppercase text-xs font-semibold text-slate-300"
+          className="text-xs font-semibold uppercase text-slate-300"
         >
           {label}
         </label>
@@ -52,13 +52,13 @@ const TextField = ({
             : ''
         } ${
           TEXT_FIELD_CLASSES[color]
-        } w-full border shadow-sm  rounded-md flex justify-center items-center border-slate-900`}
+        } flex w-full items-center  justify-center rounded-md border border-slate-900 shadow-sm`}
       >
         {/* Leading Icon */}
         <div className="pl-2 text-slate-400">{icon}</div>
         {/* Input */}
         {type !== 'textarea' ? (
-          <div className="w-full flex justify-between items-center">
+          <div className="flex w-full items-center justify-between">
             <input
               ref={textFieldRef}
               type={type !== 'password' ? type : showPassword ? 'text' : type}
@@ -66,17 +66,17 @@ const TextField = ({
               onFocus={() => setIsFocused(true)}
               onBlur={() => setIsFocused(false)}
               value={value}
-              className={`${TEXT_FIELD_CLASSES[color]} w-full p-2 rounded-md`}
+              className={`${TEXT_FIELD_CLASSES[color]} w-full rounded-md p-2`}
               placeholder={placeholder && placeholder}
             />
             {type === 'password' && (
               <button
                 tabIndex={-1}
                 onClick={() => setShowPassword(!showPassword)}
-                className="h-full flex justify-center item-center p-2 text-slate-400"
+                className="item-center flex h-full justify-center p-2 text-slate-400"
               >
                 {showPassword ? (
-                  <EyeOffIcon className="w-4 h-4" />
+                  <EyeOffIcon className="h-4 w-4" />
                 ) : (
                   <EyeIcon className="h-4 w-4" />
                 )}
@@ -92,13 +92,13 @@ const TextField = ({
             onBlur={() => setIsFocused(false)}
             placeholder={placeholder && placeholder}
             value={value}
-            className="w-full p-2 bg-white dark:bg-slate-800 rounded-md"
+            className="w-full rounded-md bg-white p-2 dark:bg-slate-800"
           ></textarea>
         )}
         {/* Trailing Icon */}
         {errors.length ? (
           <div className="pr-2 text-red-500">
-            <ExclamationCircleIcon className="w-4 h-4" />
+            <ExclamationCircleIcon className="h-4 w-4" />
           </div>
         ) : null}
       </div>

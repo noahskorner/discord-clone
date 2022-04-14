@@ -68,7 +68,7 @@ const CreateServerModal = () => {
       <Tooltip text="Add a Server" direction="left">
         <button
           onClick={handleAddServerButtonClick}
-          className="w-12 h-12 rounded-full hover:rounded-2xl bg-slate-800 text-green-600 hover:bg-green-600 hover:text-white flex justify-center items-center"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-green-600 hover:rounded-2xl hover:bg-green-600 hover:text-white"
         >
           <PlusIcon />
         </button>
@@ -76,26 +76,26 @@ const CreateServerModal = () => {
       <Modal showModal={showModal} setShowModal={setShowModal}>
         <div
           onClick={(event) => event.stopPropagation()}
-          className="w-full max-w-md bg-slate-800 rounded-md flex flex-col justify-between"
+          className="flex w-full max-w-md flex-col justify-between rounded-md bg-slate-800"
         >
-          <div className="flex justify-end relative z-10 pr-4 pt-4">
+          <div className="relative z-10 flex justify-end pr-4 pt-4">
             <IconButton onClick={handleCloseModalButtonClick}>
               <CloseIcon />
             </IconButton>
           </div>
           <div className="space-y-4 px-4">
-            <div className="text-center space-y-2 relative -top-4">
+            <div className="relative -top-4 space-y-2 text-center">
               <h2 className="text-2xl font-extrabold">Customise your server</h2>
-              <p className="text-slate-300 text-sm">
+              <p className="text-sm text-slate-300">
                 Give your new server a personality with a name and an icon. You
                 can always change it later.
               </p>
             </div>
             <div className="flex justify-center">
-              <button className="w-20 h-20 border border-slate-300 border-dashed rounded-full flex flex-col items-center justify-center text-slate-300 space-y-1 relative">
+              <button className="relative flex h-20 w-20 flex-col items-center justify-center space-y-1 rounded-full border border-dashed border-slate-300 text-slate-300">
                 <CameraIcon />
-                <h6 className="text-xs uppercase font-bold">Upload</h6>
-                <span className="w-6 h-6 bg-indigo-600 flex justify-center items-center text-white rounded-full absolute -right-1 -top-1">
+                <h6 className="text-xs font-bold uppercase">Upload</h6>
+                <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-white">
                   <PlusIconSm />
                 </span>
               </button>
@@ -107,18 +107,18 @@ const CreateServerModal = () => {
               onInput={handleServerNameInput}
             />
           </div>
-          <div className="w-full p-4 bg-slate-700 relative bottom-0 mt-8 rounded-b-md flex justify-between items-center">
+          <div className="relative bottom-0 mt-8 flex w-full items-center justify-between rounded-b-md bg-slate-700 p-4">
             <button
               onClick={handleCloseModalButtonClick}
-              className="text-sm font-medium text-slate-300 px-4 py-2"
+              className="px-4 py-2 text-sm font-medium text-slate-300"
             >
               Close
             </button>
             <button
               onClick={handleCreateButtonClick}
-              className="py-2 px-4 bg-indigo-500 hover:bg-indigo-700 rounded-md text-sm"
+              className="rounded-md bg-indigo-500 py-2 px-4 text-sm hover:bg-indigo-700"
             >
-              <span className={`${loading && 'opacity-0 w-0'}`}>Create</span>
+              <span className={`${loading && 'w-0 opacity-0'}`}>Create</span>
               {loading && <Spinner size="sm" />}
             </button>
           </div>

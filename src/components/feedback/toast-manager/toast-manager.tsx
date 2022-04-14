@@ -9,7 +9,7 @@ const ToastManager = () => {
 
   return (
     <div
-      className="left-0 top-0 sm:top-auto sm:bottom-0 fixed z-40 right-0 sm:w-96 overflow-y-auto scrollbar-none p-2"
+      className="scrollbar-none fixed left-0 top-0 right-0 z-40 overflow-y-auto p-2 sm:top-auto sm:bottom-0 sm:w-96"
       style={{ maxHeight: `calc(${heightStyle})` }}
     >
       <TransitionGroup className="space-y-2">

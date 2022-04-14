@@ -88,12 +88,12 @@ const RegisterPage: NextPage = () => {
   return (
     <div
       onKeyPress={handleOnKeyPress}
-      className="w-full h-full flex flex-col justify-center items-center sm:p-6 bg-indigo-500 text-primary bg-login overflow-auto"
+      className="text-primary bg-login flex h-full w-full flex-col items-center justify-center overflow-auto bg-indigo-500 sm:p-6"
     >
-      <div className="h-full sm:h-auto w-full sm:max-w-lg bg-slate-700 sm:rounded border-primary shadow-md border dark:border-0 dark:shadow-xl p-6 sm:p-8 bounce-in">
+      <div className="border-primary bounce-in h-full w-full border bg-slate-700 p-6 shadow-md dark:border-0 dark:shadow-xl sm:h-auto sm:max-w-lg sm:rounded sm:p-8">
         <div className="flex flex-col space-y-4">
-          <div className="space-y-1 w-full text-center">
-            <h1 className="font-extrabold text-2xl">Create an account</h1>
+          <div className="w-full space-y-1 text-center">
+            <h1 className="text-2xl font-extrabold">Create an account</h1>
           </div>
           <Errors errors={errors.filter((error) => error.field == null)} />
           <TextField
@@ -129,15 +129,15 @@ const RegisterPage: NextPage = () => {
           <button
             onClick={registerUser}
             disabled={loading}
-            className="bg-indigo-600 text-white text-sm font-semibold px-3 py-2 border border-indigo-600 rounded hover:bg-indigo-500 flex justify-center items-center space-x-1 active:ring-1"
+            className="flex items-center justify-center space-x-1 rounded border border-indigo-600 bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 active:ring-1"
           >
-            <span className={`${loading && 'opacity-0 w-0'}`}>Continue</span>
+            <span className={`${loading && 'w-0 opacity-0'}`}>Continue</span>
             {loading && <Spinner size="sm" />}
           </button>
           <Link href="/login">
             <a
               tabIndex={-1}
-              className="hover:underline font-semibold text-sky-500 text-left text-xs"
+              className="text-left text-xs font-semibold text-sky-500 hover:underline"
             >
               Already have an account?
             </a>

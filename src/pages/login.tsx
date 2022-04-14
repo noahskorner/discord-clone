@@ -78,13 +78,13 @@ const LoginPage: NextPage = () => {
   return (
     <div
       onKeyPress={handleOnKeyPress}
-      className="w-full h-full flex flex-col justify-center items-center sm:p-6  text-primary bg-login"
+      className="text-primary bg-login flex h-full w-full flex-col items-center  justify-center sm:p-6"
     >
-      <div className="h-full sm:h-auto w-full sm:max-w-lg bg-slate-700 rounded border-primary shadow-md border dark:border-0 dark:shadow-xl p-6 sm:p-8 bounce-in">
+      <div className="border-primary bounce-in h-full w-full rounded border bg-slate-700 p-6 shadow-md dark:border-0 dark:shadow-xl sm:h-auto sm:max-w-lg sm:p-8">
         <div className="flex flex-col space-y-4">
-          <div className="space-y-1 w-full text-center">
-            <h1 className="font-extrabold text-2xl">Welcome Back!</h1>
-            <p className="text-slate-300 text-sm">
+          <div className="w-full space-y-1 text-center">
+            <h1 className="text-2xl font-extrabold">Welcome Back!</h1>
+            <p className="text-sm text-slate-300">
               We&apos;re so excited to see you again!
             </p>
           </div>
@@ -108,7 +108,7 @@ const LoginPage: NextPage = () => {
             <Link href="/reset-password">
               <a
                 tabIndex={-1}
-                className="text-xs hover:underline font-semibold text-sky-500 text-left"
+                className="text-left text-xs font-semibold text-sky-500 hover:underline"
               >
                 Forgot Password?
               </a>
@@ -117,9 +117,9 @@ const LoginPage: NextPage = () => {
           <button
             onClick={loginUser}
             disabled={loading}
-            className="bg-indigo-600 text-white text-sm font-semibold px-3 py-2 border border-indigo-600 rounded hover:bg-indigo-500 flex justify-center items-center space-x-1 active:ring-1"
+            className="flex items-center justify-center space-x-1 rounded border border-indigo-600 bg-indigo-600 px-3 py-2 text-sm font-semibold text-white hover:bg-indigo-500 active:ring-1"
           >
-            <span className={`${loading && 'opacity-0 w-0'}`}>Login</span>
+            <span className={`${loading && 'w-0 opacity-0'}`}>Login</span>
             {loading && <Spinner size="sm" />}
           </button>
           <p className="text-xs text-slate-500">
@@ -127,7 +127,7 @@ const LoginPage: NextPage = () => {
             <Link href="/register">
               <a
                 tabIndex={-1}
-                className="hover:underline font-semibold text-sky-500 text-left"
+                className="text-left font-semibold text-sky-500 hover:underline"
               >
                 Register
               </a>
