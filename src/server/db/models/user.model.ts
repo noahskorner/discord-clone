@@ -8,7 +8,6 @@ import {
 } from 'sequelize-typescript';
 import RefreshToken from './refresh-token.model';
 import ServerUser from './server-user.model';
-import Server from './server.model';
 import UserRole from './user-role.model';
 
 @DefaultScope(() => ({
@@ -47,11 +46,6 @@ class User extends Model {
     onDelete: 'CASCADE',
   })
   roles!: UserRole[];
-
-  @HasMany(() => Server, {
-    onDelete: 'SET NULL',
-  })
-  createdServers!: Server[];
 
   @HasMany(() => ServerUser)
   servers!: ServerUser[];

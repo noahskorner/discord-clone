@@ -7,6 +7,9 @@ const ServerService = {
   create: (payload: CreateServerRequest): Promise<AxiosResponse<ServerDTO>> => {
     return API.post('/server', payload);
   },
+  list: (): Promise<AxiosResponse<ServerDTO[]>> => {
+    return API.get('/server');
+  },
 };
 
 export default ServerService;

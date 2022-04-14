@@ -6,6 +6,7 @@ import Servers from './servers/servers';
 import Sidebar from './sidebar';
 import { CSSTransition } from 'react-transition-group';
 import AuthRoute from '../../routes/auth-route';
+import { ServersProvider } from '../../../utils/contexts/servers-context';
 
 interface AppLayoutProps {
   children: JSX.Element;
@@ -14,7 +15,9 @@ interface AppLayoutProps {
 const AppLayout = (props: AppLayoutProps) => {
   return (
     <AppProvider>
-      <Layout {...props}></Layout>
+      <ServersProvider>
+        <Layout {...props}></Layout>
+      </ServersProvider>
     </AppProvider>
   );
 };

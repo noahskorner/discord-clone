@@ -25,7 +25,15 @@ class ServerController {
     if (errors != null) return res.status(400).json(errors);
     if (server == null) return res.sendStatus(500);
 
-    return res.status(200).json(server);
+    return res.status(201).json(server);
+  });
+
+  public index = catchAsync(async (req: Request, res: Response) => {
+    const userId = req.user.id;
+
+    const servers = await this._serverService.findAllByUserId(userId);
+
+    return res.status(200).json(servers);
   });
 }
 

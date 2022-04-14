@@ -7,16 +7,13 @@ const handleServiceError = (
 ): { status: number; errors: ErrorInterface[] } => {
   if (axios.isAxiosError(error) && error.response && error.response.data) {
     const axiosError = error as AxiosError;
-    if (axiosError.response && axiosError.response.data) {
+    if (axiosError.response) {
+      const { status, data } = axiosError.response;
       try {
-        const status = axiosError.response.status;
-        const errors = axiosError.response.data as ErrorInterface[];
-        return {
-          status,
-          errors: errors != null ? errors : [],
-        };
+        const errors = JSON.parse(data) as ErrorInterface[];
+        return { status, errors };
       } catch {
-        return { status: 500, errors: [ERROR_UNKOWN] };
+        return { status, errors: [ERROR_UNKOWN] };
       }
     } else {
       return { status: 500, errors: [ERROR_UNKOWN] };

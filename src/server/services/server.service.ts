@@ -1,3 +1,4 @@
+import ServerRoleEnum from '../../utils/enums/server-roles';
 import ServerDTO from '../../utils/types/dtos/server';
 import ErrorInterface from '../../utils/types/interfaces/error';
 import ServerUser from '../db/models/server-user.model';
@@ -23,16 +24,29 @@ class ServerService {
         users: [
           {
             userId: user.id,
+            role: ServerRoleEnum.OWNER,
           },
         ],
       },
       { include: [ServerUser] },
     );
-    server.createdBy = user;
 
-    console.log(server);
+    server.users[0].user = user;
 
     return { server: new ServerDTO(server) };
+  };
+
+  public findAllByUserId = async (userId: number): Promise<ServerDTO[]> => {
+    const servers = await Server.findAll({
+      include: {
+        model: ServerUser,
+        where: {
+          userId,
+        },
+      },
+    });
+
+    return servers.map((server) => new ServerDTO(server));
   };
 }
 
