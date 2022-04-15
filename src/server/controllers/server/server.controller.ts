@@ -1,12 +1,9 @@
 import catchAsync from '../../middleware/catch-async';
-import ServerService, {
-  ERROR_INSUFFICIENT_PERMISSIONS,
-  ERROR_SERVER_NOT_FOUND,
-} from '../../services/server.service';
 import ServerValidator from '../../validators/server.validator';
 import { Request, Response } from 'express';
 import { ERROR_UNKOWN } from '../../../utils/constants/errors';
-import asErrors from '../../../utils/functions/as-errors';
+import ServerService from '../../services/server.service';
+import ErrorEnum from '../../../utils/enums/errors';
 
 class ServerController {
   private _serverService;
@@ -50,11 +47,11 @@ class ServerController {
 
       return res.status(200).json(server);
     } catch (error: any) {
-      switch (error.message) {
-        case ERROR_SERVER_NOT_FOUND:
-          return res.status(400).json(asErrors(ERROR_SERVER_NOT_FOUND));
-        case ERROR_INSUFFICIENT_PERMISSIONS:
-          return res.status(403).json(asErrors(ERROR_INSUFFICIENT_PERMISSIONS));
+      switch (error.type) {
+        case ErrorEnum.SERVER_NOT_FOUND:
+          return res.status(400).json(error.errors);
+        case ErrorEnum.INSUFFICIENT_PERMISIONS:
+          return res.status(403).json(error.errors);
         default:
           return res.status(500).json([ERROR_UNKOWN]);
       }

@@ -33,25 +33,25 @@ const SidebarHeader = () => {
       >
         <div className="absolute top-full mt-2 w-full px-3">
           <div className="h-full w-full rounded-md bg-slate-1100 p-2 shadow-xl">
-            <button className="flex w-full items-center justify-between rounded p-2 text-xs font-medium text-indigo-400 hover:bg-indigo-600 hover:text-white">
+            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium text-indigo-400 hover:bg-indigo-600 hover:text-white">
               <span>Invite People</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <UserAddIcon />
               </div>
             </button>
-            <button className="flex w-full items-center justify-between rounded p-2 text-xs font-medium hover:bg-indigo-600 hover:text-white">
+            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white">
               <span>Server Settings</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <SettingsIcon />
               </div>
             </button>
-            <button className="flex w-full items-center justify-between rounded p-2 text-xs font-medium hover:bg-indigo-600 hover:text-white">
+            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white">
               <span>Create Channel</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <SettingsIcon />
               </div>
             </button>
-            <button className="flex w-full items-center justify-between rounded p-2 text-xs font-medium hover:bg-indigo-600 hover:text-white">
+            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white">
               <span>Edit Server Profile</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <SettingsIcon />
