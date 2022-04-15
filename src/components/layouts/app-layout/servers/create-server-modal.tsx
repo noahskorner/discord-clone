@@ -11,7 +11,7 @@ import { useState } from 'react';
 import Tooltip from '../../../feedback/tooltip';
 import ServerService from '../../../../services/server-service';
 import CreateServerRequest from '../../../../utils/types/requests/server/create-server';
-import ServerValidator from '../../../../server/validators/server.validator';
+import ServerValidator from '../../../../server/validators/server';
 import ErrorInterface from '../../../../utils/types/interfaces/error';
 import handleServiceError from '../../../../utils/services/handle-service-error';
 import Spinner from '../../../inputs/spinner';

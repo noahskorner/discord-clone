@@ -5,7 +5,7 @@ import { KeyboardEvent, useEffect, useState } from 'react';
 import Errors from '../components/inputs/errors';
 import Spinner from '../components/inputs/spinner';
 import TextField from '../components/inputs/text-field';
-import AuthValidator from '../server/validators/auth.validator';
+import AuthValidator from '../server/validators/auth';
 import AuthService from '../services/auth-service';
 import useAuth from '../utils/hooks/use-auth';
 import handleServiceError from '../utils/services/handle-service-error';

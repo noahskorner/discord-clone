@@ -1,6 +1,6 @@
 import isLength from 'validator/lib/isLength';
-import ErrorInterface from '../../utils/types/interfaces/error';
-import CreateServerRequest from '../../utils/types/requests/server/create-server';
+import ErrorInterface from '../../../utils/types/interfaces/error';
+import CreateServerRequest from '../../../utils/types/requests/server/create-server';
 
 const ERROR_MUST_PROVIDE_SEVER_NAME = {
   field: 'name',

@@ -1,6 +1,6 @@
 import catchAsync from '../../middleware/catch-async';
 import { Request, Response } from 'express';
-import AuthValidator from '../../validators/auth.validator';
+import AuthValidator from '../../validators/auth';
 import UserService from '../../services/user.service';
 import jwtDecode from 'jwt-decode';
 import JwtToken from '../../../utils/types/interfaces/jwt-token';

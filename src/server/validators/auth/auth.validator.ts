@@ -1,7 +1,7 @@
 import isEmail from 'validator/lib/isEmail';
 import isLength from 'validator/lib/isLength';
-import ErrorInterface from '../../utils/types/interfaces/error';
-import LoginRequest from '../../utils/types/requests/auth/login';
+import ErrorInterface from '../../../utils/types/interfaces/error';
+import LoginRequest from '../../../utils/types/requests/auth/login';
 
 const AuthValidator = {
   login: ({ email, password }: LoginRequest) => {

@@ -4,7 +4,7 @@ import { KeyboardEvent, useState } from 'react';
 import Errors from '../components/inputs/errors';
 import Spinner from '../components/inputs/spinner';
 import TextField from '../components/inputs/text-field';
-import UserValidator from '../server/validators/user.validator';
+import UserValidator from '../server/validators/user';
 import UserService from '../services/user-service';
 import handleServiceError from '../utils/services/handle-service-error';
 import ErrorInterface from '../utils/types/interfaces/error';

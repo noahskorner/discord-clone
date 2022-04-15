@@ -1,7 +1,7 @@
 import UserService from '../../services/user.service';
 import catchAsync from '../../middleware/catch-async';
 import { Request, Response } from 'express';
-import UserValidator from '../../validators/user.validator';
+import UserValidator from '../../validators/user';
 import CreateUserRequest from '../../../utils/types/requests/user/create-user';
 import ResetPasswordRequest from '../../../utils/types/requests/user/reset-password';
 import ConfirmResetPasswordRequest from '../../../utils/types/requests/user/confirm-reset-password';

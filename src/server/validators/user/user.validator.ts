@@ -1,9 +1,9 @@
 import isEmail from 'validator/lib/isEmail';
 import isLength from 'validator/lib/isLength';
-import ErrorInterface from '../../utils/types/interfaces/error';
-import ConfirmResetPasswordRequest from '../../utils/types/requests/user/confirm-reset-password';
-import CreateUserRequest from '../../utils/types/requests/user/create-user';
-import ResetPasswordRequest from '../../utils/types/requests/user/reset-password';
+import ErrorInterface from '../../../utils/types/interfaces/error';
+import ConfirmResetPasswordRequest from '../../../utils/types/requests/user/confirm-reset-password';
+import CreateUserRequest from '../../../utils/types/requests/user/create-user';
+import ResetPasswordRequest from '../../../utils/types/requests/user/reset-password';
 
 const ERROR_INVALID_USERNAME = {
   field: 'username',
