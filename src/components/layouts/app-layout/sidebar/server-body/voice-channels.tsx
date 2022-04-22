@@ -5,10 +5,11 @@ import ChevronDown from '../../../../icons/xs/chevron-down.svg';
 import VolumeUpIcon from '../../../../icons/volume-up.svg';
 import { useState } from 'react';
 import useServer from '../../../../../utils/hooks/use-server';
+import Link from 'next/link';
 
 const VoiceChannels = () => {
   const [showVoiceChannels, setShowVoiceChannels] = useState(false);
-  const { voiceChannels } = useServer();
+  const { server, voiceChannels } = useServer();
 
   const handleVoiceChannelButtonClick = () => {
     setShowVoiceChannels((prev) => !prev);
@@ -34,17 +35,20 @@ const VoiceChannels = () => {
         <div className="w-full space-y-1 p-2">
           {voiceChannels.map((channel) => {
             return (
-              <button
+              <Link
+                href={`/server/${server?.id}/channel/${channel.id}`}
                 key={channel.id}
-                className="flex w-full items-center rounded-md px-2 py-[0.35rem] text-sm hover:bg-slate-600"
+                passHref
               >
-                <div className="flex items-center space-x-1">
-                  <span className="text-slate-300">
-                    <VolumeUpIcon />
-                  </span>
-                  <span>{channel.name}</span>
-                </div>
-              </button>
+                <a className="flex w-full items-center rounded-md px-2 py-[0.35rem] text-sm hover:bg-slate-600">
+                  <div className="flex items-center space-x-1">
+                    <span className="text-slate-300">
+                      <VolumeUpIcon />
+                    </span>
+                    <span>{channel.name}</span>
+                  </div>
+                </a>
+              </Link>
             );
           })}
         </div>

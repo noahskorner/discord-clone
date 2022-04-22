@@ -4,6 +4,9 @@ import jwtDecode from 'jwt-decode';
 import AuthService from '../../services/auth-service';
 import JwtToken from '../types/interfaces/jwt-token';
 import API from '../../services/api';
+import handleServiceError from '../services/handle-service-error';
+import useToasts from '../hooks/use-toasts';
+import { useRouter } from 'next/router';
 
 interface AuthContextInterface {
   isAuthenticated: boolean;
@@ -12,6 +15,7 @@ interface AuthContextInterface {
   // eslint-disable-next-line no-unused-vars
   setAuth: (accessToken: string) => void;
   refreshAccessToken: () => void;
+  logout: () => Promise<void>;
 }
 
 const defaultValues = {
@@ -20,6 +24,7 @@ const defaultValues = {
   loading: true,
   setAuth: () => {},
   refreshAccessToken: () => {},
+  logout: async () => {},
 };
 
 export const AuthContext = createContext<AuthContextInterface>(defaultValues);
@@ -35,6 +40,8 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
   );
   const [user, setUser] = useState<RequestUser | null>(defaultValues.user);
   const [loading, setLoading] = useState<boolean>(defaultValues.loading);
+  const { success, danger } = useToasts();
+  const router = useRouter();
 
   const setAuth = (accessToken: string) => {
     API.defaults.headers.common['Authorization'] = `Bearer ${accessToken}`;
@@ -66,6 +73,25 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
     }, ms);
   };
 
+  const logout = async () => {
+    try {
+      await AuthService.logout();
+
+      setAccessToken(null);
+      setUser(null);
+      setIsAuthenticated(false);
+      success('Successfully logged out!', 'See you next time champ');
+      router.push('/login');
+    } catch (error) {
+      const { errors } = handleServiceError(error);
+      if (errors.length > 0) {
+        errors.forEach((error) => {
+          danger(error.message);
+        });
+      }
+    }
+  };
+
   useEffect(() => {
     if (!loading && accessToken == null) {
       delete API.defaults.headers.common['Authorization'];
@@ -80,6 +106,7 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
         loading,
         setAuth,
         refreshAccessToken,
+        logout,
       }}
     >
       {children}

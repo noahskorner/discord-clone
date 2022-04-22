@@ -11,8 +11,8 @@ const GlobalLayout = ({ children }: GlobalLayoutProps) => {
   const { heightStyle, widthStyle } = useWindowSize();
 
   return (
-    <AuthProvider>
-      <ToastProvider>
+    <ToastProvider>
+      <AuthProvider>
         <>
           <Head>
             <meta
@@ -27,8 +27,8 @@ const GlobalLayout = ({ children }: GlobalLayoutProps) => {
             {children}
           </div>
         </>
-      </ToastProvider>
-    </AuthProvider>
+      </AuthProvider>
+    </ToastProvider>
   );
 };
 

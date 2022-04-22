@@ -5,10 +5,11 @@ import ChevronDown from '../../../../icons/xs/chevron-down.svg';
 import PoundIcon from '../../../../icons/pound.svg';
 import { useState } from 'react';
 import useServer from '../../../../../utils/hooks/use-server';
+import Link from 'next/link';
 
 const TextChannels = () => {
   const [showTextChannels, setShowTextChannels] = useState(false);
-  const { textChannels } = useServer();
+  const { server, textChannels } = useServer();
 
   const handleTextChannelButtonClick = () => {
     setShowTextChannels((prev) => !prev);
@@ -34,17 +35,20 @@ const TextChannels = () => {
         <div className="w-full space-y-1 p-2">
           {textChannels.map((channel) => {
             return (
-              <button
+              <Link
+                href={`/server/${server?.id}/channel/${channel.id}`}
                 key={channel.id}
-                className="flex w-full items-center rounded-md px-2 py-[0.35rem] text-sm hover:bg-slate-600"
+                passHref
               >
-                <div className="flex items-center space-x-1">
-                  <span className="text-slate-300">
-                    <PoundIcon />
-                  </span>
-                  <span>{channel.name}</span>
-                </div>
-              </button>
+                <a className="flex w-full items-center rounded-md px-2 py-[0.35rem] text-sm hover:bg-slate-600">
+                  <div className="flex items-center space-x-1">
+                    <span className="text-slate-300">
+                      <PoundIcon />
+                    </span>
+                    <span>{channel.name}</span>
+                  </div>
+                </a>
+              </Link>
             );
           })}
         </div>

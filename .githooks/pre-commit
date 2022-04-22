@@ -8,11 +8,11 @@ echo -e "Running Prettier on any modified files..."
 # Prettify all selected files
 echo "$FILES" | xargs ./node_modules/.bin/prettier --write
 
-# Add back the modified/prettified files to staging
-echo "$FILES" | xargs git add
-
-exit 0
-
 echo -e "Linting all files...";
 
 npm run lint;
+
+# Add back the modified files to staging
+echo "$FILES" | xargs git add
+
+exit 0
