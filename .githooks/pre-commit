@@ -1,3 +1,5 @@
+#!/bin/sh
+
 echo -e "$SCRIPT_PREFIX Running Prettier on all files...";
 
 npm run format;
