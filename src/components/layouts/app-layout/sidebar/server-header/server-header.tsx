@@ -5,17 +5,22 @@ import CloseIcon from '../../../../icons/close.svg';
 import UserAddIcon from '../../../../icons/user-add.svg';
 import SettingsIcon from '../../../../icons/settings.svg';
 import { CSSTransition } from 'react-transition-group';
+import CreateChannelModal from './create-channel-modal';
 
 const SidebarHeader = () => {
   const { server } = useServer();
   const [showServerMenu, setShowServerMenu] = useState(false);
   const serverMenuRef = useRef(null);
+  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
 
   const handleServerMenuBtnClick = () => {
     setShowServerMenu((prev) => !prev);
   };
   const handleClickAway = () => {
     setShowServerMenu(false);
+  };
+  const handleCreateChannelButtonClick = () => {
+    setShowCreateChannelModal(true);
   };
 
   return (
@@ -36,10 +41,7 @@ const SidebarHeader = () => {
         unmountOnExit={true}
         ref={serverMenuRef}
       >
-        <div
-          onBlur={() => console.log('wtf')}
-          className="absolute top-full z-50 mt-2 w-full px-3 focus:bg-red-50"
-        >
+        <div className="absolute top-full z-50 mt-2 w-full px-3 focus:bg-red-50">
           <div className="h-full w-full rounded-md bg-slate-1100 p-2 shadow-xl">
             <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium text-indigo-400 hover:bg-indigo-600 hover:text-white active:bg-indigo-800">
               <span>Invite People</span>
@@ -53,12 +55,21 @@ const SidebarHeader = () => {
                 <SettingsIcon />
               </div>
             </button>
-            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-800">
+            <button
+              onClick={handleCreateChannelButtonClick}
+              className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-800"
+            >
               <span>Create Channel</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <SettingsIcon />
               </div>
             </button>
+            <CreateChannelModal
+              showModal={showCreateChannelModal}
+              setShowModal={setShowCreateChannelModal}
+            >
+              <div>Create channel</div>
+            </CreateChannelModal>
             <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-800">
               <span>Edit Server Profile</span>
               <div className="justfiy-center flex h-4 w-4 items-center">

@@ -5,16 +5,22 @@ interface TooltipProps {
   text: string | JSX.Element;
   children: JSX.Element;
   direction: 'top' | 'left' | 'bottom' | 'right';
+  size?: 'sm' | 'md';
 }
 
-const TOOLTIP_CLASSES = {
-  top: 'top-full flex-col',
-  left: 'left-full flex-row',
-  bottom: 'bottom-full flex-col-reverse',
+const TOOLTIP_DIRECTION_CLASSES = {
+  top: 'bottom-full flex-col-reverse',
+  left: 'ml-4 left-full flex-row',
+  bottom: 'top-full flex-col',
   right: 'right-full flex-row-reverse',
 };
 
-const Tooltip = ({ text, children, direction }: TooltipProps) => {
+const TOOLTIP_SIZE_CLASSES = {
+  sm: 'text-xs',
+  md: 'text-sm',
+};
+
+const Tooltip = ({ text, children, direction, size = 'md' }: TooltipProps) => {
   const [showTooltip, setShowTooltip] = useState(false);
 
   const handleTooltipMouseOver = () => {
@@ -29,7 +35,7 @@ const Tooltip = ({ text, children, direction }: TooltipProps) => {
     <div
       onMouseOver={handleTooltipMouseOver}
       onMouseLeave={handleTooltopMouseLeave}
-      className="relative flex h-12 w-12 items-center justify-center"
+      className="relative z-50 flex items-center justify-center"
     >
       {children}
       <CSSTransition
@@ -39,10 +45,12 @@ const Tooltip = ({ text, children, direction }: TooltipProps) => {
         unmountOnExit
       >
         <div
-          className={`${TOOLTIP_CLASSES[direction]} absolute ml-4 flex items-center`}
+          className={`${TOOLTIP_DIRECTION_CLASSES[direction]} absolute flex items-center`}
         >
           <div className={`arrow-${direction} border-black/70`}></div>
-          <div className="relative whitespace-nowrap rounded-md bg-black/70 p-2 text-center text-sm font-semibold text-white">
+          <div
+            className={`${TOOLTIP_SIZE_CLASSES[size]} relative whitespace-nowrap rounded-md bg-black/90 p-2 text-center  font-semibold text-white`}
+          >
             {text}
           </div>
         </div>
