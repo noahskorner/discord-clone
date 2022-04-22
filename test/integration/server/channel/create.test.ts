@@ -6,6 +6,7 @@ import ChannelType from '../../../../src/utils/enums/channel-type';
 import ServerDTO from '../../../../src/utils/types/dtos/server';
 import UserDTO from '../../../../src/utils/types/dtos/user';
 import LoginRequest from '../../../../src/utils/types/requests/auth/login';
+import CreateChannelRequest from '../../../../src/utils/types/requests/server/channel/create-channel';
 import CreateServerRequest from '../../../../src/utils/types/requests/server/create-server';
 import CreateUserRequest from '../../../../src/utils/types/requests/user/create-user';
 
@@ -14,6 +15,10 @@ let accessToken = '';
 const username = 'test';
 const email = 'test@test.com';
 const password = 'password';
+const payload = {
+  type: ChannelType.TEXT,
+  name: 'channel name',
+} as CreateChannelRequest;
 
 describe('Test channel create', () => {
   beforeAll(async () => {
@@ -52,7 +57,9 @@ describe('Test channel create', () => {
       .post('/api/v1/server')
       .send({
         name: 'test server',
-      } as CreateServerRequest);
+      } as CreateServerRequest)
+      .set('Authorization', `Bearer ${accessToken}`);
+
     const serverDTO: ServerDTO = createServerResponse.body;
 
     // Set baseURL
@@ -120,7 +127,79 @@ describe('Test channel create', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
+  test('Should return bad request when server not found', async () => {
+    // Arrange && Act
+    const response = await request(app)
+      .post('/api/v1/server/null/channel')
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(payload);
 
+    // Assert
+    expect(response.statusCode).toBe(400);
+  });
+  test('Should return forbidden when user not in server', async () => {
+    // Arrange
+    const username = 'test1';
+    const email = 'test1@test.com';
+    const registerResponse = await request(app)
+      .post('/api/v1/user')
+      .send({
+        username,
+        email,
+        password,
+        confirmPassword: password,
+      } as CreateUserRequest);
+    const userDTO: UserDTO = registerResponse.body;
+    const user = await User.findByPk(userDTO.id);
+    const verificationToken = user!.verificationToken!;
+    await request(app).put(`/api/v1/user/verify-email/${verificationToken}`);
+    const loginResponse = await request(app)
+      .post('/api/v1/auth')
+      .send({
+        email,
+        password,
+      } as LoginRequest);
+    const accessToken = loginResponse.body;
+
+    // Act
+    const response = await request(app)
+      .post(baseURL)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(payload);
+
+    // Assert
+    expect(response.statusCode).toBe(403);
+  });
+  test('Should return created', async () => {
+    // Arrange && Act
+    const response = await request(app)
+      .post(baseURL)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(payload);
+
+    // Assert
+    expect(response.statusCode).toBe(201);
+  });
+  test('Should return created server with name', async () => {
+    // Arrange && Act
+    const response = await request(app)
+      .post(baseURL)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(payload);
+
+    // Assert
+    expect(response.body.name).toBe(payload.name);
+  });
+  test('Should return created server with type', async () => {
+    // Arrange && Act
+    const response = await request(app)
+      .post(baseURL)
+      .set('Authorization', `Bearer ${accessToken}`)
+      .send(payload);
+
+    // Assert
+    expect(response.body.type).toBe(payload.type);
+  });
   afterAll(async () => {
     await db.sequelize.close();
   });

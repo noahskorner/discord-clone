@@ -123,7 +123,54 @@ describe('Test the user register functionality', () => {
 
     // Assert
     expect(response.statusCode).toBe(201);
-    expect(response.body.id).toBeDefined();
+  });
+  test('Should return created with username', async () => {
+    // Arrange
+    const email = 'test1@test.com';
+    const payload = {
+      username: 'test1',
+      email: email,
+      password: 'password',
+      confirmPassword: 'password',
+    };
+
+    // Act
+    const response = await request(app).post(baseURL).send(payload);
+
+    // Assert
+    expect(response.body.username).toBe(payload.username);
+  });
+  test('Should return created with email', async () => {
+    // Arrange
+    const email = 'test2@test.com';
+    const payload = {
+      username: 'test2',
+      email: email,
+      password: 'password',
+      confirmPassword: 'password',
+    };
+
+    // Act
+    const response = await request(app).post(baseURL).send(payload);
+
+    // Assert
+    expect(response.body.email).toBe(payload.email);
+  });
+  test('Should return created with id', async () => {
+    // Arrange
+    const email = 'test3@test.com';
+    const payload = {
+      username: 'test3',
+      email: email,
+      password: 'password',
+      confirmPassword: 'password',
+    };
+
+    // Act
+    const response = await request(app).post(baseURL).send(payload);
+
+    // Assert
+    expect(response.body.id).toBeGreaterThan(0);
   });
   test('Should return bad request when email already exists', async () => {
     // Arrange

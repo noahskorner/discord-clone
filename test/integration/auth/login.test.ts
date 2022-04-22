@@ -95,7 +95,7 @@ describe('Test login user', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return accessToken', async () => {
+  test('Should return created', async () => {
     // Arrange
     await request(app).put(`/api/v1/user/verify-email/${verificationToken}`);
     const payload = { email, password };
@@ -105,7 +105,17 @@ describe('Test login user', () => {
 
     // Assert
     expect(response.statusCode).toBe(201);
-    expect(response.body).toBeDefined();
+  });
+  test('Should return accessToken', async () => {
+    // Arrange
+    await request(app).put(`/api/v1/user/verify-email/${verificationToken}`);
+    const payload = { email, password };
+
+    // Act
+    const response = await request(app).post(baseURL).send(payload);
+
+    // Assert
+    expect(response.body.length).toBeGreaterThan(1);
   });
   test('Should add refreshToken cookie', async () => {
     // Arrange
@@ -115,7 +125,6 @@ describe('Test login user', () => {
     const response = await request(app).post(baseURL).send(payload);
 
     // Assert
-    expect(response.statusCode).toBe(201);
     const cookie = response.headers['set-cookie'][0];
     expect(cookie).toContain('token');
   });

@@ -14,7 +14,10 @@ const CHANNEL_TYPE = Object.values(ChannelType).map((type) => type.toString());
 @Table({ tableName: 'channel', underscored: true })
 class Channel extends Model {
   @Column(DataType.ENUM(...CHANNEL_TYPE))
-  role!: string;
+  type!: string;
+
+  @Column(DataType.STRING)
+  name!: string;
 
   @ForeignKey(() => Server)
   @Column(DataType.INTEGER)

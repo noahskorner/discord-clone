@@ -4,7 +4,7 @@ import authenticate from '../../../middleware/authenticate';
 
 const channelController = new ChannelController();
 
-const channelRouter = Router();
+const channelRouter = Router({ mergeParams: true });
 channelRouter.post('/', authenticate, channelController.create);
 
 export default channelRouter;
