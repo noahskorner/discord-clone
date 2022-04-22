@@ -29,23 +29,21 @@ URL="$2"
 
 while read LOCAL_REF LOCAL_SHA REMOTE_REF REMOTE_SHA
 do
-
-		# Fetch updates from the remote branch & verify we're not behind before attempting to run tests.
-		BEHIND_REMOTE=`git fetch && git status -uno | grep behind | wc -l`
-		if [ $BEHIND_REMOTE -ne 0 ]
-		then
-			echo -e "$SCRIPT_PREFIX Tried pushing to $MAIN_REF, but it looks like your branch might be behind.";
-			echo -e "$SCRIPT_PREFIX Try running git pull first.";
-			exit 1
-		fi
-
-		echo -e "$SCRIPT_PREFIX Running 'npm run all-tests' due to push to $MAIN_REF";
-		npm run test
-		if [ $? -ne 0 ]
-		then
-			exit 1
-		fi
-	fi
+    # Fetch updates from the remote branch & verify we're not behind before attempting to run tests.
+    BEHIND_REMOTE=`git fetch && git status -uno | grep behind | wc -l`
+    if [ $BEHIND_REMOTE -ne 0 ]
+    then
+        echo -e "$SCRIPT_PREFIX Tried pushing to $MAIN_REF, but it looks like your branch might be behind.";
+        echo -e "$SCRIPT_PREFIX Try running git pull first.";
+        exit 1
+    fi
+    
+    echo -e "$SCRIPT_PREFIX Running 'npm run all-tests' due to push to $MAIN_REF";
+    npm run test
+    if [ $? -ne 0 ]
+    then
+        exit 1
+    fi
 done
 
 exit 0
