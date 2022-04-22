@@ -180,7 +180,7 @@ describe('Test channel create', () => {
     // Assert
     expect(response.statusCode).toBe(201);
   });
-  test('Should return created server with name', async () => {
+  test('Should return created channel with name', async () => {
     // Arrange && Act
     const response = await request(app)
       .post(baseURL)
@@ -190,7 +190,7 @@ describe('Test channel create', () => {
     // Assert
     expect(response.body.name).toBe(payload.name);
   });
-  test('Should return created server with type', async () => {
+  test('Should return created channel with type', async () => {
     // Arrange && Act
     const response = await request(app)
       .post(baseURL)
