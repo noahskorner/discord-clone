@@ -10,6 +10,11 @@ const ERROR_INVALID_USERNAME = {
   message: 'Username must be at least 4 characters.',
 };
 
+const ERROR_USERNAME_NOT_PROVIDED = {
+  field: 'username',
+  message: 'Must provide a username.',
+};
+
 const ERROR_INVALID_EMAIL = {
   field: 'email',
   message: 'Must provide a valid email.',
@@ -24,21 +29,26 @@ const UserValidator = {
   }: CreateUserRequest): ErrorInterface[] => {
     const errors: ErrorInterface[] = [];
 
-    if (!isLength(username, { min: 4 })) errors.push(ERROR_INVALID_USERNAME);
-    if (!isEmail(email)) errors.push(ERROR_INVALID_EMAIL);
+    if (username == null) errors.push(ERROR_USERNAME_NOT_PROVIDED);
+    else if (!isLength(username, { min: 4 }))
+      errors.push(ERROR_INVALID_USERNAME);
+
+    if (email == null || !isEmail(email)) errors.push(ERROR_INVALID_EMAIL);
+
     if (password == null)
       errors.push({ field: 'password', message: 'Must provide a password.' });
-    if (!isLength(password, { min: 8 }))
+    else if (!isLength(password, { min: 8 }))
       errors.push({
         field: 'password',
         message: 'Password must be at least 8 characters.',
       });
+
     if (confirmPassword == null)
       errors.push({
         field: 'confirmPassword',
         message: 'Must confirm password.',
       });
-    if (password !== confirmPassword)
+    else if (password !== confirmPassword)
       errors.push({
         field: 'confirmPassword',
         message: 'Passwords do not match.',

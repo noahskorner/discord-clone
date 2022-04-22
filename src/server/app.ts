@@ -33,7 +33,7 @@ app.use('/api/v1', router);
 app.use(errorHandler);
 
 // DATABASE
-db.sequelize.sync();
+if (process.env.NODE_ENV !== 'test') db.sequelize.sync();
 // if (process.env.NODE_ENV !== 'production') {
 //   db.sequelize.sync({ force: true }).then(() => {
 //     console.log('Dropping, re-syncing, and seeding database');
