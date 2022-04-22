@@ -37,8 +37,8 @@ do
         echo -e "$SCRIPT_PREFIX Try running git pull first.";
         exit 1
     fi
-    
-    echo -e "$SCRIPT_PREFIX Running 'npm run all-tests' due to push to $MAIN_REF";
+
+    echo -e "$SCRIPT_PREFIX Running 'npm run test' due to push to $MAIN_REF";
     npm run test
     if [ $? -ne 0 ]
     then

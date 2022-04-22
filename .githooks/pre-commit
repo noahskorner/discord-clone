@@ -1,14 +1,15 @@
 #!/bin/sh
 
+SCRIPT_PREFIX="\x1b[1;35m[.githooks/pre-commit]\x1b[0m"
 FILES=$(git diff --cached --name-only --diff-filter=ACMR | sed 's| |\\ |g')
 [ -z "$FILES" ] && exit 0
 
-echo -e "Running Prettier on any modified files..."
+echo -e "$SCRIPT_PREFIX Running Prettier on any modified files..."
 
 # Prettify all selected files
 echo "$FILES" | xargs ./node_modules/.bin/prettier --write
 
-echo -e "Linting all files...";
+echo -e "$SCRIPT_PREFIX Linting all files...";
 
 npm run lint;
 
