@@ -11,7 +11,7 @@ const email = 'test@test.com';
 const password = 'password';
 let verificationToken = '';
 
-describe('Test the auth functionality', () => {
+describe('Test login user', () => {
   beforeAll(async () => {
     // Drop database
     await db.sequelize.sync({ force: true });
