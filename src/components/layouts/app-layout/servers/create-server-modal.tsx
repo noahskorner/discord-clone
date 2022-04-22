@@ -7,7 +7,7 @@ import Modal from '../../../utils/modal';
 import TextField from '../../../inputs/text-field';
 import useUser from '../../../../utils/hooks/use-user';
 import useModal from '../../../../utils/hooks/use-modal';
-import { useState } from 'react';
+import { useState, KeyboardEvent } from 'react';
 import Tooltip from '../../../feedback/tooltip';
 import ServerService from '../../../../services/server-service';
 import CreateServerRequest from '../../../../utils/types/requests/server/create-server';
@@ -17,6 +17,7 @@ import handleServiceError from '../../../../utils/services/handle-service-error'
 import Spinner from '../../../inputs/spinner';
 import useToasts from '../../../../utils/hooks/use-toasts';
 import useServers from '../../../../utils/hooks/use-servers';
+import { useRouter } from 'next/router';
 
 const CreateServerModal = () => {
   const { showModal, setShowModal } = useModal();
@@ -29,18 +30,9 @@ const CreateServerModal = () => {
   const [errors, setErrors] = useState<ErrorInterface[]>([]);
   const serverNameErrors = errors.filter((error) => error.field === 'name');
   const [loading, setLoading] = useState(false);
+  const router = useRouter();
 
-  const handleServerNameInput = (value: string) => {
-    setErrors((prev) => prev.filter((error) => error.field !== 'name'));
-    setServerName(value);
-  };
-  const handleAddServerButtonClick = () => {
-    setShowModal(true);
-  };
-  const handleCloseModalButtonClick = () => {
-    setShowModal(false);
-  };
-  const handleCreateButtonClick = async () => {
+  const createServer = async () => {
     const payload = { name: serverName } as CreateServerRequest;
     const errors = ServerValidator.create(payload);
     if (errors.length > 0) {
@@ -58,6 +50,7 @@ const CreateServerModal = () => {
         `${server.name} will be a great place`,
       );
       setShowModal(false);
+      router.push(`/server/${server.id}`);
     } catch (error) {
       const { errors } = handleServiceError(error);
       setErrors(errors);
@@ -66,8 +59,27 @@ const CreateServerModal = () => {
     }
   };
 
+  const handleServerNameInput = (value: string) => {
+    setErrors((prev) => prev.filter((error) => error.field !== 'name'));
+    setServerName(value);
+  };
+  const handleAddServerButtonClick = () => {
+    setShowModal(true);
+  };
+  const handleCloseModalButtonClick = () => {
+    setShowModal(false);
+  };
+  const handleCreateButtonClick = async () => {
+    await createServer();
+  };
+  const handleAddServerKeyDown = async (
+    event: KeyboardEvent<HTMLDivElement>,
+  ) => {
+    if (event.key === 'Enter') await createServer();
+  };
+
   return (
-    <div>
+    <div onKeyDown={handleAddServerKeyDown}>
       <Tooltip text="Add a Server" direction="left">
         <button
           onClick={handleAddServerButtonClick}
@@ -119,10 +131,10 @@ const CreateServerModal = () => {
             </button>
             <button
               onClick={handleCreateButtonClick}
-              className="rounded-md bg-indigo-500 py-2 px-4 text-sm hover:bg-indigo-700"
+              className="flex items-center justify-center rounded-md bg-indigo-500 py-2 px-4 text-sm hover:bg-indigo-700"
             >
-              <span className={`${loading && 'w-0 opacity-0'}`}>Create</span>
-              {loading && <Spinner size="sm" />}
+              <span className={`${loading && 'opacity-0'}`}>Create</span>
+              {loading && <Spinner size="sm" className="absolute" />}
             </button>
           </div>
         </div>

@@ -6,7 +6,7 @@
     "dev": "NODE_ENV=development nodemon src/server/index.ts",
     "build": "next build && tsc && tsc --project tsconfig.server.json",
     "start": "NODE_ENV=production node .next/server/server/index.js",
-    "test": "NODE_ENV=test jest --detectOpenHandles",
+    "test": "NODE_ENV=test jest --runInBand --detectOpenHandles",
     "lint": "next lint",
     "format": "npx prettier --write ."
   },
