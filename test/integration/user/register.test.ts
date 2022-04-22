@@ -2,13 +2,15 @@ import request from 'supertest';
 import app from '../../../src/server/app';
 import db from '../../../src/server/db/models';
 
+const baseURL = 'api/v1/user';
+
 describe('Test the user register functionality', () => {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
   });
   test('Should return bad request when username is null', async () => {
     // Arrange && Act
-    const response = await request(app).post('/api/v1/user');
+    const response = await request(app).post(baseURL);
 
     // Assert
     expect(response.statusCode).toBe(400);
@@ -20,7 +22,7 @@ describe('Test the user register functionality', () => {
     };
 
     // Act
-    const response = await request(app).post('/api/v1/user').send(payload);
+    const response = await request(app).post(baseURL).send(payload);
 
     // Assert
     expect(response.statusCode).toBe(400);
@@ -32,7 +34,7 @@ describe('Test the user register functionality', () => {
     };
 
     // Act
-    const response = await request(app).post('/api/v1/user').send(payload);
+    const response = await request(app).post(baseURL).send(payload);
 
     // Assert
     expect(response.statusCode).toBe(400);
@@ -45,7 +47,7 @@ describe('Test the user register functionality', () => {
     };
 
     // Act
-    const response = await request(app).post('/api/v1/user').send(payload);
+    const response = await request(app).post(baseURL).send(payload);
 
     // Assert
     expect(response.statusCode).toBe(400);
@@ -58,7 +60,7 @@ describe('Test the user register functionality', () => {
     };
 
     // Act
-    const response = await request(app).post('/api/v1/user').send(payload);
+    const response = await request(app).post(baseURL).send(payload);
 
     // Assert
     expect(response.statusCode).toBe(400);
@@ -72,7 +74,7 @@ describe('Test the user register functionality', () => {
     };
 
     // Act
-    const response = await request(app).post('/api/v1/user').send(payload);
+    const response = await request(app).post(baseURL).send(payload);
 
     // Assert
     expect(response.statusCode).toBe(400);
@@ -86,7 +88,7 @@ describe('Test the user register functionality', () => {
     };
 
     // Act
-    const response = await request(app).post('/api/v1/user').send(payload);
+    const response = await request(app).post(baseURL).send(payload);
 
     // Assert
     expect(response.statusCode).toBe(400);
@@ -101,7 +103,7 @@ describe('Test the user register functionality', () => {
     };
 
     // Act
-    const response = await request(app).post('/api/v1/user').send(payload);
+    const response = await request(app).post(baseURL).send(payload);
 
     // Assert
     expect(response.statusCode).toBe(400);
@@ -117,7 +119,7 @@ describe('Test the user register functionality', () => {
     };
 
     // Act
-    const response = await request(app).post('/api/v1/user').send(payload);
+    const response = await request(app).post(baseURL).send(payload);
 
     // Assert
     expect(response.statusCode).toBe(201);
@@ -134,7 +136,7 @@ describe('Test the user register functionality', () => {
     };
 
     // Act
-    const response = await request(app).post('/api/v1/user').send(payload);
+    const response = await request(app).post(baseURL).send(payload);
 
     // Assert
     expect(response.statusCode).toBe(400);

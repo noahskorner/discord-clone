@@ -1,5 +1,5 @@
 import Mail from 'nodemailer/lib/mailer';
-import transporter from '../../config/smtp.config';
+import transporter from '../../../config/smtp.config';
 
 class MailService {
   public sendMail = async (mailOptions: Mail.Options) => {

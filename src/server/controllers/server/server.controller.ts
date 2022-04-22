@@ -2,7 +2,7 @@ import catchAsync from '../../middleware/catch-async';
 import ServerValidator from '../../validators/server';
 import { Request, Response } from 'express';
 import { ERROR_UNKOWN } from '../../../utils/constants/errors';
-import ServerService from '../../services/server.service';
+import ServerService from '../../services/server';
 import ErrorEnum from '../../../utils/enums/errors';
 
 class ServerController {

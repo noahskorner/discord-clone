@@ -1,4 +1,4 @@
-import UserService from '../../services/user.service';
+import UserService from '../../services/user/user.service';
 import catchAsync from '../../middleware/catch-async';
 import { Request, Response } from 'express';
 import UserValidator from '../../validators/user';

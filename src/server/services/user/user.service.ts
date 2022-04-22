@@ -1,12 +1,12 @@
 import { compare, genSalt, hash } from 'bcrypt';
 import jwt from 'jsonwebtoken';
-import User from '../db/models/user.model';
-import ErrorInterface from '../../utils/types/interfaces/error';
-import MailService from './mail.service';
-import env from '../../config/env.config';
-import UserDTO from '../../utils/types/dtos/user';
-import RequestUser from '../../utils/types/dtos/request-user';
-import RefreshToken from '../db/models/refresh-token.model';
+import User from '../../db/models/user.model';
+import ErrorInterface from '../../../utils/types/interfaces/error';
+import MailService from '../mail/mail.service';
+import env from '../../../config/env.config';
+import UserDTO from '../../../utils/types/dtos/user';
+import RequestUser from '../../../utils/types/dtos/request-user';
+import RefreshToken from '../../db/models/refresh-token.model';
 
 const ERROR_USER_ALREADY_EXISTS: ErrorInterface = {
   field: 'email',

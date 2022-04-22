@@ -2,9 +2,9 @@ import { Router } from 'express';
 import RoleEnum from '../../utils/enums/roles';
 import authenticate from '../middleware/authenticate';
 import authorize from '../middleware/authorize';
-import authRouter from './auth.route';
-import serverRouter from './server.route';
-import userRouter from './user.route';
+import authRouter from './auth/auth.route';
+import serverRouter from './server/server.route';
+import userRouter from './user/user.route';
 
 const router = Router();
 router.get('/', authenticate, authorize([RoleEnum.SUPERADMIN]), (req, res) => {
