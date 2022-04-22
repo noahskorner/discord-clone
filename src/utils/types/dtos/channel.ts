@@ -1,7 +1,7 @@
 import Channel from '../../../server/db/models/channel.model';
 import ChannelType from '../../enums/channel-type';
 
-class ChannelDTO {
+class ChannelDto {
   public type: ChannelType;
   public name: string;
 
@@ -11,4 +11,4 @@ class ChannelDTO {
   }
 }
 
-export default ChannelDTO;
+export default ChannelDto;

@@ -1,15 +1,15 @@
 import { AxiosResponse } from 'axios';
-import UserDTO from '../utils/types/dtos/user';
+import UserDto from '../utils/types/dtos/user';
 import ConfirmResetPasswordRequest from '../utils/types/requests/user/confirm-reset-password';
 import CreateUserRequest from '../utils/types/requests/user/create-user';
 import ResetPasswordRequest from '../utils/types/requests/user/reset-password';
 import API from './api';
 
 const UserService = {
-  create: (payload: CreateUserRequest): Promise<AxiosResponse<UserDTO>> => {
+  create: (payload: CreateUserRequest): Promise<AxiosResponse<UserDto>> => {
     return API.post('/user', payload);
   },
-  get: (userId: number): Promise<AxiosResponse<UserDTO>> => {
+  get: (userId: number): Promise<AxiosResponse<UserDto>> => {
     return API.get(`/user/${userId}`);
   },
   verifyEmail: (token: string): Promise<AxiosResponse<void>> => {

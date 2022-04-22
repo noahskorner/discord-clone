@@ -1,7 +1,7 @@
 import User from '../../../server/db/models/user.model';
 import RoleEnum from '../../enums/roles';
 
-class UserDTO {
+class UserDto {
   public id: number;
   public username: string;
   public email: string;
@@ -22,4 +22,4 @@ class UserDTO {
   }
 }
 
-export default UserDTO;
+export default UserDto;

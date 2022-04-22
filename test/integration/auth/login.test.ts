@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '../../../src/server/app';
 import db from '../../../src/server/db/models';
 import User from '../../../src/server/db/models/user.model';
-import UserDTO from '../../../src/utils/types/dtos/user';
+import UserDto from '../../../src/utils/types/dtos/user';
 import CreateUserRequest from '../../../src/utils/types/requests/user/create-user';
 
 const baseURL = '/api/v1/auth';
@@ -27,8 +27,8 @@ describe('Test login user', () => {
       } as CreateUserRequest);
 
     // Mock the verification email
-    const userDTO: UserDTO = response.body;
-    const user = await User.findByPk(userDTO.id);
+    const userDto: UserDto = response.body;
+    const user = await User.findByPk(userDto.id);
     verificationToken = user!.verificationToken!;
   });
   test('Should return bad request when email is null', async () => {

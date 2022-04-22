@@ -3,8 +3,8 @@ import app from '../../../../src/server/app';
 import db from '../../../../src/server/db/models';
 import User from '../../../../src/server/db/models/user.model';
 import ChannelType from '../../../../src/utils/enums/channel-type';
-import ServerDTO from '../../../../src/utils/types/dtos/server';
-import UserDTO from '../../../../src/utils/types/dtos/user';
+import ServerDto from '../../../../src/utils/types/dtos/server';
+import UserDto from '../../../../src/utils/types/dtos/user';
 import LoginRequest from '../../../../src/utils/types/requests/auth/login';
 import CreateChannelRequest from '../../../../src/utils/types/requests/server/channel/create-channel';
 import CreateServerRequest from '../../../../src/utils/types/requests/server/create-server';
@@ -36,8 +36,8 @@ describe('Test channel create', () => {
       } as CreateUserRequest);
 
     // Mock verification email
-    const userDTO: UserDTO = registerResponse.body;
-    const user = await User.findByPk(userDTO.id);
+    const userDto: UserDto = registerResponse.body;
+    const user = await User.findByPk(userDto.id);
     const verificationToken = user!.verificationToken!;
 
     // Verify email
@@ -60,10 +60,10 @@ describe('Test channel create', () => {
       } as CreateServerRequest)
       .set('Authorization', `Bearer ${accessToken}`);
 
-    const serverDTO: ServerDTO = createServerResponse.body;
+    const serverDto: ServerDto = createServerResponse.body;
 
     // Set baseURL
-    baseURL = `/api/v1/server/${serverDTO.id}/channel`;
+    baseURL = `/api/v1/server/${serverDto.id}/channel`;
   });
   test('Should return unauthorized when user is not logged in', async () => {
     // Arrange && Act
@@ -149,8 +149,8 @@ describe('Test channel create', () => {
         password,
         confirmPassword: password,
       } as CreateUserRequest);
-    const userDTO: UserDTO = registerResponse.body;
-    const user = await User.findByPk(userDTO.id);
+    const userDto: UserDto = registerResponse.body;
+    const user = await User.findByPk(userDto.id);
     const verificationToken = user!.verificationToken!;
     await request(app).put(`/api/v1/user/verify-email/${verificationToken}`);
     const loginResponse = await request(app)

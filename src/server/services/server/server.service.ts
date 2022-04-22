@@ -1,8 +1,10 @@
+import ChannelType from '../../../utils/enums/channel-type';
 import ErrorEnum from '../../../utils/enums/errors';
 import ServerRoleEnum from '../../../utils/enums/server-roles';
-import ServerDTO from '../../../utils/types/dtos/server';
+import ServerDto from '../../../utils/types/dtos/server';
 import ErrorInterface from '../../../utils/types/interfaces/error';
 import SystemError from '../../../utils/types/interfaces/system-error';
+import Channel from '../../db/models/channel.model';
 import ServerUser from '../../db/models/server-user.model';
 import Server from '../../db/models/server.model';
 import User from '../../db/models/user.model';
@@ -28,7 +30,7 @@ class ServerService {
   public create = async (
     name: string,
     createdById: number,
-  ): Promise<{ errors?: ErrorInterface[]; server?: ServerDTO }> => {
+  ): Promise<{ errors?: ErrorInterface[]; server?: ServerDto }> => {
     const user = await User.findByPk(createdById);
     if (user == null) return { errors: [ERROR_USER_NOT_FOUND] };
 
@@ -45,29 +47,40 @@ class ServerService {
       },
       { include: [ServerUser] },
     );
-
-    server.users[0].user = user;
-
-    return { server: new ServerDTO(server) };
-  };
-
-  public findAllByUserId = async (userId: number): Promise<ServerDTO[]> => {
-    const servers = await Server.findAll({
-      include: {
-        model: ServerUser,
-        where: {
-          userId,
-        },
-      },
+    const channel = await Channel.create({
+      serverId: server.id,
+      type: ChannelType.TEXT,
+      name: 'general',
     });
 
-    return servers.map((server) => new ServerDTO(server));
+    server.users[0].user = user;
+    server.channels = [channel];
+
+    return { server: new ServerDto(server) };
+  };
+
+  public findAllByUserId = async (userId: number): Promise<ServerDto[]> => {
+    const servers = await Server.findAll({
+      include: [
+        {
+          model: ServerUser,
+          where: {
+            userId,
+          },
+        },
+        {
+          model: Channel,
+        },
+      ],
+    });
+
+    return servers.map((server) => new ServerDto(server));
   };
 
   public findById = async (
     serverId: number,
     userId: number,
-  ): Promise<ServerDTO> => {
+  ): Promise<ServerDto> => {
     if (isNaN(serverId)) throw ERROR_SERVER_NOT_FOUND;
 
     const userCanRead = await this.userCanRead(serverId, userId);
@@ -78,6 +91,9 @@ class ServerService {
         {
           model: ServerUser,
         },
+        {
+          model: Channel,
+        },
       ],
     });
 
@@ -87,7 +103,7 @@ class ServerService {
           message: 'Server does not exist.',
         },
       ]);
-    else return new ServerDTO(server);
+    else return new ServerDto(server);
   };
 
   private userCanRead = async (

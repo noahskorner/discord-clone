@@ -1,9 +1,9 @@
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
-import ServerDTO from '../types/dtos/server';
+import ServerDto from '../types/dtos/server';
 
 interface ServerContextInterface {
-  server: ServerDTO | null;
-  setServer: Dispatch<SetStateAction<ServerDTO | null>>;
+  server: ServerDto | null;
+  setServer: Dispatch<SetStateAction<ServerDto | null>>;
 }
 
 const defaultValues = {
@@ -19,7 +19,7 @@ interface ServerProviderInterface {
 }
 
 export const ServerProvider = ({ children }: ServerProviderInterface) => {
-  const [server, setServer] = useState<ServerDTO | null>(defaultValues.server);
+  const [server, setServer] = useState<ServerDto | null>(defaultValues.server);
 
   return (
     <ServerContext.Provider value={{ server, setServer }}>

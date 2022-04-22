@@ -6,7 +6,7 @@ import ServerService from '../../services/server-service';
 import useServer from '../../utils/hooks/use-server';
 import useToasts from '../../utils/hooks/use-toasts';
 import handleServiceError from '../../utils/services/handle-service-error';
-import ServerDTO from '../../utils/types/dtos/server';
+import ServerDto from '../../utils/types/dtos/server';
 
 const ServerPage: NextPage = () => {
   return (
@@ -28,7 +28,7 @@ const ServerPageContent = () => {
     const loadServer = async () => {
       try {
         const response = await ServerService.get(id);
-        const server = response.data as ServerDTO;
+        const server = response.data as ServerDto;
         setServer(server);
       } catch (error) {
         const { errors } = handleServiceError(error);

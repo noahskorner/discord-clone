@@ -1,5 +1,5 @@
 import ChannelType from '../../../../utils/enums/channel-type';
-import ChannelDTO from '../../../../utils/types/dtos/channel';
+import ChannelDto from '../../../../utils/types/dtos/channel';
 import ErrorInterface from '../../../../utils/types/interfaces/error';
 import Channel from '../../../db/models/channel.model';
 import ChannelValidator from '../../../validators/server/channel';
@@ -17,7 +17,7 @@ class ChannelService {
     name: string;
     serverId: any;
     userId: number;
-  }): Promise<{ errors?: ErrorInterface[]; channel?: ChannelDTO }> => {
+  }): Promise<{ errors?: ErrorInterface[]; channel?: ChannelDto }> => {
     const errors = ChannelValidator.create({ ...request });
     if (errors.length > 0) return { errors };
 
@@ -30,7 +30,7 @@ class ChannelService {
       name: name,
     });
 
-    return { channel: new ChannelDTO(channel) };
+    return { channel: new ChannelDto(channel) };
   };
 }
 

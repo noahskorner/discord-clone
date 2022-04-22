@@ -9,11 +9,11 @@ import ServerService from '../../services/server-service';
 import useAuth from '../hooks/use-auth';
 import useToasts from '../hooks/use-toasts';
 import handleServiceError from '../services/handle-service-error';
-import ServerDTO from '../types/dtos/server';
+import ServerDto from '../types/dtos/server';
 
 interface ServersContextInterface {
-  servers: ServerDTO[];
-  setServers: Dispatch<SetStateAction<ServerDTO[]>>;
+  servers: ServerDto[];
+  setServers: Dispatch<SetStateAction<ServerDto[]>>;
   loading: boolean;
 }
 
@@ -33,7 +33,7 @@ interface ServersProviderInterface {
 export const ServersProvider = ({ children }: ServersProviderInterface) => {
   const { loading: loadingAuth } = useAuth();
   const { danger } = useToasts();
-  const [servers, setServers] = useState<ServerDTO[]>(defaultValues.servers);
+  const [servers, setServers] = useState<ServerDto[]>(defaultValues.servers);
   const [loading, setLoading] = useState(defaultValues.loading);
 
   useEffect(() => {

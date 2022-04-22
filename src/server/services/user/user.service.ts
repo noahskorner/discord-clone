@@ -4,7 +4,7 @@ import User from '../../db/models/user.model';
 import ErrorInterface from '../../../utils/types/interfaces/error';
 import MailService from '../mail/mail.service';
 import env from '../../../config/env.config';
-import UserDTO from '../../../utils/types/dtos/user';
+import UserDto from '../../../utils/types/dtos/user';
 import RequestUser from '../../../utils/types/dtos/request-user';
 import RefreshToken from '../../db/models/refresh-token.model';
 
@@ -34,19 +34,19 @@ const ERROR_RESET_PASSWORD_TOKEN_EXPIRED: ErrorInterface = {
 class UserService {
   private _mailService = new MailService();
 
-  public findUserById = async (id: number): Promise<UserDTO | null> => {
+  public findUserById = async (id: number): Promise<UserDto | null> => {
     const user = await User.findByPk(id);
 
     if (user == null) return null;
 
-    return new UserDTO(user);
+    return new UserDto(user);
   };
 
   public createUser = async (
     username: string,
     email: string,
     password: string,
-  ): Promise<{ errors?: ErrorInterface[]; user?: UserDTO }> => {
+  ): Promise<{ errors?: ErrorInterface[]; user?: UserDto }> => {
     const userExists = await this.findUserByEmail(email);
 
     if (userExists != null) {
@@ -66,7 +66,7 @@ class UserService {
     });
     await this.sendVerificationEmail(user);
 
-    return { user: new UserDTO(user) };
+    return { user: new UserDto(user) };
   };
 
   public loginUser = async (

@@ -3,11 +3,11 @@ import UserService from '../../services/user-service';
 import useAuth from '../hooks/use-auth';
 import useToasts from '../hooks/use-toasts';
 import handleServiceError from '../services/handle-service-error';
-import UserDTO from '../types/dtos/user';
+import UserDto from '../types/dtos/user';
 
 interface UserContextInterface {
   loading: boolean;
-  user: UserDTO | null;
+  user: UserDto | null;
 }
 
 const defaultValues = {
@@ -24,7 +24,7 @@ interface UserProviderInterface {
 export const UserProvder = ({ children }: UserProviderInterface) => {
   const { user: requestUser, loading: loadingAuth } = useAuth();
   const { danger } = useToasts();
-  const [user, setUser] = useState<UserDTO | null>(defaultValues.user);
+  const [user, setUser] = useState<UserDto | null>(defaultValues.user);
   const [loading, setLoading] = useState(false);
 
   useEffect(() => {
