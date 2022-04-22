@@ -1,0 +1,51 @@
+#!/bin/sh
+
+# A custom git hook that runs the build & all tests via `npm run all-tests` on push to the trunk.
+# If any part of the build or test run fails, the commit(s) will not be pushed.
+
+# This script was modified from the .git/hooks/pre-push.sample file, so some of its commentary
+# and implementation will remain.
+
+# An example hook script to verify what is about to be pushed.  Called by "git
+# push" after it has checked the remote status, but before anything has been
+# pushed.  If this script exits with a non-zero status nothing will be pushed.
+#
+# This hook is called with the following parameters:
+#
+# $1 -- Name of the remote to which the push is being done
+# $2 -- URL to which the push is being done
+#
+# If pushing without using a named remote those arguments will be equal.
+#
+# Information about the commits which are being pushed is supplied as lines to
+# the standard input in the form:
+#
+#   <local ref> <local sha1> <remote ref> <remote sha1>
+
+REMOTE="$1"
+SCRIPT_PREFIX="\x1b[1;35m[.githooks/pre-push]\x1b[0m"
+MAIN_REF="refs/heads/main"
+URL="$2"
+
+while read LOCAL_REF LOCAL_SHA REMOTE_REF REMOTE_SHA
+do
+
+		# Fetch updates from the remote branch & verify we're not behind before attempting to run tests.
+		BEHIND_REMOTE=`git fetch && git status -uno | grep behind | wc -l`
+		if [ $BEHIND_REMOTE -ne 0 ]
+		then
+			echo -e "$SCRIPT_PREFIX Tried pushing to $MAIN_REF, but it looks like your branch might be behind.";
+			echo -e "$SCRIPT_PREFIX Try running git pull first.";
+			exit 1
+		fi
+
+		echo -e "$SCRIPT_PREFIX Running 'npm run all-tests' due to push to $MAIN_REF";
+		npm run test
+		if [ $? -ne 0 ]
+		then
+			exit 1
+		fi
+	fi
+done
+
+exit 0
