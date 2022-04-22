@@ -2,7 +2,7 @@ import request from 'supertest';
 import app from '../../../src/server/app';
 import db from '../../../src/server/db/models';
 
-const baseURL = 'api/v1/user';
+const baseURL = '/api/v1/user';
 
 describe('Test the user register functionality', () => {
   beforeAll(async () => {

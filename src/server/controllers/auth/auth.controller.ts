@@ -33,7 +33,7 @@ class AuthController {
       httpOnly: true,
       expires: this.getTokenExpirationDate(refreshToken),
     });
-    return res.status(200).json(accessToken);
+    return res.status(201).json(accessToken);
   });
 
   public refreshToken = catchAsync(async (req: Request, res: Response) => {
