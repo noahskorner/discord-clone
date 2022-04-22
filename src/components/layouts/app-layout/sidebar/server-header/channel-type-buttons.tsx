@@ -1,6 +1,7 @@
 import { Dispatch, SetStateAction } from 'react';
 import ChannelType from '../../../../../utils/enums/channel-type';
 import PoundIcon from '../../../../icons/pound.svg';
+import VolumeUpIcon from '../../../../icons/volume-up.svg';
 
 interface ChannelTypeButtonsProps {
   channelType: ChannelType;
@@ -56,7 +57,7 @@ const ChannelTypeButtons = ({
           )}
         </span>
         <span className="text-slate-300">
-          <PoundIcon />
+          <VolumeUpIcon />
         </span>
         <div className="flex flex-col items-start justify-start">
           <h6 className="text-sm">Voice Channel</h6>

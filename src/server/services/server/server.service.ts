@@ -47,14 +47,8 @@ class ServerService {
       },
       { include: [ServerUser] },
     );
-    const channel = await Channel.create({
-      serverId: server.id,
-      type: ChannelType.TEXT,
-      name: 'general',
-    });
-
     server.users[0].user = user;
-    server.channels = [channel];
+    server.channels = await this.createDefaultChannels(server.id);
 
     return { server: new ServerDto(server) };
   };
@@ -118,6 +112,23 @@ class ServerService {
     });
 
     return userIsInServer != null;
+  };
+
+  private createDefaultChannels = async (
+    serverId: number,
+  ): Promise<Channel[]> => {
+    const textChannel = await Channel.create({
+      serverId: serverId,
+      type: ChannelType.TEXT,
+      name: 'general',
+    });
+    const voiceChannel = await Channel.create({
+      serverId: serverId,
+      type: ChannelType.VOICE,
+      name: 'general',
+    });
+
+    return [textChannel, voiceChannel];
   };
 }
 

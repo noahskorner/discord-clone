@@ -2,7 +2,7 @@ import { Dispatch, SetStateAction } from 'react';
 import { CSSTransition } from 'react-transition-group';
 import useWindowSize from '../../../utils/hooks/use-window-size';
 
-export interface ModalProps {
+interface ModalProps {
   showModal: boolean;
   setShowModal: Dispatch<SetStateAction<boolean>>;
   children: JSX.Element;

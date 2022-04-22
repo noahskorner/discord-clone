@@ -1,15 +1,31 @@
 import IconButton from '../../../../inputs/icon-button';
 import Modal from '../../../../utils/modal';
-import { ModalProps } from '../../../../utils/modal/modal';
 import CloseIcon from '../../../../icons/close.svg';
 import PoundIcon from '../../../../icons/pound.svg';
-import React, { useState, KeyboardEvent } from 'react';
+import VolumeUpIcon from '../../../../icons/volume-up.svg';
+import React, {
+  useState,
+  KeyboardEvent,
+  SetStateAction,
+  Dispatch,
+} from 'react';
 import Spinner from '../../../../inputs/spinner';
 import TextField from '../../../../inputs/text-field';
 import ChannelType from '../../../../../utils/enums/channel-type';
 import ChannelTypeButtons from './channel-type-buttons';
+import handleServiceError from '../../../../../utils/services/handle-service-error';
+import useToasts from '../../../../../utils/hooks/use-toasts';
+import ChannelValidator from '../../../../../server/validators/server/channel';
+import CreateChannelRequest from '../../../../../utils/types/requests/server/channel/create-channel';
+import ErrorInterface from '../../../../../utils/types/interfaces/error';
+import ChannelService from '../../../../../services/channel-service';
+import useServer from '../../../../../utils/hooks/use-server';
+import { ERROR_UNKOWN } from '../../../../../utils/constants/errors';
 
-interface CreateChannelModalProps extends ModalProps {}
+interface CreateChannelModalProps {
+  showModal: boolean;
+  setShowModal: Dispatch<SetStateAction<boolean>>;
+}
 
 const CreateChannelModal = ({
   showModal,
@@ -18,8 +34,45 @@ const CreateChannelModal = ({
   const [channelName, setChannelName] = useState('new-channel');
   const [channelType, setChannelType] = useState(ChannelType.TEXT);
   const [loading, setLoading] = useState(false);
+  const [errors, setErrors] = useState<ErrorInterface[]>([]);
+  const nameErrors = errors.filter((error) => error.field === 'name');
+  const { danger } = useToasts();
+  const { server, setChannels } = useServer();
 
-  const createChannel = async () => {};
+  const createChannel = async () => {
+    if (server == null) {
+      setErrors([ERROR_UNKOWN]);
+      return;
+    }
+
+    const payload = {
+      type: channelType,
+      name: channelName,
+    } as CreateChannelRequest;
+
+    const errors = ChannelValidator.create(payload);
+    if (errors.length > 0) {
+      setErrors(errors);
+      return;
+    }
+
+    setLoading(true);
+    try {
+      const response = await ChannelService.create(server.id, payload);
+      const channel = response.data;
+      setChannels([...server.channels, channel]);
+      setShowModal(false);
+    } catch (error) {
+      const { errors } = handleServiceError(error);
+      if (errors.length > 0) {
+        errors.forEach((error) => {
+          danger(error.message);
+        });
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const handleChannelNameInput = (value: string) => {
     setChannelName(value);
@@ -58,9 +111,16 @@ const CreateChannelModal = ({
           />
           <TextField
             label="Channel name"
+            errors={nameErrors}
             value={channelName}
             onInput={handleChannelNameInput}
-            icon={<PoundIcon />}
+            icon={
+              channelType === ChannelType.TEXT ? (
+                <PoundIcon />
+              ) : (
+                <VolumeUpIcon />
+              )
+            }
           />
         </div>
         <div className="relative bottom-0 mt-8 flex w-full items-center justify-between rounded-b-md bg-slate-700 p-4">

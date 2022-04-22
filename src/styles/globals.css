@@ -83,3 +83,8 @@ input:focus {
   border-bottom-width: 5px;
   border-bottom-style: solid;
 }
+
+/* Tooltips */
+.tooltip {
+  z-index: 99999;
+}

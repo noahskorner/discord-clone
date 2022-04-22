@@ -12,7 +12,7 @@ const Servers = () => {
   return (
     <div
       style={{ height: heightStyle }}
-      className="scrollbar-none relative z-40 flex w-servers flex-col items-center space-y-2 bg-slate-900 px-2 py-3"
+      className="scrollbar-none relative flex w-servers flex-col items-center space-y-2 bg-slate-900 px-2 py-3"
     >
       <Tooltip text="Home" direction="left">
         <Link href="/" passHref>
