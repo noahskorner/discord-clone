@@ -10,7 +10,7 @@
 }
 .slide-in-enter-done {
   transform: translateX(0%);
-  --webkit-transform:: translateX(0%);
+  --webkit-transform: translateX(0%);
 }
 .slide-in-appear {
   transform: none;
