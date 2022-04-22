@@ -1,0 +1,7 @@
+echo -e "$SCRIPT_PREFIX Running Prettier on all files...";
+
+npm run format;
+
+echo -e "$SCRIPT_PREFIX Linting all files...";
+
+npm run lint;
