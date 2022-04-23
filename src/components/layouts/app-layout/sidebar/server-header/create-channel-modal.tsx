@@ -3,12 +3,7 @@ import Modal from '../../../../utils/modal';
 import CloseIcon from '../../../../icons/close.svg';
 import PoundIcon from '../../../../icons/pound.svg';
 import VolumeUpIcon from '../../../../icons/volume-up.svg';
-import React, {
-  useState,
-  KeyboardEvent,
-  SetStateAction,
-  Dispatch,
-} from 'react';
+import React, { useState, KeyboardEvent } from 'react';
 import Spinner from '../../../../inputs/spinner';
 import TextField from '../../../../inputs/text-field';
 import ChannelType from '../../../../../utils/enums/channel-type';
@@ -21,21 +16,16 @@ import ErrorInterface from '../../../../../utils/types/interfaces/error';
 import ChannelService from '../../../../../services/channel-service';
 import useServer from '../../../../../utils/hooks/use-server';
 import { ERROR_UNKOWN } from '../../../../../utils/constants/errors';
+import useApp from '../../../../../utils/hooks/use-app';
 
-interface CreateChannelModalProps {
-  showModal: boolean;
-  setShowModal: Dispatch<SetStateAction<boolean>>;
-}
-
-const CreateChannelModal = ({
-  showModal,
-  setShowModal,
-}: CreateChannelModalProps) => {
+const CreateChannelModal = () => {
   const [channelName, setChannelName] = useState('new-channel');
   const [channelType, setChannelType] = useState(ChannelType.TEXT);
   const [loading, setLoading] = useState(false);
   const [errors, setErrors] = useState<ErrorInterface[]>([]);
   const nameErrors = errors.filter((error) => error.field === 'name');
+
+  const { showCreateChannelModal, setShowCreateChannelModal } = useApp();
   const { danger } = useToasts();
   const { server, setChannels } = useServer();
 
@@ -61,7 +51,7 @@ const CreateChannelModal = ({
       const response = await ChannelService.create(server.id, payload);
       const channel = response.data;
       setChannels([...server.channels, channel]);
-      setShowModal(false);
+      setShowCreateChannelModal(false);
     } catch (error) {
       const { errors } = handleServiceError(error);
       if (errors.length > 0) {
@@ -78,7 +68,7 @@ const CreateChannelModal = ({
     setChannelName(value);
   };
   const handleCloseModalButtonClick = () => {
-    setShowModal(false);
+    setShowCreateChannelModal(false);
   };
   const handleCreateChannelButtonClick = async () => {
     await createChannel();
@@ -88,7 +78,10 @@ const CreateChannelModal = ({
   };
 
   return (
-    <Modal showModal={showModal} setShowModal={setShowModal}>
+    <Modal
+      showModal={showCreateChannelModal}
+      setShowModal={setShowCreateChannelModal}
+    >
       <div
         onClick={(event) => event.stopPropagation()}
         onKeyDown={handleKeyDown}

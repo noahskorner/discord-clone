@@ -6,13 +6,14 @@ import UserAddIcon from '../../../../icons/user-add.svg';
 import SettingsIcon from '../../../../icons/settings.svg';
 import { CSSTransition } from 'react-transition-group';
 import CreateChannelModal from './create-channel-modal';
+import useApp from '../../../../../utils/hooks/use-app';
 
 const SidebarHeader = () => {
   const { server } = useServer();
   const [showServerMenu, setShowServerMenu] = useState(false);
   const serverMenuTransitionRef = useRef(null);
   const serverMenuRef = useRef<null | HTMLDivElement>(null);
-  const [showCreateChannelModal, setShowCreateChannelModal] = useState(false);
+  const { setShowCreateChannelModal } = useApp();
 
   const handleServerMenuBtnClick = () => {
     setShowServerMenu((prev) => !prev);
@@ -31,7 +32,7 @@ const SidebarHeader = () => {
     <div className="relative h-full w-full">
       <button
         onClick={handleServerMenuBtnClick}
-        className="relative flex h-full w-full items-center justify-between bg-slate-700 py-2 px-4 hover:bg-slate-600"
+        className="relative flex h-full w-full items-center justify-between rounded-tr-3xl bg-slate-700 py-2 px-4 hover:bg-slate-600 md:rounded-none"
       >
         <h5 className="max-w-80 truncate text-sm font-bold">{server?.name}</h5>
         <div className="flex h-4 w-4 items-center justify-center">
@@ -82,10 +83,7 @@ const SidebarHeader = () => {
           </div>
         </div>
       </CSSTransition>
-      <CreateChannelModal
-        showModal={showCreateChannelModal}
-        setShowModal={setShowCreateChannelModal}
-      ></CreateChannelModal>
+      <CreateChannelModal />
     </div>
   );
 };

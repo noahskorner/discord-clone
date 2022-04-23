@@ -8,6 +8,7 @@ import { CSSTransition } from 'react-transition-group';
 import AuthRoute from '../../routes/auth-route';
 import { ServersProvider } from '../../../utils/contexts/servers-context';
 import { ServerProvider } from '../../../utils/contexts/server-context';
+import { ChannelProvider } from '../../../utils/contexts/channel-context';
 
 interface AppLayoutProps {
   children: JSX.Element;
@@ -20,7 +21,9 @@ const AppLayout = (props: AppLayoutProps) => {
         <AppProvider>
           <ServersProvider>
             <ServerProvider>
-              <Layout {...props}></Layout>
+              <ChannelProvider>
+                <Layout {...props}></Layout>
+              </ChannelProvider>
             </ServerProvider>
           </ServersProvider>
         </AppProvider>
@@ -30,7 +33,7 @@ const AppLayout = (props: AppLayoutProps) => {
 };
 
 const Layout = ({ children }: AppLayoutProps) => {
-  const { heightStyle, isMobileWidth } = useWindowSize();
+  const { widthStyle, heightStyle, isMobileWidth } = useWindowSize();
   const { showSidebar, setShowSidebar } = useApp();
 
   const handleMobileSidebarBtnClick = () => {
@@ -46,17 +49,20 @@ const Layout = ({ children }: AppLayoutProps) => {
         unmountOnExit
         appear={true}
       >
-        <div className="absolute flex h-full w-full md:relative md:w-auto">
-          <div className="flex w-11/12 md:w-auto">
+        <div className="absolute z-10 flex h-full w-11/12 md:relative md:w-auto">
+          <div className="relative flex w-full rounded-r-3xl md:w-auto">
             <Servers />
             <Sidebar />
           </div>
-          <button
-            onClick={handleMobileSidebarBtnClick}
-            className="h-full w-1/12 md:hidden"
-          ></button>
         </div>
       </CSSTransition>
+      {showSidebar && (
+        <button
+          onClick={handleMobileSidebarBtnClick}
+          style={{ height: heightStyle, width: widthStyle }}
+          className="absolute top-0 left-0 z-0 bg-black/40 md:hidden"
+        ></button>
+      )}
       <div style={{ height: heightStyle }} className="flex w-full flex-col">
         <Header />
         <div className="h-body">{children}</div>

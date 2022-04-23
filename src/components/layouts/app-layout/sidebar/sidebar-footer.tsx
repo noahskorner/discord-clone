@@ -12,7 +12,7 @@ const SidebarFooter = () => {
     await logout();
   };
   return (
-    <div className="absolute bottom-0 left-0 right-0 flex h-13 items-center justify-between bg-slate-1000 p-2">
+    <div className="absolute bottom-0 left-0 right-0 flex h-13 items-center justify-between rounded-br-3xl bg-slate-1000 p-2 md:rounded-none">
       <div className="flex items-center space-x-2">
         <button
           onClick={handleLogoutButtonClick}
