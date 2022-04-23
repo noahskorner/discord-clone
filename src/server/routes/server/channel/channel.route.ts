@@ -6,5 +6,6 @@ const channelController = new ChannelController();
 
 const channelRouter = Router({ mergeParams: true });
 channelRouter.post('/', authenticate, channelController.create);
+channelRouter.get('/:channelId', authenticate, channelController.get);
 
 export default channelRouter;

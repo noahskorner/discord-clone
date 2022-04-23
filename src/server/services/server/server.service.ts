@@ -77,9 +77,6 @@ class ServerService {
   ): Promise<ServerDto> => {
     if (isNaN(serverId)) throw ERROR_SERVER_NOT_FOUND;
 
-    const userCanRead = await this.userCanRead(serverId, userId);
-    if (!userCanRead) throw ERROR_INSUFFICIENT_PERMISSIONS;
-
     const server = await Server.findByPk(serverId, {
       include: [
         {
@@ -97,6 +94,9 @@ class ServerService {
           message: 'Server does not exist.',
         },
       ]);
+
+    const userCanRead = await this.userCanRead(serverId, userId);
+    if (!userCanRead) throw ERROR_INSUFFICIENT_PERMISSIONS;
     else return new ServerDto(server);
   };
 

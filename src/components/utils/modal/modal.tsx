@@ -24,7 +24,7 @@ const Modal = ({ showModal, setShowModal, children }: ModalProps) => {
     >
       <div
         style={{ width: widthStyle, height: heightStyle }}
-        className="fixed top-0 left-0 flex items-center justify-center overflow-hidden bg-black bg-opacity-70"
+        className="fixed top-0 left-0 z-50 flex items-center justify-center overflow-hidden bg-black bg-opacity-70"
         onClick={handleModalBackgroundClick}
       >
         {children}

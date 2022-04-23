@@ -41,7 +41,7 @@ class ServerController {
   public get = catchAsync(async (req: Request, res: Response) => {
     try {
       const userId = req.user.id;
-      const id = parseInt(req.params.id);
+      const id = parseInt(req.params.serverId);
 
       const server = await this._serverService.findById(id, userId);
 

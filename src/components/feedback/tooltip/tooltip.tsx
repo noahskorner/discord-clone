@@ -49,7 +49,7 @@ const Tooltip = ({ text, children, direction, size = 'md' }: TooltipProps) => {
         >
           <div className={`arrow-${direction} border-black/70`}></div>
           <div
-            className={`${TOOLTIP_SIZE_CLASSES[size]} relative whitespace-nowrap rounded-md bg-black/90 p-2 text-center  font-semibold text-white`}
+            className={`${TOOLTIP_SIZE_CLASSES[size]} relative whitespace-nowrap rounded-md bg-black/90 p-2 text-center font-semibold text-white`}
           >
             {text}
           </div>

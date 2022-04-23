@@ -10,6 +10,12 @@ const ChannelService = {
   ): Promise<AxiosResponse<ChannelDto>> => {
     return API.post(`/server/${serverId}/channel`, payload);
   },
+  get: (
+    serverId: number,
+    channelId: number,
+  ): Promise<AxiosResponse<ChannelDto>> => {
+    return API.get(`/server/${serverId}/channel/${channelId}`);
+  },
 };
 
 export default ChannelService;

@@ -1,5 +1,5 @@
 import useWindowSize from '../../../../utils/hooks/use-window-size';
-import SidebarHeader from './server-header';
+import SidebarHeader from './sidebar-header';
 import SidebarBody from './sidebar-body';
 import SidebarFooter from './sidebar-footer';
 

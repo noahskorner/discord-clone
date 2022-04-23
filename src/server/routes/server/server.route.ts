@@ -8,7 +8,7 @@ const serverController = new ServerController();
 const serverRouter = Router();
 serverRouter.post('/', authenticate, serverController.create);
 serverRouter.get('/', authenticate, serverController.index);
-serverRouter.get('/:id', authenticate, serverController.get);
-serverRouter.use('/:id/channel', channelRouter);
+serverRouter.get('/:serverId', authenticate, serverController.get);
+serverRouter.use('/:serverId/channel', channelRouter);
 
 export default serverRouter;

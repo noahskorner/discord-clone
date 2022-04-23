@@ -1,9 +1,9 @@
-import { useRouter } from 'next/router';
+import useServer from '../../../../utils/hooks/use-server';
 import ServerBody from './server-body';
 
 const SidebarBody = () => {
-  const router = useRouter();
-  const isServerPage = router.pathname.toLowerCase().includes('server');
+  const { server } = useServer();
+  const isServerPage = server != null;
 
   return isServerPage ? <ServerBody /> : <></>;
 };

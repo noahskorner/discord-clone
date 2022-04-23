@@ -7,7 +7,7 @@ import Modal from '../../../utils/modal';
 import TextField from '../../../inputs/text-field';
 import useUser from '../../../../utils/hooks/use-user';
 import useModal from '../../../../utils/hooks/use-modal';
-import { useState, KeyboardEvent } from 'react';
+import { useState, KeyboardEvent, useEffect } from 'react';
 import Tooltip from '../../../feedback/tooltip';
 import ServerService from '../../../../services/server-service';
 import CreateServerRequest from '../../../../utils/types/requests/server/create-server';
@@ -17,20 +17,18 @@ import handleServiceError from '../../../../utils/services/handle-service-error'
 import Spinner from '../../../inputs/spinner';
 import useToasts from '../../../../utils/hooks/use-toasts';
 import useServers from '../../../../utils/hooks/use-servers';
-import { useRouter } from 'next/router';
+import useServer from '../../../../utils/hooks/use-server';
 
 const CreateServerModal = () => {
   const { showModal, setShowModal } = useModal();
   const { setServers } = useServers();
   const { success } = useToasts();
   const { user } = useUser();
-  const [serverName, setServerName] = useState(
-    user?.username ? `${user.username}'s server` : '',
-  );
+  const [serverName, setServerName] = useState('');
   const [errors, setErrors] = useState<ErrorInterface[]>([]);
   const serverNameErrors = errors.filter((error) => error.field === 'name');
   const [loading, setLoading] = useState(false);
-  const router = useRouter();
+  const { setServer } = useServer();
 
   const createServer = async () => {
     const payload = { name: serverName } as CreateServerRequest;
@@ -45,12 +43,12 @@ const CreateServerModal = () => {
       const response = await ServerService.create(payload);
       const server = response.data;
       setServers((prev) => [...prev, server]);
+      setServer(server);
       success(
         'Successfully created server!',
         `${server.name} will be a great place`,
       );
       setShowModal(false);
-      router.push(`/server/${server.id}`);
     } catch (error) {
       const { errors } = handleServiceError(error);
       setErrors(errors);
@@ -58,6 +56,12 @@ const CreateServerModal = () => {
       setLoading(false);
     }
   };
+
+  useEffect(() => {
+    if (user != null) {
+      setServerName(`${user.username}'s server`);
+    }
+  }, [user]);
 
   const handleServerNameInput = (value: string) => {
     setErrors((prev) => prev.filter((error) => error.field !== 'name'));
