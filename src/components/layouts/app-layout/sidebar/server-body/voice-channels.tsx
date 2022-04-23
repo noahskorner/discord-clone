@@ -26,7 +26,7 @@ const VoiceChannels = () => {
         <CreateChannelButton />
       </div>
       {showVoiceChannels && (
-        <div className="w-full space-y-1 p-2">
+        <div className="w-full space-y-1 py-2 px-1">
           {voiceChannels.map((channel) => {
             return <ChannelButton key={channel.id} channel={channel} />;
           })}

@@ -21,6 +21,9 @@ const SidebarHeader = () => {
   const handleCreateChannelButtonClick = () => {
     setShowCreateChannelModal(true);
   };
+  const handleServerMenuBlur = () => {
+    setShowServerMenu(false);
+  };
 
   useEffect(() => {
     if (showServerMenu) {
@@ -49,7 +52,7 @@ const SidebarHeader = () => {
         <div
           ref={serverMenuRef}
           tabIndex={1}
-          onBlur={() => setShowServerMenu(false)}
+          onBlur={handleServerMenuBlur}
           className="absolute top-full z-50 mt-2 w-full px-3"
         >
           <div className="h-full w-full rounded-md bg-slate-1100 p-2 shadow-xl">

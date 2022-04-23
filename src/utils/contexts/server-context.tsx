@@ -8,6 +8,7 @@ import ServerDto from '../types/dtos/server';
 
 interface ServerContextInterface {
   loading: boolean;
+  isHomePage: boolean;
   server: ServerDto | null;
   textChannels: ChannelDto[];
   voiceChannels: ChannelDto[];
@@ -20,6 +21,7 @@ interface ServerContextInterface {
 
 const defaultValues = {
   loading: false,
+  isHomePage: true,
   server: null,
   textChannels: [],
   voiceChannels: [],
@@ -38,6 +40,7 @@ interface ServerProviderInterface {
 export const ServerProvider = ({ children }: ServerProviderInterface) => {
   const [loading, setLoading] = useState<boolean>(defaultValues.loading);
   const [server, setServer] = useState<ServerDto | null>(defaultValues.server);
+  const isHomePage = server == null;
 
   const { danger } = useToasts();
 
@@ -84,6 +87,7 @@ export const ServerProvider = ({ children }: ServerProviderInterface) => {
     <ServerContext.Provider
       value={{
         loading,
+        isHomePage,
         server,
         textChannels,
         voiceChannels,
