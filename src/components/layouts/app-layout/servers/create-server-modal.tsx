@@ -1,8 +1,4 @@
-import PlusIconSm from '../../../icons/sm/plus.svg';
-import PlusIcon from '../../../icons/plus.svg';
 import IconButton from '../../../inputs/icon-button';
-import CloseIcon from '../../../icons/close.svg';
-import CameraIcon from '../../../icons/camera.svg';
 import Modal from '../../../utils/modal';
 import TextField from '../../../inputs/text-field';
 import useUser from '../../../../utils/hooks/use-user';
@@ -18,6 +14,7 @@ import Spinner from '../../../inputs/spinner';
 import useToasts from '../../../../utils/hooks/use-toasts';
 import useServers from '../../../../utils/hooks/use-servers';
 import useServer from '../../../../utils/hooks/use-server';
+import { CameraIcon, CloseIcon, IconSize, PlusIcon } from '../../../icons';
 
 const CreateServerModal = () => {
   const { showModal, setShowModal } = useModal();
@@ -89,7 +86,7 @@ const CreateServerModal = () => {
           onClick={handleAddServerButtonClick}
           className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-green-600 hover:rounded-2xl hover:bg-green-600 hover:text-white"
         >
-          <PlusIcon />
+          <PlusIcon size={IconSize.lg} />
         </button>
       </Tooltip>
       <Modal showModal={showModal} setShowModal={setShowModal}>
@@ -112,10 +109,10 @@ const CreateServerModal = () => {
             </div>
             <div className="flex justify-center">
               <button className="relative flex h-20 w-20 flex-col items-center justify-center space-y-1 rounded-full border border-dashed border-slate-300 text-slate-300">
-                <CameraIcon />
+                <CameraIcon size={IconSize.xl} />
                 <h6 className="text-xs font-bold uppercase">Upload</h6>
                 <span className="absolute -right-1 -top-1 flex h-6 w-6 items-center justify-center rounded-full bg-indigo-600 text-white">
-                  <PlusIconSm />
+                  <PlusIcon size={IconSize.sm} />
                 </span>
               </button>
             </div>
@@ -129,7 +126,7 @@ const CreateServerModal = () => {
           <div className="relative bottom-0 mt-8 flex w-full items-center justify-between rounded-b-md bg-slate-700 p-4">
             <button
               onClick={handleCloseModalButtonClick}
-              className="px-4 py-2 text-sm font-medium text-slate-300"
+              className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white"
             >
               Close
             </button>

@@ -1,8 +1,7 @@
 import ChannelType from '../../../../../utils/enums/channel-type';
 import useChannel from '../../../../../utils/hooks/use-channel';
 import ChannelDto from '../../../../../utils/types/dtos/channel';
-import VolumeUpIcon from '../../../../icons/volume-up.svg';
-import PoundIcon from '../../../../icons/pound.svg';
+import { IconSize, PoundIcon, VolumeUpIcon } from '../../../../icons';
 
 interface ChannelButtonProps {
   channel: ChannelDto;
@@ -26,7 +25,11 @@ const ChannelButton = ({ channel }: ChannelButtonProps) => {
     >
       <div className="flex items-center space-x-1">
         <span className="text-slate-300">
-          {channel.type === ChannelType.TEXT ? <PoundIcon /> : <VolumeUpIcon />}
+          {channel.type === ChannelType.TEXT ? (
+            <PoundIcon size={IconSize.sm} />
+          ) : (
+            <VolumeUpIcon size={IconSize.sm} />
+          )}
         </span>
         <span>{channel.name}</span>
       </div>

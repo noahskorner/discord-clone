@@ -1,9 +1,8 @@
-import ChevronRight from '../../../../icons/xs/chevron-right.svg';
-import ChevronDown from '../../../../icons/xs/chevron-down.svg';
 import { useState } from 'react';
 import useServer from '../../../../../utils/hooks/use-server';
 import ChannelButton from './channel-button';
 import CreateChannelButton from './create-channel-button';
+import { ChevronDownIcon, ChevronRightIcon, IconSize } from '../../../../icons';
 
 const VoiceChannels = () => {
   const [showVoiceChannels, setShowVoiceChannels] = useState(false);
@@ -20,7 +19,11 @@ const VoiceChannels = () => {
           onClick={handleVoiceChannelButtonClick}
           className="flex w-full items-center space-x-1 text-left text-xs font-semibold uppercase text-slate-300 hover:text-white"
         >
-          {showVoiceChannels ? <ChevronDown /> : <ChevronRight />}
+          {showVoiceChannels ? (
+            <ChevronDownIcon size={IconSize.xs} />
+          ) : (
+            <ChevronRightIcon size={IconSize.xs} />
+          )}
           <span>Voice channels</span>
         </button>
         <CreateChannelButton />

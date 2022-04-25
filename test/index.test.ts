@@ -7,3 +7,12 @@ describe('Test the root path', () => {
     expect(response.statusCode).toBe(401);
   });
 });
+
+// logout
+// getUser
+// resetPassword
+// confirmResetPassword
+// server create
+// server index
+// server get
+// channel get

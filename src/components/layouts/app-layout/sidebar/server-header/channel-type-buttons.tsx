@@ -1,7 +1,6 @@
 import { Dispatch, SetStateAction } from 'react';
 import ChannelType from '../../../../../utils/enums/channel-type';
-import PoundIcon from '../../../../icons/pound.svg';
-import VolumeUpIcon from '../../../../icons/volume-up.svg';
+import { PoundIcon, VolumeUpIcon } from '../../../../icons';
 
 interface ChannelTypeButtonsProps {
   channelType: ChannelType;

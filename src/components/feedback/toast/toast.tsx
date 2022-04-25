@@ -1,6 +1,6 @@
 import useToasts from '../../../utils/hooks/use-toasts';
 import ToastInterface from '../../../utils/types/interfaces/toast-interface';
-import CloseIcon from '../../icons/close.svg';
+import { CloseIcon } from '../../icons';
 import IconButton from '../../inputs/icon-button';
 
 const TOAST_CLASSES = {

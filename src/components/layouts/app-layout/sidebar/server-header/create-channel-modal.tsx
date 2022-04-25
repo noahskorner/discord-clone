@@ -1,8 +1,5 @@
 import IconButton from '../../../../inputs/icon-button';
 import Modal from '../../../../utils/modal';
-import CloseIcon from '../../../../icons/close.svg';
-import PoundIcon from '../../../../icons/pound.svg';
-import VolumeUpIcon from '../../../../icons/volume-up.svg';
 import React, { useState, KeyboardEvent } from 'react';
 import Spinner from '../../../../inputs/spinner';
 import TextField from '../../../../inputs/text-field';
@@ -17,6 +14,7 @@ import ChannelService from '../../../../../services/channel-service';
 import useServer from '../../../../../utils/hooks/use-server';
 import { ERROR_UNKOWN } from '../../../../../utils/constants/errors';
 import useApp from '../../../../../utils/hooks/use-app';
+import { CloseIcon, PoundIcon, VolumeUpIcon } from '../../../../icons';
 
 const CreateChannelModal = () => {
   const [channelName, setChannelName] = useState('new-channel');
@@ -119,7 +117,7 @@ const CreateChannelModal = () => {
         <div className="relative bottom-0 mt-8 flex w-full items-center justify-between rounded-b-md bg-slate-700 p-4">
           <button
             onClick={handleCloseModalButtonClick}
-            className="px-4 py-2 text-sm font-medium text-slate-300"
+            className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white"
           >
             Close
           </button>

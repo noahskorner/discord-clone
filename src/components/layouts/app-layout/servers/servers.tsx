@@ -2,7 +2,7 @@ import useServer from '../../../../utils/hooks/use-server';
 import useServers from '../../../../utils/hooks/use-servers';
 import useWindowSize from '../../../../utils/hooks/use-window-size';
 import Tooltip from '../../../feedback/tooltip';
-import LogoIcon from '../../../icons/logo.svg';
+import { IconSize, LogoIcon } from '../../../icons';
 import CreateServerModal from './create-server-modal';
 
 const Servers = () => {
@@ -27,7 +27,7 @@ const Servers = () => {
           onClick={handleHomeButtonClick}
           className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600 text-white"
         >
-          <LogoIcon />
+          <LogoIcon size={IconSize.lg} />
         </button>
       </Tooltip>
       <div className="h-[2px] w-8 bg-slate-800"></div>

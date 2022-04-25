@@ -1,6 +1,6 @@
 import useApp from '../../../../../utils/hooks/use-app';
 import Tooltip from '../../../../feedback/tooltip';
-import PlusIcon from '../../../../icons/sm/plus.svg';
+import { IconSize, PlusIcon } from '../../../../icons';
 
 const CreateChannelButton = () => {
   const { setShowCreateChannelModal } = useApp();
@@ -14,7 +14,7 @@ const CreateChannelButton = () => {
         onClick={handleCreateChannelButtonClick}
         className="text-slate-300 hover:text-white"
       >
-        <PlusIcon />
+        <PlusIcon size={IconSize.sm} />
       </button>
     </Tooltip>
   );

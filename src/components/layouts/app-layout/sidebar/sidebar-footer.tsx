@@ -1,7 +1,6 @@
 import useAuth from '../../../../utils/hooks/use-auth';
 import useUser from '../../../../utils/hooks/use-user';
-import MicrophoneIcon from '../../../icons/microphone.svg';
-import SettingsIcon from '../../../icons/settings.svg';
+import { MicrophoneIcon, SettingsIcon } from '../../../icons';
 import IconButton from '../../../inputs/icon-button';
 
 const SidebarFooter = () => {

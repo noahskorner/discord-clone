@@ -1,9 +1,12 @@
-import EyeIcon from '../../icons/eye.svg';
-import EyeOffIcon from '../../icons/eye-off.svg';
-import ExclamationCircleIcon from '../../icons/exclamation-circle.svg';
 import { useRef, useState } from 'react';
 import InputProps from '../../../utils/types/props/input';
 import Errors from '../errors';
+import {
+  ExclamationCircleIcon,
+  EyeIcon,
+  EyeOffIcon,
+  IconSize,
+} from '../../icons';
 
 interface TextFieldProps extends InputProps {
   value?: string | number;
@@ -75,11 +78,7 @@ const TextField = ({
                 onClick={() => setShowPassword(!showPassword)}
                 className="item-center flex h-full justify-center p-2 text-slate-400"
               >
-                {showPassword ? (
-                  <EyeOffIcon className="h-4 w-4" />
-                ) : (
-                  <EyeIcon className="h-4 w-4" />
-                )}
+                {showPassword ? <EyeOffIcon /> : <EyeIcon />}
               </button>
             )}
           </div>
@@ -98,7 +97,7 @@ const TextField = ({
         {/* Trailing Icon */}
         {errors.length ? (
           <div className="pr-2 text-red-500">
-            <ExclamationCircleIcon className="h-4 w-4" />
+            <ExclamationCircleIcon size={IconSize.sm} />
           </div>
         ) : null}
       </div>
