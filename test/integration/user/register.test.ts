@@ -4,18 +4,18 @@ import db from '../../../src/server/db/models';
 
 const baseURL = '/api/v1/user';
 
-describe('Test the user register functionality', () => {
+describe('register user should', () => {
   beforeAll(async () => {
     await db.sequelize.sync({ force: true });
   });
-  test('Should return bad request when username is null', async () => {
+  test('return bad request when username is null', async () => {
     // Arrange && Act
     const response = await request(app).post(baseURL);
 
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when username is invalid', async () => {
+  test('return bad request when username is invalid', async () => {
     // Arrange
     const payload = {
       username: '',
@@ -27,7 +27,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when email is null', async () => {
+  test('return bad request when email is null', async () => {
     // Arrange
     const payload = {
       username: '1234',
@@ -39,7 +39,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when email is invalid', async () => {
+  test('return bad request when email is invalid', async () => {
     // Arrange
     const payload = {
       username: '1234',
@@ -52,7 +52,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when password is null', async () => {
+  test('return bad request when password is null', async () => {
     // Arrange
     const payload = {
       username: '1234',
@@ -65,7 +65,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when password is invalid', async () => {
+  test('return bad request when password is invalid', async () => {
     // Arrange
     const payload = {
       username: '1234',
@@ -79,7 +79,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when confirmPassword is null', async () => {
+  test('return bad request when confirmPassword is null', async () => {
     // Arrange
     const payload = {
       username: '1234',
@@ -93,7 +93,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when confirmPassword is invalid', async () => {
+  test('return bad request when confirmPassword is invalid', async () => {
     // Arrange
     const payload = {
       username: '1234',
@@ -108,7 +108,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return created', async () => {
+  test('return created', async () => {
     // Arrange
     const email = 'test@test.com';
     const payload = {
@@ -124,7 +124,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.statusCode).toBe(201);
   });
-  test('Should return created with username', async () => {
+  test('return created with username', async () => {
     // Arrange
     const email = 'test1@test.com';
     const payload = {
@@ -140,7 +140,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.body.username).toBe(payload.username);
   });
-  test('Should return created with email', async () => {
+  test('return created with email', async () => {
     // Arrange
     const email = 'test2@test.com';
     const payload = {
@@ -156,7 +156,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.body.email).toBe(payload.email);
   });
-  test('Should return created with id', async () => {
+  test('return created with id', async () => {
     // Arrange
     const email = 'test3@test.com';
     const payload = {
@@ -172,7 +172,7 @@ describe('Test the user register functionality', () => {
     // Assert
     expect(response.body.id).toBeGreaterThan(0);
   });
-  test('Should return bad request when email already exists', async () => {
+  test('return bad request when email already exists', async () => {
     // Arrange
     const email = 'test@test.com';
     const payload = {

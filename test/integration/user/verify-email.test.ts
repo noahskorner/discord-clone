@@ -32,15 +32,15 @@ const dropDatabaseAndRegisterUser = async () => {
   verificationToken = user!.verificationToken!;
 };
 
-describe('Test the user verify email functionality', () => {
-  test('Should return bad request when token is invalid', async () => {
+describe('verify email should', () => {
+  test('return bad request when token is invalid', async () => {
     // Arrange && Act
     const response = await request(app).put(`${baseURL}/invalid`);
 
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return ok', async () => {
+  test('return ok', async () => {
     // Arrange
     await dropDatabaseAndRegisterUser();
 
@@ -50,7 +50,7 @@ describe('Test the user verify email functionality', () => {
     // Assert
     expect(response.statusCode).toBe(200);
   });
-  test('Should return bad request when email already verified', async () => {
+  test('return bad request when email already verified', async () => {
     // Arrange
     await dropDatabaseAndRegisterUser();
 

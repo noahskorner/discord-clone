@@ -11,7 +11,7 @@ const email = 'test@test.com';
 const password = 'password';
 let verificationToken = '';
 
-describe('Test login user', () => {
+describe('login should', () => {
   beforeAll(async () => {
     // Drop database
     await db.sequelize.sync({ force: true });
@@ -31,21 +31,21 @@ describe('Test login user', () => {
     const user = await User.findByPk(userDto.id);
     verificationToken = user!.verificationToken!;
   });
-  test('Should return bad request when email is null', async () => {
+  test('return bad request when email is null', async () => {
     // Arrange && Act
     const response = await request(app).post(baseURL);
 
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when email is invalid', async () => {
+  test('return bad request when email is invalid', async () => {
     // Arrange && Act
     const response = await request(app).post(baseURL);
 
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when password is null', async () => {
+  test('return bad request when password is null', async () => {
     // Arrange
     const payload = { email: 'test@test.com' };
 
@@ -55,7 +55,7 @@ describe('Test login user', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when password is invalid', async () => {
+  test('return bad request when password is invalid', async () => {
     // Arrange
     const payload = { email: 'test@test.com', password: '1234567' };
 
@@ -65,7 +65,7 @@ describe('Test login user', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when user not found', async () => {
+  test('return bad request when user not found', async () => {
     // Arrange
     const payload = { email, password };
 
@@ -75,7 +75,7 @@ describe('Test login user', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when password incorrect', async () => {
+  test('return bad request when password incorrect', async () => {
     // Arrange
     const payload = { email, password: '12345678' };
 
@@ -85,7 +85,7 @@ describe('Test login user', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return bad request when email is not verified', async () => {
+  test('return bad request when email is not verified', async () => {
     // Arrange
     const payload = { email, password };
 
@@ -95,7 +95,7 @@ describe('Test login user', () => {
     // Assert
     expect(response.statusCode).toBe(400);
   });
-  test('Should return created', async () => {
+  test('return created', async () => {
     // Arrange
     await request(app).put(`/api/v1/user/verify-email/${verificationToken}`);
     const payload = { email, password };
@@ -106,7 +106,7 @@ describe('Test login user', () => {
     // Assert
     expect(response.statusCode).toBe(201);
   });
-  test('Should return accessToken', async () => {
+  test('return accessToken', async () => {
     // Arrange
     await request(app).put(`/api/v1/user/verify-email/${verificationToken}`);
     const payload = { email, password };

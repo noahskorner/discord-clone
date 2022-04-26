@@ -15,10 +15,10 @@ import SettingsIcon from './settings';
 import UserAddIcon from './user-add';
 import VolumeUpIcon from './volume-up';
 
-export type { IconProps } from './icon';
 export { default } from './icon';
+export type { IconProps } from './icon';
+export { IconSize };
 export {
-  IconSize,
   BarsIcon,
   CameraIcon,
   ChevronDownIcon,

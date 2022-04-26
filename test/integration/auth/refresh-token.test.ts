@@ -15,7 +15,7 @@ const password = 'password';
 let verificationToken = '';
 let user: User | null = null;
 
-describe('Test refreshing the token', () => {
+describe('refresh token should', () => {
   beforeAll(async () => {
     // Drop database
     await db.sequelize.sync({ force: true });
@@ -38,14 +38,14 @@ describe('Test refreshing the token', () => {
     // Verify email
     await request(app).put(`/api/v1/user/verify-email/${verificationToken}`);
   });
-  test('Should return unauthorized when user is not logged in', async () => {
+  test('return unauthorized when user is not logged in', async () => {
     // Arrange && Act
     const response = await request(app).get(baseURL);
 
     // Assert
     expect(response.statusCode).toBe(401);
   });
-  test('Should return unauthorized when token not found', async () => {
+  test('return unauthorized when token not found', async () => {
     // Arrange && Act
     const response = await request(app)
       .get(baseURL)
@@ -54,7 +54,7 @@ describe('Test refreshing the token', () => {
     // Assert
     expect(response.statusCode).toBe(401);
   });
-  test('Should return unauthorized when token is expired', async () => {
+  test('return unauthorized when token is expired', async () => {
     // Arrange
     const requestUser = new RequestUser(user!).toJSON();
     const token = jwt.sign(requestUser, env.REFRESH_TOKEN_SECRET, {
@@ -69,7 +69,7 @@ describe('Test refreshing the token', () => {
     // Assert
     expect(response.statusCode).toBe(401);
   });
-  test('Should return unauthorized when user not found', async () => {
+  test('return unauthorized when user not found', async () => {
     // Arrange
     const requestUser = new RequestUser(user!).toJSON();
     requestUser.id++;
@@ -85,7 +85,7 @@ describe('Test refreshing the token', () => {
     // Assert
     expect(response.statusCode).toBe(401);
   });
-  test('Should return ok', async () => {
+  test('return ok', async () => {
     // Arrange
     const loginResponse = await request(app)
       .post(baseURL)
