@@ -1,3 +1,4 @@
+import IconSize from '../../utils/enums/icon-size';
 import BarsIcon from './bars';
 import CameraIcon from './camera';
 import ChevronDownIcon from './chevron-down';
@@ -15,8 +16,9 @@ import UserAddIcon from './user-add';
 import VolumeUpIcon from './volume-up';
 
 export type { IconProps } from './icon';
-export { default, IconSize } from './icon';
+export { default } from './icon';
 export {
+  IconSize,
   BarsIcon,
   CameraIcon,
   ChevronDownIcon,
