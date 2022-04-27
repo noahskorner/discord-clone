@@ -9,6 +9,8 @@ import AuthRoute from '../../routes/auth-route';
 import { ServersProvider } from '../../../utils/contexts/servers-context';
 import { ServerProvider } from '../../../utils/contexts/server-context';
 import { ChannelProvider } from '../../../utils/contexts/channel-context';
+import { RTCProvider } from '../../../utils/contexts/rtc-context';
+import { SocketProvider } from '../../../utils/contexts/socket-context';
 
 interface AppLayoutProps {
   children: JSX.Element;
@@ -22,7 +24,11 @@ const AppLayout = (props: AppLayoutProps) => {
           <ServersProvider>
             <ServerProvider>
               <ChannelProvider>
-                <Layout {...props}></Layout>
+                <SocketProvider>
+                  <RTCProvider>
+                    <Layout {...props}></Layout>
+                  </RTCProvider>
+                </SocketProvider>
               </ChannelProvider>
             </ServerProvider>
           </ServersProvider>
