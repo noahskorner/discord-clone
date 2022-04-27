@@ -9,6 +9,7 @@ import EyeIcon from './eye';
 import EyeOffIcon from './eye-off';
 import LogoIcon from './logo';
 import MicrophoneIcon from './microphone';
+import PencilIcon from './pencil';
 import PlusIcon from './plus';
 import PoundIcon from './pound';
 import SettingsIcon from './settings';
@@ -29,6 +30,7 @@ export {
   EyeIcon,
   LogoIcon,
   MicrophoneIcon,
+  PencilIcon,
   PlusIcon,
   PoundIcon,
   SettingsIcon,

@@ -7,6 +7,8 @@ import {
   ChevronDownIcon,
   CloseIcon,
   IconSize,
+  PencilIcon,
+  PlusIcon,
   SettingsIcon,
   UserAddIcon,
 } from '../../../../icons';
@@ -81,13 +83,13 @@ const SidebarHeader = () => {
             >
               <span>Create Channel</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
-                <SettingsIcon />
+                <PlusIcon />
               </div>
             </button>
             <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-800">
               <span>Edit Server Profile</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
-                <SettingsIcon />
+                <PencilIcon />
               </div>
             </button>
           </div>
