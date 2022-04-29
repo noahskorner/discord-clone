@@ -1,11 +1,15 @@
-import { createContext, useEffect, useRef } from 'react';
+import { createContext, useCallback, useEffect, useRef } from 'react';
 import stunConfig from '../../config/stun.config';
 import EventEnum from '../enums/events';
 import useSocket from '../hooks/use-socket';
 
-interface RTCContextInterface {}
+interface RTCContextInterface {
+  startCall: () => Promise<void>;
+}
 
-const defaultValues = {};
+const defaultValues = {
+  startCall: async () => {},
+};
 
 export const RTCContext = createContext<RTCContextInterface>(defaultValues);
 
@@ -13,65 +17,74 @@ interface RTCProviderInterface {
   children: JSX.Element;
 }
 
+const RTC_OPTIONS = {
+  offerToReceiveAudio: true,
+  offerToReceiveVideo: true,
+};
+
 export const RTCProvider = ({ children }: RTCProviderInterface) => {
   const peerConnectionRef = useRef<null | RTCPeerConnection>(null);
 
   const { socket } = useSocket();
 
+  const initPeerConnection = useCallback(() => {
+    const peerConnection = new RTCPeerConnection(stunConfig);
+    peerConnection.addEventListener('icecandidate', (event) => {
+      if (event.candidate) {
+        socket?.current.emit(EventEnum.SEND_ICE_CANDIDATE, event.candidate);
+      }
+    });
+    peerConnection.addEventListener('connectionstatechange', () => {
+      if (peerConnection.connectionState === 'connected') {
+        console.log('peers connected!');
+      }
+    });
+
+    return peerConnection;
+  }, [socket]);
+
   useEffect(() => {
-    const recieveOfferHandler = async (answer: RTCSessionDescriptionInit) => {
+    const receiveOfferHandler = async (offer: RTCSessionDescriptionInit) => {
+      peerConnectionRef.current = initPeerConnection();
+      peerConnectionRef.current.setRemoteDescription(offer);
+
+      const answer = await peerConnectionRef.current.createAnswer(RTC_OPTIONS);
+      await peerConnectionRef.current.setLocalDescription(answer);
+    };
+    const receiveAnswerHandler = async (answer: RTCSessionDescription) => {
       const remoteDesc = new RTCSessionDescription(answer);
       await peerConnectionRef.current?.setRemoteDescription(remoteDesc);
-
-      peerConnectionRef.current?.addEventListener('icecandidate', (event) => {
-        if (event.candidate) {
-          socket?.current.emit(EventEnum.SEND_ICE_CANDIDATE, event.candidate);
-        }
-      });
-      peerConnectionRef.current?.addEventListener(
-        'connectionstatechange',
-        () => {
-          if (peerConnectionRef.current?.connectionState === 'connected') {
-            console.log('peers connected!');
-          }
-        },
-      );
     };
-    const recieveIceCandidateHandler = async (candidate: RTCIceCandidate) => {
+    const receiveCandidateHandler = async (candidate: RTCIceCandidate) => {
       await peerConnectionRef.current?.addIceCandidate(candidate);
     };
 
-    socket?.current.on(EventEnum.RECEIVE_OFFER, recieveOfferHandler);
+    socket?.current.on(EventEnum.RECEIVE_OFFER, receiveOfferHandler);
+    socket?.current.on(EventEnum.RECEIVE_ANSWER, receiveAnswerHandler);
     socket?.current.on(
       EventEnum.RECEIVE_ICE_CANDIDATE,
-      recieveIceCandidateHandler,
+      receiveCandidateHandler,
     );
 
     () => {
-      socket?.current.off(EventEnum.RECEIVE_OFFER, recieveOfferHandler);
+      socket?.current.off(EventEnum.RECEIVE_OFFER, receiveOfferHandler);
+      socket?.current.off(EventEnum.RECEIVE_ANSWER, receiveAnswerHandler);
       socket?.current.off(
         EventEnum.RECEIVE_ICE_CANDIDATE,
-        recieveIceCandidateHandler,
+        receiveCandidateHandler,
       );
-      peerConnectionRef.current?.close();
     };
-  }, [socket]);
+  }, [initPeerConnection, socket]);
 
-  useEffect(() => {
-    const startCall = async () => {
-      peerConnectionRef.current = new RTCPeerConnection(stunConfig);
-      const offer = await peerConnectionRef.current.createOffer({
-        offerToReceiveAudio: true,
-        offerToReceiveVideo: true,
-      });
-      await peerConnectionRef.current.setLocalDescription(offer);
+  const startCall = async () => {
+    peerConnectionRef.current = initPeerConnection();
+    const offer = await peerConnectionRef.current.createOffer(RTC_OPTIONS);
+    await peerConnectionRef.current.setLocalDescription(offer);
 
-      // kick everything off
-      socket?.current.emit(EventEnum.SEND_OFFER, offer);
-    };
-
-    startCall();
-  }, [socket]);
-
-  return <RTCContext.Provider value={{}}>{children}</RTCContext.Provider>;
+    // kick everything off
+    socket?.current.emit(EventEnum.SEND_OFFER, offer);
+  };
+  return (
+    <RTCContext.Provider value={{ startCall }}>{children}</RTCContext.Provider>
+  );
 };

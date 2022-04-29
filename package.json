@@ -34,8 +34,7 @@
     "socket.io-client": "^4.4.1",
     "ts-node": "^10.7.0",
     "uuid": "^8.3.2",
-    "validator": "^13.7.0",
-    "wrtc": "^0.4.7"
+    "validator": "^13.7.0"
   },
   "devDependencies": {
     "@babel/plugin-proposal-class-properties": "^7.16.7",
