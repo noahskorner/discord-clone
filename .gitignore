@@ -34,6 +34,7 @@ yarn-error.log*
 # env files
 *.env
 *.env.*
+!.env.example
 
 # config files
 src/server/db/config.json
