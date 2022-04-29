@@ -10,10 +10,14 @@ const IndexContent = () => {
 
   useEffect(() => {
     if (localVideoRef.current == null) return;
-    if (remoteVideoRef.current == null) return;
     localVideoRef.current.srcObject = localStream;
+  }, [localStream]);
+
+  useEffect(() => {
+    console.log(remoteStream);
+    if (remoteVideoRef.current == null) return;
     remoteVideoRef.current.srcObject = remoteStream;
-  }, [localStream, remoteStream]);
+  }, [remoteStream]);
 
   return (
     <div>

@@ -1,4 +1,6 @@
-import { createContext, useCallback, useEffect, useRef } from 'react';
+// eslint-disable-next-line no-unused-vars
+import adapter from 'webrtc-adapter';
+import { createContext, useCallback, useEffect, useRef, useState } from 'react';
 import stunConfig from '../../config/stun.config';
 import EventEnum from '../enums/events';
 import useSocket from '../hooks/use-socket';
@@ -28,21 +30,24 @@ const RTC_OPTIONS = {
 
 export const RTCProvider = ({ children }: RTCProviderInterface) => {
   const peerConnectionRef = useRef<null | RTCPeerConnection>(null);
-  const localStreamRef = useRef<null | MediaStream>(null);
-  const remoteStreamRef = useRef<null | MediaStream>(null);
+  const [localStream, setLocalStream] = useState<MediaStream | null>(null);
+  const [remoteStream, setRemoteStream] = useState<MediaStream>(
+    new MediaStream(),
+  );
 
   const { socket } = useSocket();
 
   const initPeerConnection = useCallback(async () => {
     const peerConnection = new RTCPeerConnection(stunConfig);
+
     const stream = await navigator.mediaDevices.getUserMedia({
       video: true,
-      audio: true,
     });
-    localStreamRef.current = stream;
     stream.getTracks().forEach((track) => {
       peerConnection.addTrack(track, stream);
     });
+    setLocalStream(stream);
+
     peerConnection.addEventListener('icecandidate', (event) => {
       if (event.candidate) {
         socket?.current.emit(EventEnum.SEND_ICE_CANDIDATE, event.candidate);
@@ -55,12 +60,13 @@ export const RTCProvider = ({ children }: RTCProviderInterface) => {
     });
     peerConnection.addEventListener('track', (event) => {
       event.streams[0].getTracks().forEach((track) => {
-        remoteStreamRef.current?.addTrack(track);
+        remoteStream!.addTrack(track);
+        setRemoteStream(remoteStream!.clone());
       });
     });
 
     return peerConnection;
-  }, [socket]);
+  }, [remoteStream, socket]);
 
   const receiveOfferHandler = useCallback(
     async (offer: RTCSessionDescriptionInit) => {
@@ -114,8 +120,8 @@ export const RTCProvider = ({ children }: RTCProviderInterface) => {
   return (
     <RTCContext.Provider
       value={{
-        localStream: localStreamRef.current,
-        remoteStream: remoteStreamRef.current,
+        localStream,
+        remoteStream,
         startCall,
       }}
     >
