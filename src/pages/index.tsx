@@ -1,39 +1,33 @@
-import type { NextPage } from 'next';
-import { useEffect, useRef } from 'react';
+import { ReactElement } from 'react';
 import AppLayout from '../components/layouts/app-layout';
-import useRTC from '../utils/hooks/use-rtc';
+import TextChannel from '../components/layouts/app-layout/channels/text-channel';
+import VoiceChannel from '../components/layouts/app-layout/channels/voice-channel';
+import Home from '../components/layouts/app-layout/home';
+import ServerHome from '../components/layouts/app-layout/server-home';
+import ChannelType from '../utils/enums/channel-type';
+import useChannel from '../utils/hooks/use-channel';
+import useServer from '../utils/hooks/use-server';
+import { NextPageLayout } from '../utils/types/next-page-layout';
 
-const IndexContent = () => {
-  const localVideoRef = useRef<HTMLVideoElement>(null);
-  const remoteVideoRef = useRef<HTMLVideoElement>(null);
-  const { localStream, remoteStream, startCall } = useRTC();
+const IndexPage: NextPageLayout = () => {
+  const { server } = useServer();
+  const { channel } = useChannel();
 
-  useEffect(() => {
-    if (localVideoRef.current == null) return;
-    localVideoRef.current.srcObject = localStream;
-  }, [localStream]);
-
-  useEffect(() => {
-    console.log(remoteStream);
-    if (remoteVideoRef.current == null) return;
-    remoteVideoRef.current.srcObject = remoteStream;
-  }, [remoteStream]);
-
-  return (
-    <div>
-      <button onClick={startCall}>Start call</button>
-      <video ref={localVideoRef} muted autoPlay playsInline></video>
-      <video ref={remoteVideoRef} autoPlay playsInline></video>
-    </div>
+  return server == null ? (
+    <Home />
+  ) : channel == null ? (
+    <ServerHome />
+  ) : channel.type === ChannelType.TEXT ? (
+    <TextChannel />
+  ) : channel.type === ChannelType.VOICE ? (
+    <VoiceChannel />
+  ) : (
+    <>Something went wrong :( Please try again.</>
   );
 };
 
-const IndexPage: NextPage = () => {
-  return (
-    <AppLayout>
-      <IndexContent />
-    </AppLayout>
-  );
+IndexPage.getLayout = (page: ReactElement) => {
+  return <AppLayout>{page}</AppLayout>;
 };
 
 export default IndexPage;

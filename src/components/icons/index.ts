@@ -1,6 +1,7 @@
 import IconSize from '../../utils/enums/icon-size';
 import BarsIcon from './bars';
 import CameraIcon from './camera';
+import ChannelIcon from './channel';
 import ChevronDownIcon from './chevron-down';
 import ChevronRightIcon from './chevron-right';
 import CloseIcon from './close';
@@ -22,6 +23,7 @@ export { IconSize };
 export {
   BarsIcon,
   CameraIcon,
+  ChannelIcon,
   ChevronDownIcon,
   ChevronRightIcon,
   CloseIcon,

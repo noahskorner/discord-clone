@@ -1,10 +1,11 @@
 import Head from 'next/head';
+import { ReactNode } from 'react';
 import { AuthProvider } from '../../../utils/contexts/auth-context';
 import { ToastProvider } from '../../../utils/contexts/toast-context';
 import useWindowSize from '../../../utils/hooks/use-window-size';
 
 interface GlobalLayoutProps {
-  children: JSX.Element | JSX.Element[];
+  children: ReactNode;
 }
 
 const GlobalLayout = ({ children }: GlobalLayoutProps) => {

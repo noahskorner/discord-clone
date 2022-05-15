@@ -1,3 +1,4 @@
+import useChannel from '../../../../utils/hooks/use-channel';
 import useServer from '../../../../utils/hooks/use-server';
 import useServers from '../../../../utils/hooks/use-servers';
 import useWindowSize from '../../../../utils/hooks/use-window-size';
@@ -8,10 +9,12 @@ import CreateServerModal from './create-server-modal';
 const Servers = () => {
   const { heightStyle } = useWindowSize();
   const { servers } = useServers();
-  const { loadServer } = useServer();
+  const { setChannel } = useChannel();
+  const { loadServer, setServer } = useServer();
 
-  const handleHomeButtonClick = async () => {
-    await loadServer(null);
+  const handleHomeButtonClick = () => {
+    setChannel(null);
+    setServer(null);
   };
   const handleServerButtonClick = async (serverId: number) => {
     await loadServer(serverId);

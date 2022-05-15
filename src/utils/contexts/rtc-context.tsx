@@ -41,7 +41,7 @@ export const RTCProvider = ({ children }: RTCProviderInterface) => {
     const peerConnection = new RTCPeerConnection(stunConfig);
 
     const stream = await navigator.mediaDevices.getUserMedia({
-      video: true,
+      audio: true,
     });
     stream.getTracks().forEach((track) => {
       peerConnection.addTrack(track, stream);

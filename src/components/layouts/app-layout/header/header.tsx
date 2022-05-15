@@ -1,6 +1,6 @@
-import useApp from '../../../utils/hooks/use-app';
-import useChannel from '../../../utils/hooks/use-channel';
-import { BarsIcon, IconSize } from '../../icons';
+import useApp from '../../../../utils/hooks/use-app';
+import useChannel from '../../../../utils/hooks/use-channel';
+import { BarsIcon, ChannelIcon, IconSize } from '../../../icons';
 
 const Header = () => {
   const { setShowSidebar } = useApp();
@@ -18,7 +18,12 @@ const Header = () => {
       >
         <BarsIcon size={IconSize.lg} />
       </button>
-      {channel && <p className="font-bold">{channel.name}</p>}
+      {channel && (
+        <div className="flex items-center space-x-1 text-slate-300">
+          <ChannelIcon channelType={channel.type} size={IconSize.lg} />
+          <p className="font-bold text-white">{channel.name}</p>
+        </div>
+      )}
     </header>
   );
 };

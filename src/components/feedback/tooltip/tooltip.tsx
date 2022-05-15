@@ -35,7 +35,7 @@ const Tooltip = ({ text, children, direction, size = 'md' }: TooltipProps) => {
     <div
       onMouseOver={handleTooltipMouseOver}
       onMouseLeave={handleTooltopMouseLeave}
-      className="tooltip relative flex items-center justify-center"
+      className="tooltip relative z-50 flex items-center justify-center"
     >
       {children}
       <CSSTransition
