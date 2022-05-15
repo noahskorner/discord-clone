@@ -11,6 +11,8 @@ import { ServerProvider } from '../../../utils/contexts/server-context';
 import { ChannelProvider } from '../../../utils/contexts/channel-context';
 import { RTCProvider } from '../../../utils/contexts/rtc-context';
 import { SocketProvider } from '../../../utils/contexts/socket-context';
+import useServer from '../../../utils/hooks/use-server';
+import ServerMembers from './server-members';
 
 interface AppLayoutProps {
   children: JSX.Element;
@@ -41,10 +43,13 @@ const AppLayout = (props: AppLayoutProps) => {
 const Layout = ({ children }: AppLayoutProps) => {
   const { widthStyle, heightStyle, isMobileWidth } = useWindowSize();
   const { showSidebar, setShowSidebar } = useApp();
+  const { server } = useServer();
 
   const handleMobileSidebarBtnClick = () => {
     setShowSidebar(false);
   };
+
+  const showServerMembers = server != null;
 
   return (
     <div className="relative flex h-full w-full overflow-hidden">
@@ -71,7 +76,10 @@ const Layout = ({ children }: AppLayoutProps) => {
       )}
       <div style={{ height: heightStyle }} className="flex w-full flex-col">
         <Header />
-        <div className="h-body">{children}</div>
+        <div className="flex h-full justify-between">
+          <div>{children}</div>
+          {showServerMembers && <ServerMembers />}
+        </div>
       </div>
     </div>
   );

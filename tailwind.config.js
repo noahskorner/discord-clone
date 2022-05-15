@@ -31,6 +31,7 @@ module.exports = {
       },
       maxWidth: {
         80: '80%',
+        'server-members': '15rem',
       },
       boxShadow: {
         header:
