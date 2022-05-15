@@ -11,7 +11,7 @@ const Header = () => {
   };
 
   return (
-    <header className="flex h-header w-full items-center space-x-2 p-2 shadow-header">
+    <header className="flex h-header w-full shrink-0 items-center space-x-2 p-2 shadow-header">
       <button
         onClick={handleSidebarBtnClick}
         className="flex items-center justify-center rounded-md p-1 hover:bg-slate-800 md:hidden"

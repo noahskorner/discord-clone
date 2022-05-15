@@ -7,6 +7,7 @@
 @import './toasts.css';
 @import './backgrounds.css';
 @import './animations.css';
+@import './scrollbar.css';
 
 /* Global Styles */
 * {

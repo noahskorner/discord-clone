@@ -15,6 +15,7 @@ module.exports = {
           900: '#202225',
           1000: '#292b2f',
           1100: '#18191c',
+          'channel-text-area': '#40444b',
         },
       },
       borderWidth: {
@@ -28,6 +29,9 @@ module.exports = {
         header: '3rem',
         body: 'calc(100% - 3rem)',
         13: '3.5rem',
+      },
+      maxHeight: {
+        body: 'calc(100% - 3rem)',
       },
       maxWidth: {
         80: '80%',

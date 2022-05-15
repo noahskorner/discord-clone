@@ -1,4 +1,5 @@
 import ChannelType from '../../../../../utils/enums/channel-type';
+import useApp from '../../../../../utils/hooks/use-app';
 import useChannel from '../../../../../utils/hooks/use-channel';
 import ChannelDto from '../../../../../utils/types/dtos/channel';
 import { IconSize, PoundIcon, VolumeUpIcon } from '../../../../icons';
@@ -8,10 +9,12 @@ interface ChannelButtonProps {
 }
 
 const ChannelButton = ({ channel }: ChannelButtonProps) => {
+  const { setShowSidebar } = useApp();
   const { channel: currentChannel, loadChannel } = useChannel();
 
   const handleChannelButtonClick = async (channelId: number) => {
     await loadChannel(channelId);
+    setShowSidebar(false);
   };
 
   return (

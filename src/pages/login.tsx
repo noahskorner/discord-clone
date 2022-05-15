@@ -80,7 +80,7 @@ const LoginPage: NextPage = () => {
       onKeyPress={handleOnKeyPress}
       className="text-primary bg-login flex h-full w-full flex-col items-center  justify-center sm:p-6"
     >
-      <div className="border-primary bounce-in h-full w-full rounded border bg-slate-700 p-6 shadow-md dark:border-0 dark:shadow-xl sm:h-auto sm:max-w-lg sm:p-8">
+      <div className="border-primary bounce-in h-full w-full border bg-slate-700 p-6 shadow-md dark:border-0 dark:shadow-xl sm:h-auto sm:max-w-lg sm:rounded sm:p-8">
         <div className="flex flex-col space-y-4">
           <div className="w-full space-y-1 text-center">
             <h1 className="text-2xl font-extrabold">Welcome Back!</h1>

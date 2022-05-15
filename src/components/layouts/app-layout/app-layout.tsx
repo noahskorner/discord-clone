@@ -71,13 +71,18 @@ const Layout = ({ children }: AppLayoutProps) => {
         <button
           onClick={handleMobileSidebarBtnClick}
           style={{ height: heightStyle, width: widthStyle }}
-          className="absolute top-0 left-0 z-0 bg-black/40 md:hidden"
+          className="absolute top-0 left-0 z-[5] bg-black/40 md:hidden"
         ></button>
       )}
       <div style={{ height: heightStyle }} className="flex w-full flex-col">
         <Header />
         <div className="flex h-full justify-between">
-          <div>{children}</div>
+          <div
+            style={{ maxHeight: `calc(${heightStyle} - 3rem)` }}
+            className="h-full w-full"
+          >
+            {children}
+          </div>
           {showServerMembers && <ServerMembers />}
         </div>
       </div>
