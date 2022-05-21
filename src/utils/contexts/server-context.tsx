@@ -1,10 +1,13 @@
 import { createContext, Dispatch, SetStateAction, useState } from 'react';
 import ServerService from '../../services/server-service';
 import ChannelType from '../enums/channel-type';
+import EventEnum from '../enums/events';
+import useSocket from '../hooks/use-socket';
 import useToasts from '../hooks/use-toasts';
 import handleServiceError from '../services/handle-service-error';
 import ChannelDto from '../types/dtos/channel';
 import ServerDto from '../types/dtos/server';
+import JoinServerRequest from '../types/requests/events/join-server-request';
 
 interface ServerContextInterface {
   loading: boolean;
@@ -40,6 +43,7 @@ interface ServerProviderInterface {
 export const ServerProvider = ({ children }: ServerProviderInterface) => {
   const [loading, setLoading] = useState<boolean>(defaultValues.loading);
   const [server, setServer] = useState<ServerDto | null>(defaultValues.server);
+  const { socket } = useSocket();
   const isHomePage = server == null;
 
   const { danger } = useToasts();
@@ -52,6 +56,7 @@ export const ServerProvider = ({ children }: ServerProviderInterface) => {
     server == null
       ? []
       : server.channels.filter((channel) => channel.type === ChannelType.VOICE);
+
   const loadServer = async (serverId: number | null) => {
     if (serverId == null) {
       setServer(null);
@@ -62,6 +67,9 @@ export const ServerProvider = ({ children }: ServerProviderInterface) => {
     try {
       const response = await ServerService.get(serverId);
       setServer(response.data);
+      socket?.current.emit(EventEnum.JOIN_SERVER, {
+        serverId,
+      } as JoinServerRequest);
     } catch (error) {
       setServer(null);
       const { errors } = handleServiceError(error);
@@ -72,6 +80,7 @@ export const ServerProvider = ({ children }: ServerProviderInterface) => {
       setLoading(false);
     }
   };
+
   const setChannels = (channels: ChannelDto[]) => {
     setServer((prev) => {
       return prev != null

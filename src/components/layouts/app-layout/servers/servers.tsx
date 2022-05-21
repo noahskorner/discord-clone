@@ -28,7 +28,7 @@ const Servers = () => {
       <Tooltip text="Home" direction="left">
         <button
           onClick={handleHomeButtonClick}
-          className="flex h-12 w-12 items-center justify-center rounded-2xl bg-indigo-600 text-white"
+          className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-700 text-white hover:rounded-2xl hover:bg-indigo-600"
         >
           <LogoIcon size={IconSize.lg} />
         </button>

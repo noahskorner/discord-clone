@@ -1,6 +1,9 @@
 import { createContext, MutableRefObject, useEffect, useRef } from 'react';
 import { io, Socket } from 'socket.io-client';
 import { DefaultEventsMap } from 'socket.io/dist/typed-events';
+import useAuth from '../hooks/use-auth';
+
+const BASE_URL = 'http://localhost:3000';
 
 interface SocketContextInterface {
   socket: null | MutableRefObject<Socket<DefaultEventsMap, DefaultEventsMap>>;
@@ -18,10 +21,19 @@ interface SocketProviderInterface {
 }
 
 export const SocketProvider = ({ children }: SocketProviderInterface) => {
-  const socket = useRef(io('http://localhost:3000'));
+  const { accessToken } = useAuth();
+  const socket = useRef(
+    io(BASE_URL, {
+      query: { accessToken },
+    }),
+  );
 
   useEffect(() => {
     socket.current.connect();
+
+    () => {
+      socket.current.disconnect();
+    };
   }, []);
   return (
     <SocketContext.Provider value={{ socket }}>

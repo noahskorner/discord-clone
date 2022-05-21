@@ -30,7 +30,7 @@ const TextChannels = () => {
         <CreateChannelButton />
       </div>
       {showTextChannels && (
-        <div className="w-full space-y-1 py-2 px-1">
+        <div className="w-full space-y-[3px] py-2 px-1">
           {textChannels.map((channel) => {
             return <ChannelButton key={channel.id} channel={channel} />;
           })}

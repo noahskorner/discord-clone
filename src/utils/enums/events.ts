@@ -3,6 +3,7 @@ enum EventEnum {
   CONNECTION = 'connection',
   DISCONNECT = 'disconnect',
   JOIN_SERVER = 'join-server',
+  JOIN_CHANNEL = 'join-channel',
   SEND_OFFER = 'send-offer',
   RECEIVE_OFFER = 'receive-offer',
   SEND_ANSWER = 'send-answer',

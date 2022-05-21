@@ -23,17 +23,17 @@ const AppLayout = (props: AppLayoutProps) => {
     <AuthRoute
       element={
         <AppProvider>
-          <ServersProvider>
-            <ServerProvider>
-              <ChannelProvider>
-                <SocketProvider>
+          <SocketProvider>
+            <ServersProvider>
+              <ServerProvider>
+                <ChannelProvider>
                   <RTCProvider>
                     <Layout {...props}></Layout>
                   </RTCProvider>
-                </SocketProvider>
-              </ChannelProvider>
-            </ServerProvider>
-          </ServersProvider>
+                </ChannelProvider>
+              </ServerProvider>
+            </ServersProvider>
+          </SocketProvider>
         </AppProvider>
       }
     />

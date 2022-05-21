@@ -10,6 +10,7 @@ import { useRouter } from 'next/router';
 
 interface AuthContextInterface {
   isAuthenticated: boolean;
+  accessToken: string | null;
   user: RequestUser | null;
   loading: boolean;
   // eslint-disable-next-line no-unused-vars
@@ -20,6 +21,7 @@ interface AuthContextInterface {
 
 const defaultValues = {
   isAuthenticated: false,
+  accessToken: null,
   user: null,
   loading: true,
   setAuth: () => {},
@@ -102,6 +104,7 @@ export const AuthProvider = ({ children }: AuthProviderInterface) => {
     <AuthContext.Provider
       value={{
         isAuthenticated,
+        accessToken,
         user,
         loading,
         setAuth,
