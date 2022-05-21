@@ -9,7 +9,7 @@ const TextChannels = () => {
 
   const { textChannels } = useServer();
 
-  const handleTextChannelButtonClick = () => {
+  const handleTextChannelBtnClick = () => {
     setShowTextChannels((prev) => !prev);
   };
 
@@ -17,7 +17,7 @@ const TextChannels = () => {
     <div className="w-full">
       <div className="flex items-center justify-between">
         <button
-          onClick={handleTextChannelButtonClick}
+          onClick={handleTextChannelBtnClick}
           className="flex w-full items-center space-x-1 text-left text-xs font-semibold uppercase text-slate-300 hover:text-white"
         >
           {showTextChannels ? (

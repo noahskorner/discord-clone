@@ -1,13 +1,19 @@
+import HomeState from '../../../../utils/enums/home-state';
 import useApp from '../../../../utils/hooks/use-app';
 import useChannel from '../../../../utils/hooks/use-channel';
+import useHome from '../../../../utils/hooks/use-home';
 import { BarsIcon, ChannelIcon, FriendIcon, IconSize } from '../../../icons';
 
 const Header = () => {
   const { setShowSidebar } = useApp();
   const { channel } = useChannel();
+  const { setState: setHomeState } = useHome();
 
   const handleSidebarBtnClick = () => {
     setShowSidebar((prev) => !prev);
+  };
+  const handleAddFriendBtnClick = () => {
+    setHomeState(HomeState.ADD_FRIEND);
   };
 
   return (
@@ -24,23 +30,26 @@ const Header = () => {
           <p className="font-bold text-white">{channel.name}</p>
         </div>
       ) : (
-        <div className="flex h-full w-full items-center justify-start">
-          <span className="flex items-center space-x-4">
+        <div className="flex w-full items-center justify-start space-x-4">
+          <span className="flex items-center space-x-2">
             <FriendIcon className="text-slate-300" size={IconSize.lg} />
             <h6 className="mr-4 border-r border-slate-500 pr-4 text-sm font-semibold">
               Friends
             </h6>
           </span>
-          <button className="p-4 text-sm font-medium text-slate-300">
+          <button className="rounded-md px-2 py-1 text-sm font-medium text-slate-300 hover:bg-slate-600">
             Online
           </button>
-          <button className="p-4 text-sm font-medium text-slate-300">
+          <button className="rounded-md px-2 py-1 text-sm font-medium text-slate-300 hover:bg-slate-600">
             All
           </button>
-          <button className="p-4 text-sm font-medium text-slate-300">
+          <button className="rounded-md px-2 py-1 text-sm font-medium text-slate-300 hover:bg-slate-600">
             Pending
           </button>
-          <button className="flex items-center justify-center rounded-md bg-green-600 px-2 py-1 text-sm font-medium text-white hover:bg-green-800">
+          <button
+            onClick={handleAddFriendBtnClick}
+            className="flex items-center justify-center rounded-md bg-green-600 px-2 py-1 text-sm font-medium text-white hover:bg-green-800"
+          >
             Add friend
           </button>
         </div>

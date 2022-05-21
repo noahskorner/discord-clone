@@ -7,14 +7,14 @@ const SidebarFooter = () => {
   const { user } = useUser();
   const { logout } = useAuth();
 
-  const handleLogoutButtonClick = async () => {
+  const handleLogoutBtnClick = async () => {
     await logout();
   };
   return (
     <div className="absolute bottom-0 left-0 right-0 flex h-13 items-center justify-between rounded-br-3xl bg-slate-1000 p-2 md:rounded-none">
       <div className="flex items-center space-x-2">
         <button
-          onClick={handleLogoutButtonClick}
+          onClick={handleLogoutBtnClick}
           className="h-9 w-9 rounded-full bg-green-500"
         ></button>
         <h6 className="truncate text-xs font-semibold text-white md:w-28">

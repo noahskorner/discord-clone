@@ -12,11 +12,11 @@ const Servers = () => {
   const { setChannel } = useChannel();
   const { loadServer, setServer } = useServer();
 
-  const handleHomeButtonClick = () => {
+  const handleHomeBtnClick = () => {
     setChannel(null);
     setServer(null);
   };
-  const handleServerButtonClick = async (serverId: number) => {
+  const handleServerBtnClick = async (serverId: number) => {
     await loadServer(serverId);
   };
 
@@ -27,7 +27,7 @@ const Servers = () => {
     >
       <Tooltip text="Home" direction="left">
         <button
-          onClick={handleHomeButtonClick}
+          onClick={handleHomeBtnClick}
           className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-700 text-white hover:rounded-2xl hover:bg-indigo-600"
         >
           <LogoIcon size={IconSize.lg} />
@@ -38,7 +38,7 @@ const Servers = () => {
         return (
           <Tooltip key={server.id} text={server.name} direction="left">
             <button
-              onClick={() => handleServerButtonClick(server.id)}
+              onClick={() => handleServerBtnClick(server.id)}
               className="flex h-12 w-12 items-center justify-center rounded-full bg-green-600 text-white hover:rounded-2xl"
             ></button>
           </Tooltip>

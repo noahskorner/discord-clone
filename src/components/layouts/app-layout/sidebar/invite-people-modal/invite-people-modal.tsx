@@ -13,7 +13,7 @@ const InvitePeopleModal = () => {
   const [loading, setLoading] = useState(false);
   const [email, setEmail] = useState('');
 
-  const handleCloseModalButtonClick = () => {
+  const handleCloseModalBtnClick = () => {
     setShowInvitePeopleModal(false);
   };
   const handleKeyDown = async (event: KeyboardEvent) => {
@@ -31,7 +31,7 @@ const InvitePeopleModal = () => {
         className="flex w-full max-w-md flex-col justify-between rounded-md bg-slate-800"
       >
         <div className="relative z-10 flex justify-end pr-4 pt-4">
-          <IconButton onClick={handleCloseModalButtonClick}>
+          <IconButton onClick={handleCloseModalBtnClick}>
             <CloseIcon />
           </IconButton>
         </div>
@@ -44,7 +44,7 @@ const InvitePeopleModal = () => {
         </div>
         <div className="relative bottom-0 mt-8 flex w-full items-center justify-between rounded-b-md bg-slate-700 p-4">
           <button
-            onClick={handleCloseModalButtonClick}
+            onClick={handleCloseModalBtnClick}
             className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white"
           >
             Close

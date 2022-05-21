@@ -8,7 +8,7 @@ const VoiceChannels = () => {
   const [showVoiceChannels, setShowVoiceChannels] = useState(false);
   const { voiceChannels } = useServer();
 
-  const handleVoiceChannelButtonClick = () => {
+  const handleVoiceChannelBtnClick = () => {
     setShowVoiceChannels((prev) => !prev);
   };
 
@@ -16,7 +16,7 @@ const VoiceChannels = () => {
     <div className="w-full">
       <div className="flex items-center justify-between">
         <button
-          onClick={handleVoiceChannelButtonClick}
+          onClick={handleVoiceChannelBtnClick}
           className="flex w-full items-center space-x-1 text-left text-xs font-semibold uppercase text-slate-300 hover:text-white"
         >
           {showVoiceChannels ? (

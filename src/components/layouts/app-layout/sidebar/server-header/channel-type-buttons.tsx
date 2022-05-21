@@ -11,16 +11,16 @@ const ChannelTypeButtons = ({
   channelType,
   setChannelType,
 }: ChannelTypeButtonsProps) => {
-  const handleTextButtonClick = () => {
+  const handleTextBtnClick = () => {
     setChannelType(ChannelType.TEXT);
   };
-  const handleVoiceButtonClick = () => {
+  const handleVoiceBtnClick = () => {
     setChannelType(ChannelType.VOICE);
   };
   return (
     <>
       <button
-        onClick={handleTextButtonClick}
+        onClick={handleTextBtnClick}
         className={`${
           channelType === ChannelType.TEXT
             ? 'bg-slate-600'
@@ -43,7 +43,7 @@ const ChannelTypeButtons = ({
         </div>
       </button>
       <button
-        onClick={handleVoiceButtonClick}
+        onClick={handleVoiceBtnClick}
         className={`${
           channelType === ChannelType.VOICE
             ? 'bg-slate-600'

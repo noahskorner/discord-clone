@@ -12,14 +12,14 @@ const ChannelButton = ({ channel }: ChannelButtonProps) => {
   const { setShowSidebar } = useApp();
   const { channel: currentChannel, loadChannel } = useChannel();
 
-  const handleChannelButtonClick = async (channelId: number) => {
+  const handleChannelBtnClick = async (channelId: number) => {
     await loadChannel(channelId);
     setShowSidebar(false);
   };
 
   return (
     <button
-      onClick={() => handleChannelButtonClick(channel.id)}
+      onClick={() => handleChannelBtnClick(channel.id)}
       className={`${
         currentChannel != null && currentChannel.id === channel.id
           ? 'bg-slate-600 font-semibold text-white'

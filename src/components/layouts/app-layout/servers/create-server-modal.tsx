@@ -64,13 +64,13 @@ const CreateServerModal = () => {
     setErrors((prev) => prev.filter((error) => error.field !== 'name'));
     setServerName(value);
   };
-  const handleAddServerButtonClick = () => {
+  const handleAddServerBtnClick = () => {
     setShowModal(true);
   };
-  const handleCloseModalButtonClick = () => {
+  const handleCloseModalBtnClick = () => {
     setShowModal(false);
   };
-  const handleCreateButtonClick = async () => {
+  const handleCreateBtnClick = async () => {
     await createServer();
   };
   const handleAddServerKeyDown = async (
@@ -83,7 +83,7 @@ const CreateServerModal = () => {
     <div onKeyDown={handleAddServerKeyDown}>
       <Tooltip text="Add a Server" direction="left">
         <button
-          onClick={handleAddServerButtonClick}
+          onClick={handleAddServerBtnClick}
           className="flex h-12 w-12 items-center justify-center rounded-full bg-slate-800 text-green-600 hover:rounded-2xl hover:bg-green-600 hover:text-white"
         >
           <PlusIcon size={IconSize.lg} />
@@ -95,7 +95,7 @@ const CreateServerModal = () => {
           className="flex w-full max-w-md flex-col justify-between rounded-md bg-slate-800"
         >
           <div className="relative z-10 flex justify-end pr-4 pt-4">
-            <IconButton onClick={handleCloseModalButtonClick}>
+            <IconButton onClick={handleCloseModalBtnClick}>
               <CloseIcon />
             </IconButton>
           </div>
@@ -125,13 +125,13 @@ const CreateServerModal = () => {
           </div>
           <div className="relative bottom-0 mt-8 flex w-full items-center justify-between rounded-b-md bg-slate-700 p-4">
             <button
-              onClick={handleCloseModalButtonClick}
+              onClick={handleCloseModalBtnClick}
               className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white"
             >
               Close
             </button>
             <button
-              onClick={handleCreateButtonClick}
+              onClick={handleCreateBtnClick}
               className="flex items-center justify-center rounded-md bg-indigo-500 py-2 px-4 text-sm hover:bg-indigo-700"
             >
               <span className={`${loading && 'opacity-0'}`}>Create</span>

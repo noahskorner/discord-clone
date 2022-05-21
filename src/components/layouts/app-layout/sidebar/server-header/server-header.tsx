@@ -23,10 +23,10 @@ const SidebarHeader = () => {
   const handleServerMenuBtnClick = () => {
     setShowServerMenu((prev) => !prev);
   };
-  const handleInvitePeopleButtonClick = () => {
+  const handleInvitePeopleBtnClick = () => {
     setShowInvitePeopleModal(true);
   };
-  const handleCreateChannelButtonClick = () => {
+  const handleCreateChannelBtnClick = () => {
     setShowCreateChannelModal(true);
   };
   const handleServerMenuBlur = () => {
@@ -69,7 +69,7 @@ const SidebarHeader = () => {
         >
           <div className="h-full w-full rounded-md bg-slate-1100 p-2 shadow-xl">
             <button
-              onClick={handleInvitePeopleButtonClick}
+              onClick={handleInvitePeopleBtnClick}
               className="flex w-full items-center justify-between rounded p-2 text-sm font-medium text-indigo-400 hover:bg-indigo-600 hover:text-white active:bg-indigo-800"
             >
               <span>Invite People</span>
@@ -84,7 +84,7 @@ const SidebarHeader = () => {
               </div>
             </button>
             <button
-              onClick={handleCreateChannelButtonClick}
+              onClick={handleCreateChannelBtnClick}
               className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-800"
             >
               <span>Create Channel</span>
