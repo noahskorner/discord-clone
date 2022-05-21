@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import UserController from '../../controllers/user';
 import authenticate from '../../middleware/authenticate';
+import friendRouter from './friend';
 
 const userController = new UserController();
 
@@ -13,5 +14,6 @@ userRouter.put(
   '/reset-password/confirm/:token',
   userController.confirmResetPassword,
 );
+userRouter.use('/:id/friend', friendRouter);
 
 export default userRouter;
