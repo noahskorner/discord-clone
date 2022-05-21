@@ -18,10 +18,13 @@ const SidebarHeader = () => {
   const [showServerMenu, setShowServerMenu] = useState(false);
   const serverMenuTransitionRef = useRef(null);
   const serverMenuRef = useRef<null | HTMLDivElement>(null);
-  const { setShowCreateChannelModal } = useApp();
+  const { setShowInvitePeopleModal, setShowCreateChannelModal } = useApp();
 
   const handleServerMenuBtnClick = () => {
     setShowServerMenu((prev) => !prev);
+  };
+  const handleInvitePeopleButtonClick = () => {
+    setShowInvitePeopleModal(true);
   };
   const handleCreateChannelButtonClick = () => {
     setShowCreateChannelModal(true);
@@ -65,7 +68,10 @@ const SidebarHeader = () => {
           className="absolute top-full z-50 mt-2 w-full px-3"
         >
           <div className="h-full w-full rounded-md bg-slate-1100 p-2 shadow-xl">
-            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium text-indigo-400 hover:bg-indigo-600 hover:text-white active:bg-indigo-800">
+            <button
+              onClick={handleInvitePeopleButtonClick}
+              className="flex w-full items-center justify-between rounded p-2 text-sm font-medium text-indigo-400 hover:bg-indigo-600 hover:text-white active:bg-indigo-800"
+            >
               <span>Invite People</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <UserAddIcon />

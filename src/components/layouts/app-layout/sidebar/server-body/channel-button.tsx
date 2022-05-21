@@ -23,7 +23,7 @@ const ChannelButton = ({ channel }: ChannelButtonProps) => {
       className={`${
         currentChannel != null && currentChannel.id === channel.id
           ? 'bg-slate-600 font-semibold text-white'
-          : 'hover:bg-slate-600 hover:font-semibold hover:text-white'
+          : 'hover:bg-slate-600/20 hover:font-medium hover:text-white'
       } flex w-full items-center rounded px-2 py-[0.35rem] text-sm font-medium text-slate-300`}
     >
       <div className="flex items-center space-x-1">

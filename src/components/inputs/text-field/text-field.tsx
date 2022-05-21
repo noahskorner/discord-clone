@@ -14,6 +14,7 @@ interface TextFieldProps extends InputProps {
   type?: 'text' | 'password' | 'textarea';
   icon?: JSX.Element;
   color?: 'primary' | 'secondary';
+  trailingIcon?: JSX.Element;
 }
 
 const TEXT_FIELD_CLASSES = {
@@ -30,6 +31,7 @@ const TextField = ({
   errors = [],
   icon,
   color = 'primary',
+  trailingIcon,
 }: TextFieldProps) => {
   const textFieldRef = useRef<any>(null);
   const [showPassword, setShowPassword] = useState(false);
@@ -99,6 +101,8 @@ const TextField = ({
           <div className="pr-2 text-red-500">
             <ExclamationCircleIcon size={IconSize.sm} />
           </div>
+        ) : trailingIcon != null ? (
+          <div className="pr-2 text-slate-300">{trailingIcon}</div>
         ) : null}
       </div>
       <Errors errors={errors} />

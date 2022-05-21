@@ -13,6 +13,7 @@ import MicrophoneIcon from './microphone';
 import PencilIcon from './pencil';
 import PlusIcon from './plus';
 import PoundIcon from './pound';
+import SearchIcon from './search';
 import SettingsIcon from './settings';
 import UserAddIcon from './user-add';
 import VolumeUpIcon from './volume-up';
@@ -35,6 +36,7 @@ export {
   PencilIcon,
   PlusIcon,
   PoundIcon,
+  SearchIcon,
   SettingsIcon,
   UserAddIcon,
   VolumeUpIcon,
