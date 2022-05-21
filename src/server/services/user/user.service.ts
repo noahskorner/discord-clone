@@ -186,18 +186,18 @@ class UserService {
     }
   };
 
+  public findUserByEmail = async (email: string): Promise<User | null> => {
+    const user = await User.findOne({ where: { email } });
+
+    return user;
+  };
+
   private isTokenActive = async (token: string): Promise<boolean> => {
     const refreshToken = await RefreshToken.findOne({
       where: { token },
     });
 
     return refreshToken != null;
-  };
-
-  private findUserByEmail = async (email: string): Promise<User | null> => {
-    const user = await User.findOne({ where: { email } });
-
-    return user;
   };
 
   private findUserByVerificationToken = async (
