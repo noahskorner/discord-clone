@@ -6,6 +6,7 @@ import UserRole from './user-role.model';
 import Server from './server.model';
 import ServerUser from './server-user.model';
 import Channel from './channel.model';
+import Friend from './friend.model';
 
 sequelize.addModels([
   User,
@@ -14,6 +15,7 @@ sequelize.addModels([
   Server,
   ServerUser,
   Channel,
+  Friend,
 ]);
 
 const db = {
@@ -25,6 +27,7 @@ const db = {
   Server,
   ServerUser,
   Channel,
+  Friend,
 };
 
 export default db;
