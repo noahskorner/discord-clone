@@ -8,6 +8,7 @@ import CloseIcon from './close';
 import ExclamationCircleIcon from './exclamation-circle';
 import EyeIcon from './eye';
 import EyeOffIcon from './eye-off';
+import FriendIcon from './friend';
 import LogoIcon from './logo';
 import MicrophoneIcon from './microphone';
 import PencilIcon from './pencil';
@@ -31,6 +32,7 @@ export {
   ExclamationCircleIcon,
   EyeOffIcon,
   EyeIcon,
+  FriendIcon,
   LogoIcon,
   MicrophoneIcon,
   PencilIcon,
