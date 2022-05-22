@@ -3,15 +3,18 @@ import Modal from '../../../../utils/modal';
 import { KeyboardEvent, useState } from 'react';
 import IconButton from '../../../../inputs/icon-button';
 import { CloseIcon, IconSize, SearchIcon } from '../../../../icons';
-import Spinner from '../../../../inputs/spinner';
 import useServer from '../../../../../utils/hooks/use-server';
 import TextField from '../../../../inputs/text-field';
+import useUser from '../../../../../utils/hooks/use-user';
 
 const InvitePeopleModal = () => {
   const { showInvitePeopleModal, setShowInvitePeopleModal } = useApp();
   const { server } = useServer();
-  const [loading, setLoading] = useState(false);
-  const [email, setEmail] = useState('');
+  const [searchText, setSearchText] = useState('');
+  const { friends } = useUser();
+  const filteredFriends = friends.filter((f) =>
+    f.username.includes(searchText),
+  );
 
   const handleCloseModalBtnClick = () => {
     setShowInvitePeopleModal(false);
@@ -30,29 +33,37 @@ const InvitePeopleModal = () => {
         onKeyDown={handleKeyDown}
         className="flex w-full max-w-md flex-col justify-between rounded-md bg-slate-800"
       >
-        <div className="relative z-10 flex justify-end pr-4 pt-4">
+        <div className="relative z-10 flex justify-end pt-2 pr-2">
           <IconButton onClick={handleCloseModalBtnClick}>
             <CloseIcon />
           </IconButton>
         </div>
-        <div className="space-y-4 px-4">
+        <div className="h-full space-y-4 px-4 pb-6 shadow">
           <h2 className="font-bold">Invite friends to {server?.name} server</h2>
           <TextField
+            value={searchText}
+            onInput={setSearchText}
             placeholder="Search for friends"
             trailingIcon={<SearchIcon size={IconSize.sm} />}
           />
         </div>
-        <div className="relative bottom-0 mt-8 flex w-full items-center justify-between rounded-b-md bg-slate-700 p-4">
-          <button
-            onClick={handleCloseModalBtnClick}
-            className="px-4 py-2 text-sm font-medium text-slate-300 hover:text-white"
-          >
-            Close
-          </button>
-          <button className="flex items-center justify-center rounded-md bg-indigo-500 py-2 px-4 text-sm hover:bg-indigo-700">
-            <span className={`${loading && 'opacity-0'}`}>Create</span>
-            {loading && <Spinner size="sm" className="absolute" />}
-          </button>
+        <div className="p-2">
+          {filteredFriends.map((friend) => {
+            return (
+              <div
+                key={friend.id}
+                className="invite-btn flex items-center justify-between rounded-md py-2 px-4 hover:bg-slate-700"
+              >
+                <div className="flex items-center space-x-2">
+                  <div className="h-8 w-8 rounded-full bg-red-600"></div>
+                  <p>{friend.username}</p>
+                </div>
+                <button className="rounded border border-green-600 px-5 py-[0.35rem] text-xs font-medium text-white hover:bg-green-600">
+                  Invite
+                </button>
+              </div>
+            );
+          })}
         </div>
       </div>
     </Modal>

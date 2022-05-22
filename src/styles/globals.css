@@ -84,3 +84,8 @@ input:focus {
   border-bottom-width: 5px;
   border-bottom-style: solid;
 }
+
+/* Buttons */
+.invite-btn:hover button {
+  background-color: theme('colors.green.600');
+}
