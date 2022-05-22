@@ -1,7 +1,7 @@
 ## Discord Clone
 
 Built with NextJS, Typescript, TailwindCSS, ExpressJS, Postgres, Socket.IO, and WebRTC
-[Check it out here!]([https://docs.noahgothacked.com](https://discord-clone-server-0.herokuapp.com/))
+[Check it out here!](https://docs.noahgothacked.com](https://discord-clone-server-0.herokuapp.com/)
 
 ## Project Screen Shot(s)
 
@@ -15,11 +15,10 @@ Install Dependencies:
 
 `npm install`
 
-Create the .env file in the root directory:
+Create the .env file in the root directory, checkout [.env.example](/.env.example) for an example:
 
 `touch .env.local`
 
-Copy .env.example and add values
 
 To Start Server:
 
