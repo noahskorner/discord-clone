@@ -4,17 +4,19 @@ import useAuth from '../hooks/use-auth';
 import useToasts from '../hooks/use-toasts';
 import handleServiceError from '../services/handle-service-error';
 import FriendDto from '../types/dtos/friend';
+import FriendRequestDto from '../types/dtos/friend-request';
 import UserDto from '../types/dtos/user';
 
 interface UserContextInterface {
   loading: boolean;
   user: UserDto | null;
-  pendingFriendRequests: FriendDto[];
+  pendingFriendRequests: FriendRequestDto[];
   numIncomingPendingFriendRequests: number;
+  friends: FriendDto[];
   // eslint-disable-next-line no-unused-vars
-  addFriendRequest: (friend: FriendDto) => void;
+  addFriendRequest: (friend: FriendRequestDto) => void;
   // eslint-disable-next-line no-unused-vars
-  replaceFriendRequest: (replacementFriend: FriendDto) => void;
+  replaceFriendRequest: (replacementFriend: FriendRequestDto) => void;
 }
 
 const defaultValues = {
@@ -22,6 +24,7 @@ const defaultValues = {
   user: null,
   pendingFriendRequests: [],
   numIncomingPendingFriendRequests: 0,
+  friends: [],
   addFriendRequest: () => {},
   replaceFriendRequest: () => {},
 };
@@ -50,9 +53,21 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
     user != null
       ? pendingFriendRequests.filter((f) => f.requester.id !== user.id).length
       : 0;
+  const friends =
+    user == null
+      ? []
+      : user.friendRequests
+          .filter((friendRequest) => friendRequest.accepted == true)
+          .map((friendRequest) => {
+            const friend =
+              friendRequest.requester.id === user.id
+                ? friendRequest.addressee
+                : friendRequest.requester;
+            return new FriendDto(friend.id, friend.username, friend.email);
+          });
   const [loading, setLoading] = useState(false);
 
-  const addFriendRequest = (friend: FriendDto) => {
+  const addFriendRequest = (friend: FriendRequestDto) => {
     setUser((prev) => {
       return prev === null
         ? prev
@@ -63,7 +78,7 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
     });
   };
 
-  const replaceFriendRequest = (replacementFriend: FriendDto) => {
+  const replaceFriendRequest = (replacementFriend: FriendRequestDto) => {
     setUser((prev) =>
       prev == null
         ? null
@@ -107,6 +122,7 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
         loading,
         pendingFriendRequests,
         numIncomingPendingFriendRequests,
+        friends,
         addFriendRequest,
         replaceFriendRequest,
       }}

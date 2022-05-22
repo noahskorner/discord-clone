@@ -1,6 +1,6 @@
 import User from '../../../server/db/models/user.model';
 import RoleEnum from '../../enums/roles';
-import FriendDto from './friend';
+import FriendRequestDto from './friend-request';
 
 class UserDto {
   public id: number;
@@ -9,7 +9,7 @@ class UserDto {
   public updatedAt: string;
   public createdAt: string;
   public roles: RoleEnum[];
-  public friendRequests: FriendDto[];
+  public friendRequests: FriendRequestDto[];
 
   constructor(user: User) {
     this.id = user.id;
@@ -24,7 +24,7 @@ class UserDto {
     this.friendRequests =
       user.friends == null
         ? []
-        : user.friends.map((friend) => new FriendDto(friend));
+        : user.friends.map((friend) => new FriendRequestDto(friend));
   }
 }
 

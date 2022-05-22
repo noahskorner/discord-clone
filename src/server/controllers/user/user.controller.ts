@@ -5,7 +5,7 @@ import UserValidator from '../../validators/user';
 import CreateUserRequest from '../../../utils/types/requests/user/create-user';
 import ResetPasswordRequest from '../../../utils/types/requests/user/reset-password';
 import ConfirmResetPasswordRequest from '../../../utils/types/requests/user/confirm-reset-password';
-import FriendDto from '../../../utils/types/dtos/friend';
+import FriendRequestDto from '../../../utils/types/dtos/friend-request';
 import FriendService from '../../services/user/friend';
 
 class UserController {

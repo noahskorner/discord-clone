@@ -3,23 +3,28 @@ import FriendService from '../../../../services/friend-service';
 import useToasts from '../../../../utils/hooks/use-toasts';
 import useUser from '../../../../utils/hooks/use-user';
 import handleServiceError from '../../../../utils/services/handle-service-error';
-import FriendDto from '../../../../utils/types/dtos/friend';
+import FriendRequestDto from '../../../../utils/types/dtos/friend-request';
 import Tooltip from '../../../feedback/tooltip';
 import { CheckIcon, CloseIcon, IconSize, SearchIcon } from '../../../icons';
 import TextField from '../../../inputs/text-field';
 
 const PendingFriends = () => {
   const { user, pendingFriendRequests, replaceFriendRequest } = useUser();
-  const { errorListToToasts } = useToasts();
+  const { success, errorListToToasts } = useToasts();
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
+  const filteredFriendRequests = pendingFriendRequests.filter((friendRequest) =>
+    friendRequest.requester.id !== user?.id
+      ? friendRequest.requester.username.includes(searchText)
+      : friendRequest.addressee.username.includes(searchText),
+  );
 
-  const getPendingFriendUsername = (friend: FriendDto) => {
+  const getPendingFriendUsername = (friend: FriendRequestDto) => {
     return friend.requester.id !== user?.id
       ? friend.requester.username
       : friend.addressee.username;
   };
-  const getPendingFriendText = (friend: FriendDto) => {
+  const getPendingFriendText = (friend: FriendRequestDto) => {
     return friend.requester.id === user?.id
       ? 'Outgoing Friend Request'
       : 'Incoming Friend Request';
@@ -30,6 +35,10 @@ const PendingFriends = () => {
     try {
       const response = await FriendService.update(user!.id, friendId);
       replaceFriendRequest(response.data);
+      success(
+        'Successfully accepted friend request!',
+        `Start a conversation with ${response.data.requester.username}`,
+      );
     } catch (error) {
       const { errors } = handleServiceError(error);
       errorListToToasts(errors);
@@ -52,11 +61,11 @@ const PendingFriends = () => {
         />
         <div>
           <p className="w-full border-b border-slate-600 pb-4 text-xs font-extrabold uppercase text-slate-300">
-            Pending - {pendingFriendRequests.length}
+            Pending - {filteredFriendRequests.length}
           </p>
-          {pendingFriendRequests.map((pendingFriendRequest, index) => (
+          {filteredFriendRequests.map((pendingFriendRequest) => (
             <div
-              key={index}
+              key={pendingFriendRequest.id}
               className="flex h-14 w-full cursor-pointer items-center justify-between rounded-lg py-4 px-2 hover:bg-slate-600"
             >
               <div className="flex items-center justify-start space-x-2">

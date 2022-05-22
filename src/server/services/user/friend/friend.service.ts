@@ -1,7 +1,7 @@
 const { Op } = require('sequelize');
 import DateUtils from '../../../../utils/date-utils';
 import ErrorEnum from '../../../../utils/enums/errors';
-import FriendDto from '../../../../utils/types/dtos/friend';
+import FriendRequestDto from '../../../../utils/types/dtos/friend-request';
 import SystemError from '../../../../utils/types/interfaces/system-error';
 import Friend from '../../../db/models/friend.model';
 import User from '../../../db/models/user.model';
@@ -59,7 +59,7 @@ class FriendService {
   }: {
     requesterId: number;
     addresseeEmail: string;
-  }): Promise<FriendDto> {
+  }): Promise<FriendRequestDto> {
     const requester = await User.findByPk(requesterId);
     if (requester == null) throw new Error();
     const addressee = await this._userService.findUserByEmail(addresseeEmail);
@@ -92,10 +92,10 @@ class FriendService {
     friend.requester = requester;
     friend.addressee = addressee;
 
-    return new FriendDto(friend);
+    return new FriendRequestDto(friend);
   }
 
-  public async findByUserId(userId: number): Promise<FriendDto[]> {
+  public async findByUserId(userId: number): Promise<FriendRequestDto[]> {
     const friends = await Friend.findAll({
       where: { [Op.or]: [{ requesterId: userId }, { addresseeId: userId }] },
       include: [
@@ -104,13 +104,13 @@ class FriendService {
       ],
     });
 
-    return friends.map((f) => new FriendDto(f));
+    return friends.map((f) => new FriendRequestDto(f));
   }
 
   public async acceptFriendRequest(
     userId: number,
     friendId: number,
-  ): Promise<FriendDto> {
+  ): Promise<FriendRequestDto> {
     const friendRequest = await Friend.findByPk(friendId, {
       include: [
         { model: User, as: 'addressee' },
@@ -121,14 +121,15 @@ class FriendService {
     if (friendRequest == null) throw ERROR_FRIEND_REQUEST_NOT_FOUND;
     if (friendRequest.addresseeId !== userId)
       throw ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS;
-    if (friendRequest.accepted === true) return new FriendDto(friendRequest);
+    if (friendRequest.accepted === true)
+      return new FriendRequestDto(friendRequest);
 
     const updatedFriendRequest = await friendRequest.update({
       accepted: true,
       acceptedAt: DateUtils.UTC(),
     });
 
-    return new FriendDto(updatedFriendRequest);
+    return new FriendRequestDto(updatedFriendRequest);
   }
 }
 
