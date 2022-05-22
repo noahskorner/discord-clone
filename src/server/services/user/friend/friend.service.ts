@@ -44,14 +44,24 @@ class FriendService {
     requesterId: number;
     addresseeEmail: string;
   }): Promise<FriendDto> {
+    const requester = await User.findByPk(requesterId);
+    if (requester == null) throw new Error();
     const addressee = await this._userService.findUserByEmail(addresseeEmail);
     if (addressee == null) throw ERROR_ADDRESSEE_NOT_FOUND;
     if (addressee.id === requesterId) throw ERROR_FRIENDS_WITH_SELF;
 
     const friendExists = await Friend.findOne({
       where: {
-        requesterId,
-        addresseeId: addressee.id,
+        [Op.or]: [
+          {
+            requesterId,
+            addresseeId: addressee.id,
+          },
+          {
+            requesterId: addressee.id,
+            addresseeId: requesterId,
+          },
+        ],
       },
     });
     if (friendExists != null) throw ERROR_FRIEND_REQUEST_ALREADY_EXISTS;
@@ -63,6 +73,7 @@ class FriendService {
       requestedAt: DateUtils.UTC(),
     };
     const friend = await Friend.create(request);
+    friend.requester = requester;
     friend.addressee = addressee;
 
     return new FriendDto(friend);
