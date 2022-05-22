@@ -9,7 +9,7 @@ interface TooltipProps {
 }
 
 const TOOLTIP_DIRECTION_CLASSES = {
-  top: 'bottom-full flex-col-reverse',
+  top: 'bottom-full flex-col-reverse mb-1',
   left: 'ml-4 left-full flex-row',
   bottom: 'top-full flex-col',
   right: 'right-full flex-row-reverse',
@@ -49,7 +49,7 @@ const Tooltip = ({ text, children, direction, size = 'md' }: TooltipProps) => {
         >
           <div className={`arrow-${direction} border-black/70`}></div>
           <div
-            className={`${TOOLTIP_SIZE_CLASSES[size]} relative whitespace-nowrap rounded-md bg-black/90 p-2 text-center font-semibold text-white`}
+            className={`${TOOLTIP_SIZE_CLASSES[size]} relative whitespace-nowrap rounded-md bg-black/90 py-2 px-3 text-center font-semibold text-white shadow-lg`}
           >
             {text}
           </div>

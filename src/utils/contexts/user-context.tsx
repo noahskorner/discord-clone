@@ -13,6 +13,8 @@ interface UserContextInterface {
   numIncomingPendingFriendRequests: number;
   // eslint-disable-next-line no-unused-vars
   addFriendRequest: (friend: FriendDto) => void;
+  // eslint-disable-next-line no-unused-vars
+  replaceFriendRequest: (replacementFriend: FriendDto) => void;
 }
 
 const defaultValues = {
@@ -21,6 +23,7 @@ const defaultValues = {
   pendingFriendRequests: [],
   numIncomingPendingFriendRequests: 0,
   addFriendRequest: () => {},
+  replaceFriendRequest: () => {},
 };
 
 export const UserContext = createContext<UserContextInterface>(defaultValues);
@@ -60,6 +63,21 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
     });
   };
 
+  const replaceFriendRequest = (replacementFriend: FriendDto) => {
+    setUser((prev) =>
+      prev == null
+        ? null
+        : {
+            ...prev,
+            friendRequests: prev.friendRequests.map((friend) => {
+              return friend.id === replacementFriend.id
+                ? replacementFriend
+                : friend;
+            }),
+          },
+    );
+  };
+
   useEffect(() => {
     if (loadingAuth || requestUser == null) return;
 
@@ -90,6 +108,7 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
         pendingFriendRequests,
         numIncomingPendingFriendRequests,
         addFriendRequest,
+        replaceFriendRequest,
       }}
     >
       {children}

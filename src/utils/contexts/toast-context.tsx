@@ -2,6 +2,7 @@ import { createContext, useState } from 'react';
 import ToastInterface, { Color } from '../types/interfaces/toast-interface';
 import { v4 as uuid } from 'uuid';
 import ToastManager from '../../components/feedback/toast-manager';
+import ErrorInterface from '../types/interfaces/error';
 
 interface ToastContextInterface {
   toasts: ToastInterface[];
@@ -11,6 +12,8 @@ interface ToastContextInterface {
   success: (title: string, body?: string) => void;
   // eslint-disable-next-line no-unused-vars
   danger: (title: string, body?: string) => void;
+  // eslint-disable-next-line no-unused-vars
+  errorListToToasts: (errors: ErrorInterface[]) => void;
 }
 
 const defaultValues = {
@@ -21,6 +24,7 @@ const defaultValues = {
   success: (title: string, body?: string) => {},
   // eslint-disable-next-line no-unused-vars
   danger: (title: string, body?: string) => {},
+  errorListToToasts: () => {},
 };
 
 export const ToastContext = createContext<ToastContextInterface>(defaultValues);
@@ -57,6 +61,12 @@ export const ToastProvider = ({ children }: ToastProviderInterface) => {
     addToast('danger', title, body);
   };
 
+  const errorListToToasts = (errors: ErrorInterface[]) => {
+    errors.forEach((e) => {
+      danger(e.message);
+    });
+  };
+
   return (
     <ToastContext.Provider
       value={{
@@ -64,6 +74,7 @@ export const ToastProvider = ({ children }: ToastProviderInterface) => {
         success,
         danger,
         removeToast,
+        errorListToToasts,
       }}
     >
       {children}

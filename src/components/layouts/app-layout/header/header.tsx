@@ -48,7 +48,7 @@ const Header = () => {
             <span className="flex items-center space-x-2">
               <span>Pending</span>
               {numIncomingPendingFriendRequests > 0 && (
-                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs leading-none">
+                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs leading-none text-white ">
                   {numIncomingPendingFriendRequests}
                 </span>
               )}

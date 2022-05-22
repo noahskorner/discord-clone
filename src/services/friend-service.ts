@@ -10,6 +10,12 @@ const FriendService = {
   ): Promise<AxiosResponse<FriendDto>> => {
     return API.post(`/user/${userId}/friend`, payload);
   },
+  update: (
+    userId: number,
+    friendId: number,
+  ): Promise<AxiosResponse<FriendDto>> => {
+    return API.put(`/user/${userId}/friend/${friendId}`);
+  },
 };
 
 export default FriendService;
