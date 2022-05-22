@@ -6,6 +6,7 @@ import {
   HasMany,
   DefaultScope,
 } from 'sequelize-typescript';
+import Friend from './friend.model';
 import RefreshToken from './refresh-token.model';
 import ServerUser from './server-user.model';
 import UserRole from './user-role.model';
@@ -49,6 +50,9 @@ class User extends Model {
 
   @HasMany(() => ServerUser)
   servers!: ServerUser[];
+
+  @HasMany(() => Friend)
+  friends!: Friend[];
 }
 
 export default User;
