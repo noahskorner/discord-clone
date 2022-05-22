@@ -1,7 +1,8 @@
 # Discord Clone
 
 Built with NextJS, Typescript, TailwindCSS, ExpressJS, Postgres, Socket.IO, and WebRTC
-[Check it out here!](https://docs.noahgothacked.com](https://discord-clone-server-0.herokuapp.com/)
+
+[Check it out here!](https://discord-clone-server-0.herokuapp.com/)
 
 ## Installation and Setup Instructions
 
