@@ -7,6 +7,8 @@ import env from '../../../config/env.config';
 import UserDto from '../../../utils/types/dtos/user';
 import RequestUser from '../../../utils/types/dtos/request-user';
 import RefreshToken from '../../db/models/refresh-token.model';
+import { Attributes, FindOptions, Model } from 'sequelize/types';
+import { Hooks } from 'sequelize/types/hooks';
 
 const ERROR_USER_ALREADY_EXISTS: ErrorInterface = {
   field: 'email',
@@ -34,8 +36,11 @@ const ERROR_RESET_PASSWORD_TOKEN_EXPIRED: ErrorInterface = {
 class UserService {
   private _mailService = new MailService();
 
-  public findUserById = async (id: number): Promise<UserDto | null> => {
-    const user = await User.findByPk(id);
+  public findUserById = async (
+    id: number,
+    options?: Omit<FindOptions<Attributes<Model | Hooks>>, 'where'>,
+  ): Promise<UserDto | null> => {
+    const user = await User.findByPk(id, options);
 
     if (user == null) return null;
 

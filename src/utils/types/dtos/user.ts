@@ -9,7 +9,7 @@ class UserDto {
   public updatedAt: string;
   public createdAt: string;
   public roles: RoleEnum[];
-  public friends: FriendDto[];
+  public friendRequests: FriendDto[];
 
   constructor(user: User) {
     this.id = user.id;
@@ -21,7 +21,7 @@ class UserDto {
       user.roles == null
         ? []
         : user.roles.map((userRole) => userRole.role as RoleEnum);
-    this.friends =
+    this.friendRequests =
       user.friends == null
         ? []
         : user.friends.map((friend) => new FriendDto(friend));

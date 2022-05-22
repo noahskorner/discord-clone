@@ -28,13 +28,13 @@ export const SocketProvider = ({ children }: SocketProviderInterface) => {
     }),
   );
 
-  useEffect(() => {
-    socket.current.connect();
+  // useEffect(() => {
+  //   socket.current.connect();
 
-    () => {
-      socket.current.disconnect();
-    };
-  }, []);
+  //   () => {
+  //     socket.current.disconnect();
+  //   };
+  // }, []);
   return (
     <SocketContext.Provider value={{ socket }}>
       {children}

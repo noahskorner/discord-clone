@@ -17,7 +17,7 @@ class Friend extends Model {
   @Column(DataType.INTEGER)
   requesterId!: number;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, 'requester_id')
   requester!: User;
 
   @PrimaryKey
@@ -25,7 +25,7 @@ class Friend extends Model {
   @Column(DataType.INTEGER)
   addresseeId!: number;
 
-  @BelongsTo(() => User)
+  @BelongsTo(() => User, 'addressee_id')
   addressee!: User;
 
   @Column(DataType.BOOLEAN)

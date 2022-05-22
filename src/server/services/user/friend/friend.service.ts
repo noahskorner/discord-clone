@@ -1,8 +1,10 @@
+const { Op } = require('sequelize');
 import DateUtils from '../../../../utils/date-utils';
 import ErrorEnum from '../../../../utils/enums/errors';
 import FriendDto from '../../../../utils/types/dtos/friend';
 import SystemError from '../../../../utils/types/interfaces/system-error';
 import Friend from '../../../db/models/friend.model';
+import User from '../../../db/models/user.model';
 import UserService from '../user.service';
 
 const ERROR_ADDRESSEE_NOT_FOUND = new SystemError(
@@ -64,6 +66,18 @@ class FriendService {
     friend.addressee = addressee;
 
     return new FriendDto(friend);
+  }
+
+  public async findByUserId(userId: number): Promise<FriendDto[]> {
+    const friends = await Friend.findAll({
+      where: { [Op.or]: [{ requesterId: userId }, { addresseeId: userId }] },
+      include: [
+        { model: User, as: 'addressee' },
+        { model: User, as: 'requester' },
+      ],
+    });
+
+    return friends.map((f) => new FriendDto(f));
   }
 }
 

@@ -10,13 +10,13 @@ interface UserContextInterface {
   loading: boolean;
   user: UserDto | null;
   // eslint-disable-next-line no-unused-vars
-  addFriend: (friend: FriendDto) => void;
+  addFriendRequest: (friend: FriendDto) => void;
 }
 
 const defaultValues = {
   loading: false,
   user: null,
-  addFriend: () => {},
+  addFriendRequest: () => {},
 };
 
 export const UserContext = createContext<UserContextInterface>(defaultValues);
@@ -31,17 +31,17 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
   const [user, setUser] = useState<UserDto | null>(defaultValues.user);
   const [loading, setLoading] = useState(false);
 
-  const addFriend = (friend: FriendDto) => {
+  const addFriendRequest = (friend: FriendDto) => {
     console.log(friend);
 
     setUser((prev) => {
-      console.log(prev?.friends);
+      console.log(prev?.friendRequests);
 
       return prev === null
         ? prev
         : {
             ...prev,
-            friends: [...prev.friends, friend],
+            friendRequests: [...prev.friendRequests, friend],
           };
     });
   };
@@ -69,7 +69,7 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
   }, [loadingAuth, requestUser]);
 
   return (
-    <UserContext.Provider value={{ user, loading, addFriend }}>
+    <UserContext.Provider value={{ user, loading, addFriendRequest }}>
       {children}
     </UserContext.Provider>
   );

@@ -15,7 +15,7 @@ const AddFriend = () => {
   const [emailErrors, setEmailErrors] = useState<ErrorInterface[]>([]);
   const [inputFocused, setInputFocused] = useState(false);
   const { success, danger } = useToasts();
-  const { user, addFriend } = useUser();
+  const { user, addFriendRequest } = useUser();
 
   const createFriendRequest = async () => {
     const payload = {
@@ -38,7 +38,7 @@ const AddFriend = () => {
     setLoading(true);
     try {
       const response = await FriendService.create(user!.id, payload);
-      addFriend(response.data);
+      addFriendRequest(response.data);
       success(`Sent friend request to ${payload.addresseeEmail}!`);
     } catch (error) {
       const { errors } = handleServiceError(error);

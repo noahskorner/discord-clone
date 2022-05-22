@@ -5,12 +5,16 @@ import UserValidator from '../../validators/user';
 import CreateUserRequest from '../../../utils/types/requests/user/create-user';
 import ResetPasswordRequest from '../../../utils/types/requests/user/reset-password';
 import ConfirmResetPasswordRequest from '../../../utils/types/requests/user/confirm-reset-password';
+import FriendDto from '../../../utils/types/dtos/friend';
+import FriendService from '../../services/user/friend';
 
 class UserController {
   private _userService;
+  private _friendService;
 
   constructor() {
     this._userService = new UserService();
+    this._friendService = new FriendService();
   }
 
   public register = catchAsync(async (req: Request, res: Response) => {
@@ -47,6 +51,8 @@ class UserController {
 
     const user = await this._userService.findUserById(userId);
     if (user === null) return res.sendStatus(400);
+
+    user.friendRequests = await this._friendService.findByUserId(userId);
 
     return res.status(200).json(user);
   });

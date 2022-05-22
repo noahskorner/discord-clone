@@ -15,6 +15,7 @@ interface TextFieldProps extends InputProps {
   icon?: JSX.Element;
   color?: 'primary' | 'secondary';
   trailingIcon?: JSX.Element;
+  placeholder?: string;
 }
 
 const TEXT_FIELD_CLASSES = {
