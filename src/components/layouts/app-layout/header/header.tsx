@@ -33,7 +33,7 @@ const Header = () => {
           <p className="font-bold text-white">{channel.name}</p>
         </div>
       ) : (
-        <div className="flex w-full items-center justify-start space-x-5">
+        <div className="scrollbar-none flex w-full items-center justify-start space-x-5 overflow-x-scroll">
           <span className="flex items-center space-x-2">
             <FriendIcon className="text-slate-300" size={IconSize.lg} />
             <h6 className="mr-4 border-r border-slate-500 pr-4 text-sm font-semibold">
@@ -56,7 +56,7 @@ const Header = () => {
           </HomeButton>
           <button
             onClick={handleAddFriendBtnClick}
-            className="flex items-center justify-center rounded-md bg-green-600 px-2 py-1 text-sm font-medium text-white hover:bg-green-800"
+            className="flex items-center justify-center whitespace-nowrap rounded-md bg-green-600 px-2 py-1 text-sm font-medium text-white hover:bg-green-800"
           >
             Add friend
           </button>
