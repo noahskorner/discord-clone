@@ -2,37 +2,15 @@ import HomeState from '../../../../utils/enums/home-state';
 import useApp from '../../../../utils/hooks/use-app';
 import useChannel from '../../../../utils/hooks/use-channel';
 import useHome from '../../../../utils/hooks/use-home';
+import useUser from '../../../../utils/hooks/use-user';
 import { BarsIcon, ChannelIcon, FriendIcon, IconSize } from '../../../icons';
-import { MouseEvent } from 'react';
-
-interface HomeButtonProps {
-  state: HomeState;
-  children: JSX.Element | string;
-}
-
-const HomeButton = ({ state, children }: HomeButtonProps) => {
-  const { state: homeState, setState: setHomeState } = useHome();
-
-  const handleHomeButtonClick = () => {
-    setHomeState(state);
-  };
-
-  return (
-    <button
-      onClick={handleHomeButtonClick}
-      className={`${
-        homeState === state ? '' : 'text-slate-300 hover:bg-slate-600'
-      } rounded-md px-2 py-1 text-sm font-medium`}
-    >
-      {children}
-    </button>
-  );
-};
+import HomeButton from './home-button';
 
 const Header = () => {
   const { setShowSidebar } = useApp();
   const { channel } = useChannel();
   const { setState: setHomeState } = useHome();
+  const { numIncomingPendingFriendRequests } = useUser();
 
   const handleSidebarBtnClick = () => {
     setShowSidebar((prev) => !prev);
@@ -64,7 +42,16 @@ const Header = () => {
           </span>
           <HomeButton state={HomeState.ONLINE}>Online</HomeButton>
           <HomeButton state={HomeState.ALL}>All</HomeButton>
-          <HomeButton state={HomeState.PENDING}>Pending</HomeButton>
+          <HomeButton state={HomeState.PENDING}>
+            <span className="flex items-center space-x-2">
+              <span>Pending</span>
+              {numIncomingPendingFriendRequests > 0 && (
+                <span className="flex h-4 w-4 items-center justify-center rounded-full bg-red-600 text-xs leading-none">
+                  {numIncomingPendingFriendRequests}
+                </span>
+              )}
+            </span>
+          </HomeButton>
           <button
             onClick={handleAddFriendBtnClick}
             className="flex items-center justify-center rounded-md bg-green-600 px-2 py-1 text-sm font-medium text-white hover:bg-green-800"

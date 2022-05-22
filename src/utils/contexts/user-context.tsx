@@ -9,6 +9,8 @@ import UserDto from '../types/dtos/user';
 interface UserContextInterface {
   loading: boolean;
   user: UserDto | null;
+  pendingFriendRequests: FriendDto[];
+  numIncomingPendingFriendRequests: number;
   // eslint-disable-next-line no-unused-vars
   addFriendRequest: (friend: FriendDto) => void;
 }
@@ -16,6 +18,8 @@ interface UserContextInterface {
 const defaultValues = {
   loading: false,
   user: null,
+  pendingFriendRequests: [],
+  numIncomingPendingFriendRequests: 0,
   addFriendRequest: () => {},
 };
 
@@ -29,14 +33,24 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
   const { user: requestUser, loading: loadingAuth } = useAuth();
   const { danger } = useToasts();
   const [user, setUser] = useState<UserDto | null>(defaultValues.user);
+  const pendingFriendRequests =
+    user != null
+      ? user.friendRequests
+          .filter((f) => f.accepted === false)
+          .sort(
+            (a, b) =>
+              new Date(a.requestedAt).getTime() -
+              new Date(b.requestedAt).getTime(),
+          )
+      : [];
+  const numIncomingPendingFriendRequests =
+    user != null
+      ? pendingFriendRequests.filter((f) => f.requester.id !== user.id).length
+      : 0;
   const [loading, setLoading] = useState(false);
 
   const addFriendRequest = (friend: FriendDto) => {
-    console.log(friend);
-
     setUser((prev) => {
-      console.log(prev?.friendRequests);
-
       return prev === null
         ? prev
         : {
@@ -69,7 +83,15 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
   }, [loadingAuth, requestUser]);
 
   return (
-    <UserContext.Provider value={{ user, loading, addFriendRequest }}>
+    <UserContext.Provider
+      value={{
+        user,
+        loading,
+        pendingFriendRequests,
+        numIncomingPendingFriendRequests,
+        addFriendRequest,
+      }}
+    >
       {children}
     </UserContext.Provider>
   );
