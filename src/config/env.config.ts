@@ -60,6 +60,4 @@ const env = {
   SMTP_PASSWORD: process.env.SMTP_PASSWORD,
 };
 
-console.log(JSON.stringify(env));
-
 export default env;
