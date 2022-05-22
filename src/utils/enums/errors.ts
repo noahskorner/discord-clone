@@ -7,7 +7,8 @@ enum ErrorEnum {
   FRIEND_REQUEST_ALREADY_EXISTS = 'FriendService.createFriendRequest.FriendRequestAlreadyExists.',
   FRIENDS_WITH_SELF = 'FriendService.createFriendRequest.FriendsWithSelf',
   FRIEND_REQUEST_NOT_FOUND = 'FriendService.acceptFriendRequest.FriendRequestNotFound',
-  FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS = 'FriendService.acceptFriendRequest.FriendRequestInsufficientPermission',
+  FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_UPDATE = 'FriendService.acceptFriendRequest.FriendRequestInsufficientPermissionsUpdate',
+  FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_DELETE = 'FriendService.acceptFriendRequest.FriendRequestInsufficientPermissionsDelete',
 }
 
 export default ErrorEnum;

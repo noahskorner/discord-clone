@@ -16,6 +16,12 @@ const FriendService = {
   ): Promise<AxiosResponse<FriendRequestDto>> => {
     return API.put(`/user/${userId}/friend/${friendId}`);
   },
+  delete: (
+    userId: number,
+    friendId: number,
+  ): Promise<AxiosResponse<FriendRequestDto>> => {
+    return API.delete(`/user/${userId}/friend/${friendId}`);
+  },
 };
 
 export default FriendService;

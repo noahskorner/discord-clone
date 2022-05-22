@@ -1,14 +1,34 @@
 import { useState } from 'react';
+import FriendService from '../../../../services/friend-service';
+import useToasts from '../../../../utils/hooks/use-toasts';
 import useUser from '../../../../utils/hooks/use-user';
-import { IconSize, SearchIcon } from '../../../icons';
+import handleServiceError from '../../../../utils/services/handle-service-error';
+import Tooltip from '../../../feedback/tooltip';
+import { CloseIcon, IconSize, SearchIcon } from '../../../icons';
 import TextField from '../../../inputs/text-field';
 
 const AllFriends = () => {
-  const { friends } = useUser();
+  const { user, friends, removeFriendRequest } = useUser();
+  const { success, errorListToToasts } = useToasts();
   const [searchText, setSearchText] = useState('');
   const filteredFriends = friends.filter((friend) =>
     friend.username.includes(searchText),
   );
+  const [loading, setLoading] = useState(false);
+
+  const handleRemoveFriendBtnClick = async (friendId: number) => {
+    setLoading(true);
+    try {
+      await FriendService.delete(user!.id, friendId);
+      removeFriendRequest(friendId);
+      success('Successfully removed friend!', 'That guy sucks, right?');
+    } catch (error) {
+      const { errors } = handleServiceError(error);
+      errorListToToasts(errors);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   return (
     <div className="flex h-full w-full justify-start">
@@ -37,7 +57,17 @@ const AllFriends = () => {
                   </span>
                 </div>
               </div>
-              <div className="flex items-center justify-end space-x-2"></div>
+              <div className="flex items-center justify-end space-x-2">
+                <Tooltip size="sm" text={'Remove'} direction={'top'}>
+                  <button
+                    disabled={loading}
+                    onClick={() => handleRemoveFriendBtnClick(friend.friendId)}
+                    className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-slate-900 hover:text-red-600"
+                  >
+                    <CloseIcon size={IconSize.md} />
+                  </button>
+                </Tooltip>
+              </div>
             </div>
           ))}
         </div>

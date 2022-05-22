@@ -17,6 +17,8 @@ interface UserContextInterface {
   addFriendRequest: (friend: FriendRequestDto) => void;
   // eslint-disable-next-line no-unused-vars
   replaceFriendRequest: (replacementFriend: FriendRequestDto) => void;
+  // eslint-disable-next-line no-unused-vars
+  removeFriendRequest: (friendId: number) => void;
 }
 
 const defaultValues = {
@@ -27,6 +29,7 @@ const defaultValues = {
   friends: [],
   addFriendRequest: () => {},
   replaceFriendRequest: () => {},
+  removeFriendRequest: () => {},
 };
 
 export const UserContext = createContext<UserContextInterface>(defaultValues);
@@ -63,7 +66,12 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
               friendRequest.requester.id === user.id
                 ? friendRequest.addressee
                 : friendRequest.requester;
-            return new FriendDto(friend.id, friend.username, friend.email);
+            return new FriendDto(
+              friendRequest.id,
+              friend.id,
+              friend.username,
+              friend.email,
+            );
           });
   const [loading, setLoading] = useState(false);
 
@@ -89,6 +97,19 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
                 ? replacementFriend
                 : friend;
             }),
+          },
+    );
+  };
+
+  const removeFriendRequest = (friendId: number) => {
+    setUser((prev) =>
+      prev == null
+        ? prev
+        : {
+            ...prev,
+            friendRequests: prev.friendRequests.filter(
+              (f) => f.id !== friendId,
+            ),
           },
     );
   };
@@ -125,6 +146,7 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
         friends,
         addFriendRequest,
         replaceFriendRequest,
+        removeFriendRequest,
       }}
     >
       {children}

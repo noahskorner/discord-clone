@@ -9,7 +9,12 @@ import { CheckIcon, CloseIcon, IconSize, SearchIcon } from '../../../icons';
 import TextField from '../../../inputs/text-field';
 
 const PendingFriends = () => {
-  const { user, pendingFriendRequests, replaceFriendRequest } = useUser();
+  const {
+    user,
+    pendingFriendRequests,
+    replaceFriendRequest,
+    removeFriendRequest,
+  } = useUser();
   const { success, errorListToToasts } = useToasts();
   const [loading, setLoading] = useState(false);
   const [searchText, setSearchText] = useState('');
@@ -46,8 +51,18 @@ const PendingFriends = () => {
       setLoading(false);
     }
   };
-  const handleRemoveFriendRequestBtnClick = (friendId: number) => {
-    console.log(friendId);
+  const handleRemoveFriendRequestBtnClick = async (friendId: number) => {
+    setLoading(true);
+    try {
+      await FriendService.delete(user!.id, friendId);
+      removeFriendRequest(friendId);
+      success('Successfully removed friend request!', 'That guy sucks, right?');
+    } catch (error) {
+      const { errors } = handleServiceError(error);
+      errorListToToasts(errors);
+    } finally {
+      setLoading(false);
+    }
   };
 
   return (
@@ -80,17 +95,21 @@ const PendingFriends = () => {
                 </div>
               </div>
               <div className="flex items-center justify-end space-x-2">
-                <Tooltip size="sm" text={'Accept'} direction={'top'}>
-                  <button
-                    disabled={loading}
-                    onClick={() =>
-                      handleAcceptFriendRequestBtnClick(pendingFriendRequest.id)
-                    }
-                    className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-slate-900 hover:text-green-600"
-                  >
-                    <CheckIcon size={IconSize.md} />
-                  </button>
-                </Tooltip>
+                {pendingFriendRequest.requester.id !== user?.id && (
+                  <Tooltip size="sm" text={'Accept'} direction={'top'}>
+                    <button
+                      disabled={loading}
+                      onClick={() =>
+                        handleAcceptFriendRequestBtnClick(
+                          pendingFriendRequest.id,
+                        )
+                      }
+                      className="flex h-9 w-9 items-center justify-center rounded-full bg-slate-800 text-slate-300 hover:bg-slate-900 hover:text-green-600"
+                    >
+                      <CheckIcon size={IconSize.md} />
+                    </button>
+                  </Tooltip>
+                )}
                 <Tooltip size="sm" text={'Ignore'} direction={'top'}>
                   <button
                     disabled={loading}

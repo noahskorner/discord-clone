@@ -48,6 +48,31 @@ class FriendController {
       return res.status(200).json(friend);
     } catch (error: any) {
       switch (error.type) {
+        case ErrorEnum.FRIEND_REQUEST_NOT_FOUND:
+          return res.status(404).json(error.errors);
+        case ErrorEnum.FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_UPDATE:
+          return res.status(403).json(error.errors);
+        default:
+          return res.status(500).json([ERROR_UNKOWN]);
+      }
+    }
+  });
+
+  public delete = catchAsync(async (req: Request, res: Response) => {
+    try {
+      const friendId = parseInt(req.params.friendId);
+      const friend = await this._friendService.removeFriend(
+        req.user.id,
+        friendId,
+      );
+
+      return res.status(200).json(friend);
+    } catch (error: any) {
+      switch (error.type) {
+        case ErrorEnum.FRIEND_REQUEST_NOT_FOUND:
+          return res.status(404).json(error.errors);
+        case ErrorEnum.FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_DELETE:
+          return res.status(403).json(error.errors);
         default:
           return res.status(500).json([ERROR_UNKOWN]);
       }

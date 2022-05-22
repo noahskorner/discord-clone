@@ -37,11 +37,19 @@ const ERROR_FRIEND_REQUEST_NOT_FOUND = new SystemError(
     },
   ],
 );
-const ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS = new SystemError(
-  ErrorEnum.FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS,
+const ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_UPDATE = new SystemError(
+  ErrorEnum.FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_UPDATE,
   [
     {
       message: 'Insufficient permissions to update this friend request.',
+    },
+  ],
+);
+const ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_DELETE = new SystemError(
+  ErrorEnum.FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_DELETE,
+  [
+    {
+      message: 'Insufficient permissions to delete this friend.',
     },
   ],
 );
@@ -120,7 +128,7 @@ class FriendService {
 
     if (friendRequest == null) throw ERROR_FRIEND_REQUEST_NOT_FOUND;
     if (friendRequest.addresseeId !== userId)
-      throw ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS;
+      throw ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_UPDATE;
     if (friendRequest.accepted === true)
       return new FriendRequestDto(friendRequest);
 
@@ -130,6 +138,23 @@ class FriendService {
     });
 
     return new FriendRequestDto(updatedFriendRequest);
+  }
+
+  public async removeFriend(userId: number, friendId: number): Promise<void> {
+    const friend = await Friend.findByPk(friendId, {
+      include: [
+        { model: User, as: 'addressee' },
+        { model: User, as: 'requester' },
+      ],
+    });
+
+    if (friend == null) throw ERROR_FRIEND_REQUEST_NOT_FOUND;
+    if (friend.addresseeId !== userId && friend.requesterId !== userId)
+      throw ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_DELETE;
+
+    await friend.destroy();
+
+    return;
   }
 }
 
