@@ -6,6 +6,8 @@ enum ErrorEnum {
   ADDRESSEE_NOT_FOUND = 'FriendService.createFriendRequest.AddresseeNotFound',
   FRIEND_REQUEST_ALREADY_EXISTS = 'FriendService.createFriendRequest.FriendRequestAlreadyExists.',
   FRIENDS_WITH_SELF = 'FriendService.createFriendRequest.FriendsWithSelf',
+  FRIEND_REQUEST_NOT_FOUND = 'FriendService.acceptFriendRequest.FriendRequestNotFound',
+  FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS = 'FriendService.acceptFriendRequest.FriendRequestInsufficientPermission',
 }
 
 export default ErrorEnum;

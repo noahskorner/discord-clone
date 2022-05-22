@@ -6,5 +6,6 @@ const friendController = new FriendController();
 
 const friendRouter = Router({ mergeParams: true });
 friendRouter.post('/', authenticate, friendController.create);
+friendRouter.put('/:friendId', authenticate, friendController.update);
 
 export default friendRouter;

@@ -29,6 +29,22 @@ const ERROR_FRIENDS_WITH_SELF = new SystemError(ErrorEnum.FRIENDS_WITH_SELF, [
     message: 'Cannot be friends with yourself. Go outside and play.',
   },
 ]);
+const ERROR_FRIEND_REQUEST_NOT_FOUND = new SystemError(
+  ErrorEnum.FRIEND_REQUEST_NOT_FOUND,
+  [
+    {
+      message: 'Friend request not found',
+    },
+  ],
+);
+const ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS = new SystemError(
+  ErrorEnum.FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS,
+  [
+    {
+      message: 'Insufficient permissions to update this friend request.',
+    },
+  ],
+);
 
 class FriendService {
   private _userService: UserService;
@@ -89,6 +105,30 @@ class FriendService {
     });
 
     return friends.map((f) => new FriendDto(f));
+  }
+
+  public async acceptFriendRequest(
+    userId: number,
+    friendId: number,
+  ): Promise<FriendDto> {
+    const friendRequest = await Friend.findByPk(friendId, {
+      include: [
+        { model: User, as: 'addressee' },
+        { model: User, as: 'requester' },
+      ],
+    });
+
+    if (friendRequest == null) throw ERROR_FRIEND_REQUEST_NOT_FOUND;
+    if (friendRequest.addresseeId !== userId)
+      throw ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS;
+    if (friendRequest.accepted === true) return new FriendDto(friendRequest);
+
+    const updatedFriendRequest = await friendRequest.update({
+      accepted: true,
+      acceptedAt: DateUtils.UTC(),
+    });
+
+    return new FriendDto(updatedFriendRequest);
   }
 }
 
