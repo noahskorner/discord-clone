@@ -7,6 +7,7 @@ interface FriendInterface {
 }
 
 class FriendDto {
+  public id: number;
   public requester: FriendInterface;
   public addressee: FriendInterface;
   public accepted: boolean;
@@ -14,6 +15,7 @@ class FriendDto {
   public acceptedAt: Date;
 
   constructor(friend: Friend) {
+    this.id = friend.id;
     this.requester = {
       id: friend.requesterId,
       email: friend.requester.email,

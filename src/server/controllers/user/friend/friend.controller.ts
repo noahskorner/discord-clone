@@ -36,5 +36,26 @@ class FriendController {
       }
     }
   });
+
+  // public update = catchAsync(async (req: Request, res: Response) => {
+  //   const validationResult = FriendValidator.update({ ...req.body });
+  //   if (validationResult.length > 0) {
+  //     return res.status(400).json(validationResult);
+  //   }
+
+  //   try {
+  //     const friend = await this._friendService.acceptFriendRequest({
+  //       requesterId: req.user.id,
+  //       addresseeEmail: req.body.addresseeEmail,
+  //     });
+
+  //     return res.status(200).json(friend);
+  //   } catch (error: any) {
+  //     switch (error.type) {
+  //       default:
+  //         return res.status(500).json([ERROR_UNKOWN]);
+  //     }
+  //   }
+  // });
 }
 export default FriendController;

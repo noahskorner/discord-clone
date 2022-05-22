@@ -5,14 +5,12 @@ import {
   DataType,
   ForeignKey,
   Model,
-  PrimaryKey,
   Table,
 } from 'sequelize-typescript';
 import User from './user.model';
 
 @Table({ tableName: 'friend', underscored: true })
 class Friend extends Model {
-  @PrimaryKey
   @ForeignKey(() => User)
   @Column(DataType.INTEGER)
   requesterId!: number;
@@ -20,7 +18,6 @@ class Friend extends Model {
   @BelongsTo(() => User, 'requester_id')
   requester!: User;
 
-  @PrimaryKey
   @ForeignKey(() => User)
   @Column(DataType.INTEGER)
   addresseeId!: number;
