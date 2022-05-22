@@ -1,4 +1,11 @@
-import { createContext, Dispatch, SetStateAction, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useEffect,
+  useState,
+} from 'react';
 import ChannelService from '../../services/channel-service';
 import useServer from '../hooks/use-server';
 import useToasts from '../hooks/use-toasts';
@@ -33,29 +40,38 @@ export const ChannelProvider = ({ children }: ChannelProviderInterface) => {
     defaultValues.channel,
   );
 
-  const { server } = useServer();
+  const { server, textChannels } = useServer();
   const { danger } = useToasts();
 
-  const loadChannel = async (channelId: number | null) => {
-    if (channelId == null) {
-      setChannel(null);
-      return;
-    }
+  const loadChannel = useCallback(
+    async (channelId: number | null) => {
+      if (channelId == null) {
+        setChannel(null);
+        return;
+      }
 
-    setLoading(true);
-    try {
-      const response = await ChannelService.get(server!.id, channelId);
-      setChannel(response.data);
-    } catch (error) {
-      setChannel(null);
-      const { errors } = handleServiceError(error);
-      errors.forEach((error) => {
-        danger(error.message);
-      });
-    } finally {
-      setLoading(false);
+      setLoading(true);
+      try {
+        const response = await ChannelService.get(server!.id, channelId);
+        setChannel(response.data);
+      } catch (error) {
+        setChannel(null);
+        const { errors } = handleServiceError(error);
+        errors.forEach((error) => {
+          danger(error.message);
+        });
+      } finally {
+        setLoading(false);
+      }
+    },
+    [danger, server],
+  );
+
+  useEffect(() => {
+    if (textChannels.length > 0) {
+      loadChannel(textChannels[0].id);
     }
-  };
+  }, [loadChannel, textChannels]);
 
   return (
     <ChannelContext.Provider

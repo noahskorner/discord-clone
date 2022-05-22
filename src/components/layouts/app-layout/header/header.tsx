@@ -33,7 +33,7 @@ const Header = () => {
           <p className="font-bold text-white">{channel.name}</p>
         </div>
       ) : (
-        <div className="flex w-full items-center justify-start space-x-4">
+        <div className="flex w-full items-center justify-start space-x-5">
           <span className="flex items-center space-x-2">
             <FriendIcon className="text-slate-300" size={IconSize.lg} />
             <h6 className="mr-4 border-r border-slate-500 pr-4 text-sm font-semibold">
@@ -41,7 +41,9 @@ const Header = () => {
             </h6>
           </span>
           <HomeButton state={HomeState.ONLINE}>Online</HomeButton>
-          <HomeButton state={HomeState.ALL}>All</HomeButton>
+          <HomeButton state={HomeState.ALL}>
+            <span className="px-2">All</span>
+          </HomeButton>
           <HomeButton state={HomeState.PENDING}>
             <span className="flex items-center space-x-2">
               <span>Pending</span>
