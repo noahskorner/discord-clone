@@ -89,3 +89,14 @@ input:focus {
 .invite-btn:hover button {
   background-color: theme('colors.green.600');
 }
+
+/* Inputs */
+input::-webkit-input-placeholder {
+  font-weight: 300;
+}
+input::-moz-placeholder {
+  font-weight: 300;
+}
+input::-ms-input-placeholder {
+  font-weight: 300;
+}

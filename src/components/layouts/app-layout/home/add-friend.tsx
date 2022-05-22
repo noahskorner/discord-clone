@@ -99,13 +99,13 @@ const AddFriend = () => {
             name=""
             id=""
             className="h-full w-full rounded-lg bg-slate-900 px-4"
-            placeholder="Enter an Email"
+            placeholder="Enter an email"
           />
           <button
             onClick={handleSendFriendRequestBtnClick}
             disabled={isDisabled}
             className={`${
-              isDisabled ? 'bg-indigo-400' : 'bg-indigo-600'
+              isDisabled ? 'bg-indigo-400' : 'bg-indigo-600 hover:bg-indigo-800'
             } flex items-center justify-center whitespace-nowrap rounded-md p-2 text-xs`}
           >
             <span className={`${loading && 'opacity-0'}`}>
