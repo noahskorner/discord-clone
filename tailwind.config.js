@@ -18,6 +18,9 @@ module.exports = {
           'channel-text-area': '#40444b',
         },
       },
+      fontFamily: {
+        sans: '"Inter", sans-serif',
+      },
       borderWidth: {
         6: '6px',
       },
