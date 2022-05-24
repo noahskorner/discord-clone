@@ -1,10 +1,18 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
+import { useState } from 'react';
+import Tooltip from '../../../feedback/tooltip';
 import { FriendIcon, IconSize, PlusIcon } from '../../../icons';
 import Sidebar from '../sidebar';
+import DirectMessagesModal from './direct-messages-modal';
 
 const FriendSidebar = () => {
   const router = useRouter();
+  const [showDirectMessagesModal, setShowDirectMessagesModal] = useState(false);
+
+  const handleCreateDMBtnClick = () => {
+    setShowDirectMessagesModal(true);
+  };
 
   return (
     <Sidebar
@@ -30,12 +38,23 @@ const FriendSidebar = () => {
             </span>
           </Link>
           <div className="mt-4">
-            <span className="flex cursor-default items-center justify-between px-3 text-slate-300 hover:text-white">
-              <span className="flex w-full items-center space-x-1 text-left text-xs font-semibold uppercase">
-                <span>Direct Messages</span>
-              </span>
-              <PlusIcon size={IconSize.sm} />
-            </span>
+            <div className="relative flex cursor-default items-center justify-between px-3">
+              <div className="flex w-full items-center space-x-1 text-left text-xs font-semibold uppercase text-slate-300 hover:text-white">
+                <h6>Direct Messages</h6>
+              </div>
+              <Tooltip text="Create DM" direction={'top'} size="sm">
+                <button
+                  onClick={handleCreateDMBtnClick}
+                  className="flex items-center justify-center text-slate-300 hover:text-white"
+                >
+                  <PlusIcon size={IconSize.sm} />
+                </button>
+              </Tooltip>
+              <DirectMessagesModal
+                showModal={showDirectMessagesModal}
+                setShowModal={setShowDirectMessagesModal}
+              />
+            </div>
           </div>
         </div>
       }

@@ -70,14 +70,14 @@ const SidebarHeader = () => {
           <div className="h-full w-full rounded-md bg-slate-1100 p-2 shadow-xl">
             <button
               onClick={handleInvitePeopleBtnClick}
-              className="flex w-full items-center justify-between rounded p-2 text-sm font-medium text-indigo-400 hover:bg-indigo-600 hover:text-white active:bg-indigo-800"
+              className="flex w-full items-center justify-between rounded p-2 text-sm font-medium text-indigo-400 hover:bg-indigo-600 hover:text-white active:bg-indigo-700"
             >
               <span>Invite People</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <UserAddIcon />
               </div>
             </button>
-            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-800">
+            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-700">
               <span>Server Settings</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <SettingsIcon />
@@ -85,14 +85,14 @@ const SidebarHeader = () => {
             </button>
             <button
               onClick={handleCreateChannelBtnClick}
-              className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-800"
+              className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-700"
             >
               <span>Create Channel</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <PlusIcon />
               </div>
             </button>
-            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-800">
+            <button className="flex w-full items-center justify-between rounded p-2 text-sm font-medium hover:bg-indigo-600 hover:text-white active:bg-indigo-700">
               <span>Edit Server Profile</span>
               <div className="justfiy-center flex h-4 w-4 items-center">
                 <PencilIcon />
