@@ -1,13 +1,5 @@
-import {
-  createContext,
-  Dispatch,
-  SetStateAction,
-  useCallback,
-  useEffect,
-  useState,
-} from 'react';
+import { createContext, Dispatch, SetStateAction, useState } from 'react';
 import ChannelService from '../../services/channel-service';
-import useServer from '../hooks/use-server';
 import useToasts from '../hooks/use-toasts';
 import handleServiceError from '../services/handle-service-error';
 import ChannelDto from '../types/dtos/channel';
@@ -17,7 +9,7 @@ interface ChannelContextInterface {
   channel: ChannelDto | null;
   setChannel: Dispatch<SetStateAction<ChannelDto | null>>;
   // eslint-disable-next-line no-unused-vars
-  loadChannel: (channelId: number | null) => Promise<void>;
+  loadChannel: (serverId: number, channelId: number) => Promise<void>;
 }
 
 const defaultValues = {
@@ -40,38 +32,23 @@ export const ChannelProvider = ({ children }: ChannelProviderInterface) => {
     defaultValues.channel,
   );
 
-  const { server, textChannels } = useServer();
   const { danger } = useToasts();
 
-  const loadChannel = useCallback(
-    async (channelId: number | null) => {
-      if (channelId == null || server == null) {
-        setChannel(null);
-        return;
-      }
-
-      setLoading(true);
-      try {
-        const response = await ChannelService.get(server.id, channelId);
-        setChannel(response.data);
-      } catch (error) {
-        setChannel(null);
-        const { errors } = handleServiceError(error);
-        errors.forEach((error) => {
-          danger(error.message);
-        });
-      } finally {
-        setLoading(false);
-      }
-    },
-    [danger, server],
-  );
-
-  useEffect(() => {
-    if (textChannels.length > 0) {
-      loadChannel(textChannels[0].id);
+  const loadChannel = async (serverId: number, channelId: number) => {
+    setLoading(true);
+    try {
+      const response = await ChannelService.get(serverId, channelId);
+      setChannel(response.data);
+    } catch (error) {
+      setChannel(null);
+      const { errors } = handleServiceError(error);
+      errors.forEach((error) => {
+        danger(error.message);
+      });
+    } finally {
+      setLoading(false);
     }
-  }, [loadChannel, textChannels]);
+  };
 
   return (
     <ChannelContext.Provider

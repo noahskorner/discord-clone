@@ -33,20 +33,13 @@ const ChannelPage: NextPageLayout = () => {
   const { loadChannel } = useChannel();
 
   useEffect(() => {
-    const loadServerAndChannel = async (
-      serverId: string,
-      channelId: string,
-    ) => {
-      const newServerId = parseInt(serverId);
-      const newChannelId = parseInt(channelId);
+    const newServerId = parseInt(serverId);
+    const newChannelId = parseInt(channelId);
 
-      if (isNaN(newServerId) || isNaN(newChannelId)) return;
+    if (isNaN(newServerId) || isNaN(newChannelId)) return;
 
-      await loadServer(newServerId);
-      await loadChannel(newChannelId);
-    };
-
-    loadServerAndChannel(serverId, channelId);
+    loadServer(newServerId);
+    loadChannel(newServerId, newChannelId);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [channelId, serverId]);
 
