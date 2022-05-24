@@ -1,15 +1,14 @@
 import { ReactElement } from 'react';
 import AppLayout from '../../components/layouts/app-layout';
-import PendingFriends from '../../components/layouts/app-layout/friends/pending-friends';
 import FriendHeader from '../../components/layouts/app-layout/friends/friend-header';
-import { NextPageLayout } from '../../utils/types/next-page-layout';
 import FriendSidebar from '../../components/layouts/app-layout/friends/friend-sidebar';
+import { NextPageLayout } from '../../utils/types/next-page-layout';
 
-const PendingFriendsPage: NextPageLayout = () => {
-  return <PendingFriends />;
+const OnlineFriendsPage: NextPageLayout = () => {
+  return <></>;
 };
 
-PendingFriendsPage.getLayout = (page: ReactElement) => {
+OnlineFriendsPage.getLayout = (page: ReactElement) => {
   return (
     <AppLayout header={<FriendHeader />} sidebar={<FriendSidebar />}>
       {page}
@@ -17,4 +16,4 @@ PendingFriendsPage.getLayout = (page: ReactElement) => {
   );
 };
 
-export default PendingFriendsPage;
+export default OnlineFriendsPage;

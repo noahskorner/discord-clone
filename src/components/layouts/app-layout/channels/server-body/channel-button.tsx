@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import ChannelType from '../../../../../utils/enums/channel-type';
 import useApp from '../../../../../utils/hooks/use-app';
 import useChannel from '../../../../../utils/hooks/use-channel';
@@ -10,10 +11,12 @@ interface ChannelButtonProps {
 
 const ChannelButton = ({ channel }: ChannelButtonProps) => {
   const { setShowSidebar } = useApp();
-  const { channel: currentChannel, loadChannel } = useChannel();
+  const router = useRouter();
+  const { serverId } = router.query as { serverId: string };
+  const { channel: currentChannel } = useChannel();
 
   const handleChannelBtnClick = async (channelId: number) => {
-    await loadChannel(channelId);
+    router.push(`/servers/${serverId}/channels/${channelId}`);
     setShowSidebar(false);
   };
 

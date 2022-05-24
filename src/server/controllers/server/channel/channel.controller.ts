@@ -51,7 +51,7 @@ class ChannelController {
 
       if (channel == null) return res.status(500).json([ERROR_UNKOWN]);
 
-      return res.status(201).json(channel);
+      return res.status(200).json(channel);
     } catch (error: any) {
       switch (error.type) {
         case ErrorEnum.CHANNEL_NOT_FOUND:

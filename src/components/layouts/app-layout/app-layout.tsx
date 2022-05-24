@@ -1,9 +1,7 @@
 import { AppProvider } from '../../../utils/contexts/app-context';
 import useApp from '../../../utils/hooks/use-app';
 import useWindowSize from '../../../utils/hooks/use-window-size';
-import Header from './header';
 import Servers from './servers/servers';
-import Sidebar from './sidebar';
 import { CSSTransition } from 'react-transition-group';
 import AuthRoute from '../../routes/auth-route';
 import { ServersProvider } from '../../../utils/contexts/servers-context';
@@ -16,6 +14,8 @@ import ServerMembers from './server-members';
 
 interface AppLayoutProps {
   children: JSX.Element;
+  header: JSX.Element;
+  sidebar: JSX.Element;
 }
 
 const AppLayout = (props: AppLayoutProps) => {
@@ -40,7 +40,7 @@ const AppLayout = (props: AppLayoutProps) => {
   );
 };
 
-const Layout = ({ children }: AppLayoutProps) => {
+const Layout = ({ header, sidebar, children }: AppLayoutProps) => {
   const { widthStyle, heightStyle, isMobileWidth } = useWindowSize();
   const { showSidebar, setShowSidebar } = useApp();
   const { server } = useServer();
@@ -63,7 +63,7 @@ const Layout = ({ children }: AppLayoutProps) => {
         <div className="absolute z-10 flex h-full w-11/12 md:relative md:w-auto">
           <div className="relative flex w-full rounded-r-3xl md:w-auto">
             <Servers />
-            <Sidebar />
+            {sidebar}
           </div>
         </div>
       </CSSTransition>
@@ -75,7 +75,7 @@ const Layout = ({ children }: AppLayoutProps) => {
         ></button>
       )}
       <div style={{ height: heightStyle }} className="flex w-full flex-col">
-        <Header />
+        {header}
         <div className="flex h-full justify-between">
           <div
             style={{ maxHeight: `calc(${heightStyle} - 3rem)` }}

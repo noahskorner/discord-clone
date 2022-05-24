@@ -45,14 +45,14 @@ export const ChannelProvider = ({ children }: ChannelProviderInterface) => {
 
   const loadChannel = useCallback(
     async (channelId: number | null) => {
-      if (channelId == null) {
+      if (channelId == null || server == null) {
         setChannel(null);
         return;
       }
 
       setLoading(true);
       try {
-        const response = await ChannelService.get(server!.id, channelId);
+        const response = await ChannelService.get(server.id, channelId);
         setChannel(response.data);
       } catch (error) {
         setChannel(null);
