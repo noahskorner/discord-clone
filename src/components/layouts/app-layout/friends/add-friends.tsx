@@ -9,7 +9,7 @@ import ErrorInterface from '../../../../utils/types/interfaces/error';
 import CreateFriendRequest from '../../../../utils/types/requests/user/friend/create-friend';
 import Spinner from '../../../inputs/spinner';
 
-const AddFriend = () => {
+const AddFriends = () => {
   const [email, setEmail] = useState('');
   const [loading, setLoading] = useState(false);
   const [emailErrors, setEmailErrors] = useState<ErrorInterface[]>([]);
@@ -119,4 +119,4 @@ const AddFriend = () => {
   );
 };
 
-export default AddFriend;
+export default AddFriends;

@@ -1,22 +1,17 @@
-import HomeState from '../../../../utils/enums/home-state';
+import Link from 'next/link';
 import useApp from '../../../../utils/hooks/use-app';
 import useChannel from '../../../../utils/hooks/use-channel';
-import useHome from '../../../../utils/hooks/use-home';
 import useUser from '../../../../utils/hooks/use-user';
 import { BarsIcon, ChannelIcon, FriendIcon, IconSize } from '../../../icons';
-import HomeButton from './home-button';
+import FriendButton from './friend-button';
 
 const Header = () => {
   const { setShowSidebar } = useApp();
   const { channel } = useChannel();
-  const { setState: setHomeState } = useHome();
   const { numIncomingPendingFriendRequests } = useUser();
 
   const handleSidebarBtnClick = () => {
     setShowSidebar((prev) => !prev);
-  };
-  const handleAddFriendBtnClick = () => {
-    setHomeState(HomeState.ADD_FRIEND);
   };
 
   return (
@@ -40,11 +35,11 @@ const Header = () => {
               Friends
             </h6>
           </span>
-          <HomeButton state={HomeState.ONLINE}>Online</HomeButton>
-          <HomeButton state={HomeState.ALL}>
+          <FriendButton href="/friends/online">Online</FriendButton>
+          <FriendButton href="/friends/all">
             <span className="px-2">All</span>
-          </HomeButton>
-          <HomeButton state={HomeState.PENDING}>
+          </FriendButton>
+          <FriendButton href="/friends/pending">
             <span className="flex items-center space-x-2">
               <span>Pending</span>
               {numIncomingPendingFriendRequests > 0 && (
@@ -53,13 +48,12 @@ const Header = () => {
                 </span>
               )}
             </span>
-          </HomeButton>
-          <button
-            onClick={handleAddFriendBtnClick}
-            className="flex items-center justify-center whitespace-nowrap rounded-md bg-green-600 px-2 py-1 text-sm font-medium text-white hover:bg-green-800"
-          >
-            Add friend
-          </button>
+          </FriendButton>
+          <Link href="/friends/add" passHref>
+            <span className="flex cursor-pointer items-center justify-center whitespace-nowrap rounded-md bg-green-600 px-2 py-1 text-sm font-medium text-white hover:bg-green-800">
+              Add friend
+            </span>
+          </Link>
         </div>
       )}
     </header>

@@ -13,7 +13,6 @@ import { RTCProvider } from '../../../utils/contexts/rtc-context';
 import { SocketProvider } from '../../../utils/contexts/socket-context';
 import useServer from '../../../utils/hooks/use-server';
 import ServerMembers from './server-members';
-import { HomeProvider } from '../../../utils/contexts/home-context';
 
 interface AppLayoutProps {
   children: JSX.Element;
@@ -24,19 +23,17 @@ const AppLayout = (props: AppLayoutProps) => {
     <AuthRoute
       element={
         <AppProvider>
-          <HomeProvider>
-            <SocketProvider>
-              <ServersProvider>
-                <ServerProvider>
-                  <ChannelProvider>
-                    <RTCProvider>
-                      <Layout {...props}></Layout>
-                    </RTCProvider>
-                  </ChannelProvider>
-                </ServerProvider>
-              </ServersProvider>
-            </SocketProvider>
-          </HomeProvider>
+          <SocketProvider>
+            <ServersProvider>
+              <ServerProvider>
+                <ChannelProvider>
+                  <RTCProvider>
+                    <Layout {...props}></Layout>
+                  </RTCProvider>
+                </ChannelProvider>
+              </ServerProvider>
+            </ServersProvider>
+          </SocketProvider>
         </AppProvider>
       }
     />
