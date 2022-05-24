@@ -6,6 +6,8 @@ import {
   HasMany,
   DefaultScope,
 } from 'sequelize-typescript';
+import DirectMessageUser from './direct-message-user.model';
+import DirectMessage from './direct-message.model';
 import Friend from './friend.model';
 import RefreshToken from './refresh-token.model';
 import ServerUser from './server-user.model';
@@ -53,6 +55,12 @@ class User extends Model {
 
   @HasMany(() => Friend)
   friends!: Friend[];
+
+  @HasMany(() => DirectMessage)
+  createdDirectMessages!: DirectMessage[];
+
+  @HasMany(() => DirectMessageUser)
+  directMessages!: DirectMessageUser[];
 }
 
 export default User;

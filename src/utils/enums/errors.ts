@@ -12,6 +12,7 @@ enum ErrorEnum {
   ADD_SERVER_USER_INSUFFICIENT_PERMISSIONS = 'ServerUserService.addUserToServer.AddServerUserInsufficientPermissions',
   INVITE_SERVER_USER_INSUFFICIENT_PERMISSIONS = 'ServerInviteService.inviteUserToServer.InviteServerUserInsufficientPermissions',
   INVITE_SERVER_USER_ALREADY_EXISTS = 'ServerInviteService.inviteUserToServer.InviteServerUserAlreadyExists',
+  CREATE_DIRECT_MESSAGE_NOT_FRIENDS_WITH_ENTIRE_GROUP = 'DirectMessageService.createDirectMessage.CreateDirectMessageNotFriendsWithEntireGroup',
 }
 
 export default ErrorEnum;

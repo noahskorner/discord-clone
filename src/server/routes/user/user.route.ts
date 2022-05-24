@@ -1,6 +1,7 @@
 import { Router } from 'express';
 import UserController from '../../controllers/user';
 import authenticate from '../../middleware/authenticate';
+import directMessageRouter from './direct-message/direct-message.route';
 import friendRouter from './friend';
 
 const userController = new UserController();
@@ -15,5 +16,6 @@ userRouter.put(
   userController.confirmResetPassword,
 );
 userRouter.use('/:id/friend', friendRouter);
+userRouter.use('/:id/direct-message', directMessageRouter);
 
 export default userRouter;
