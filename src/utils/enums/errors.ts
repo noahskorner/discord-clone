@@ -9,6 +9,9 @@ enum ErrorEnum {
   FRIEND_REQUEST_NOT_FOUND = 'FriendService.acceptFriendRequest.FriendRequestNotFound',
   FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_UPDATE = 'FriendService.acceptFriendRequest.FriendRequestInsufficientPermissionsUpdate',
   FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_DELETE = 'FriendService.acceptFriendRequest.FriendRequestInsufficientPermissionsDelete',
+  ADD_SERVER_USER_INSUFFICIENT_PERMISSIONS = 'ServerUserService.addUserToServer.AddServerUserInsufficientPermissions',
+  INVITE_SERVER_USER_INSUFFICIENT_PERMISSIONS = 'ServerInviteService.inviteUserToServer.InviteServerUserInsufficientPermissions',
+  INVITE_SERVER_USER_ALREADY_EXISTS = 'ServerInviteService.inviteUserToServer.InviteServerUserAlreadyExists',
 }
 
 export default ErrorEnum;

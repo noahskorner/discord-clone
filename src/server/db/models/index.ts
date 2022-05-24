@@ -7,12 +7,14 @@ import Server from './server.model';
 import ServerUser from './server-user.model';
 import Channel from './channel.model';
 import Friend from './friend.model';
+import ServerInvite from './server-invite.model';
 
 sequelize.addModels([
   User,
   RefreshToken,
   UserRole,
   Server,
+  ServerInvite,
   ServerUser,
   Channel,
   Friend,
@@ -25,6 +27,7 @@ const db = {
   RefreshToken,
   UserRole,
   Server,
+  ServerInvite,
   ServerUser,
   Channel,
   Friend,
