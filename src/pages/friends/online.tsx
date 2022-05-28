@@ -1,6 +1,6 @@
 import { ReactElement } from 'react';
 import AppLayout from '../../components/layouts/app-layout';
-import FriendHeader from '../../components/layouts/app-layout/friends/friend-header';
+import FriendHeader from '../../components/layouts/app-layout/friends/friend-header/friend-header';
 import FriendSidebar from '../../components/layouts/app-layout/friends/friend-sidebar/friend-sidebar';
 import { NextPageLayout } from '../../utils/types/next-page-layout';
 

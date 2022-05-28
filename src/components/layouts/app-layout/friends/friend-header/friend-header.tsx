@@ -1,8 +1,8 @@
 import Link from 'next/link';
-import useUser from '../../../../utils/hooks/use-user';
-import { FriendIcon, IconSize } from '../../../icons';
-import Header from '../header';
-import FriendButton from './friend-button';
+import useUser from '../../../../../utils/hooks/use-user';
+import { FriendIcon, IconSize } from '../../../../icons';
+import Header from '../../header';
+import FriendButton from './friend-button/friend-button';
 
 const FriendHeader = () => {
   const { numIncomingPendingFriendRequests } = useUser();

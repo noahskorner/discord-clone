@@ -1,13 +1,13 @@
 import { ChangeEvent, useState, KeyboardEvent } from 'react';
 import isEmail from 'validator/lib/isEmail';
-import FriendValidator from '../../../../server/validators/user/friend';
-import FriendService from '../../../../services/friend-service';
-import useToasts from '../../../../utils/hooks/use-toasts';
-import useUser from '../../../../utils/hooks/use-user';
-import handleServiceError from '../../../../utils/services/handle-service-error';
-import ErrorInterface from '../../../../utils/types/interfaces/error';
-import CreateFriendRequest from '../../../../utils/types/requests/user/friend/create-friend';
-import Spinner from '../../../inputs/spinner';
+import FriendValidator from '../../../../../server/validators/user/friend';
+import FriendService from '../../../../../services/friend-service';
+import useToasts from '../../../../../utils/hooks/use-toasts';
+import useUser from '../../../../../utils/hooks/use-user';
+import handleServiceError from '../../../../../utils/services/handle-service-error';
+import ErrorInterface from '../../../../../utils/types/interfaces/error';
+import CreateFriendRequest from '../../../../../utils/types/requests/user/friend/create-friend';
+import Spinner from '../../../../inputs/spinner';
 
 const AddFriends = () => {
   const [email, setEmail] = useState('');

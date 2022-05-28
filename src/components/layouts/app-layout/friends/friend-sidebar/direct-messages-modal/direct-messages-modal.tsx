@@ -1,16 +1,16 @@
 import { Dispatch, SetStateAction, useState } from 'react';
-import useUser from '../../../../utils/hooks/use-user';
-import TextField from '../../../inputs/text-field';
-import NoFriendsFound from './no-friends-found';
+import useUser from '../../../../../../utils/hooks/use-user';
+import TextField from '../../../../../inputs/text-field';
+import NoFriendsFound from '../../no-friends-found/no-friends-found';
 import { CSSTransition } from 'react-transition-group';
-import handleServiceError from '../../../../utils/services/handle-service-error';
-import useToasts from '../../../../utils/hooks/use-toasts';
-import DirectMessageService from '../../../../services/direct-message-service';
-import CreateDirectMessageRequest from '../../../../utils/types/requests/user/direct-message/create-direct-message';
-import { CheckIcon } from '../../../icons';
-import FriendDto from '../../../../utils/types/dtos/friend';
+import handleServiceError from '../../../../../../utils/services/handle-service-error';
+import useToasts from '../../../../../../utils/hooks/use-toasts';
+import DirectMessageService from '../../../../../../services/direct-message-service';
+import CreateDirectMessageRequest from '../../../../../../utils/types/requests/user/direct-message/create-direct-message';
+import { CheckIcon } from '../../../../../icons';
+import FriendDto from '../../../../../../utils/types/dtos/friend';
 import { createPortal } from 'react-dom';
-import Spinner from '../../../inputs/spinner';
+import Spinner from '../../../../../inputs/spinner';
 
 interface DirectMessagesModalProps {
   showModal: boolean;

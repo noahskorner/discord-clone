@@ -1,11 +1,11 @@
 import { useState } from 'react';
-import FriendService from '../../../../services/friend-service';
-import useToasts from '../../../../utils/hooks/use-toasts';
-import useUser from '../../../../utils/hooks/use-user';
-import handleServiceError from '../../../../utils/services/handle-service-error';
-import Tooltip from '../../../feedback/tooltip';
-import { CloseIcon, IconSize, SearchIcon } from '../../../icons';
-import TextField from '../../../inputs/text-field';
+import FriendService from '../../../../../services/friend-service';
+import useToasts from '../../../../../utils/hooks/use-toasts';
+import useUser from '../../../../../utils/hooks/use-user';
+import handleServiceError from '../../../../../utils/services/handle-service-error';
+import Tooltip from '../../../../feedback/tooltip';
+import { CloseIcon, IconSize, SearchIcon } from '../../../../icons';
+import TextField from '../../../../inputs/text-field';
 
 const AllFriends = () => {
   const { user, friends, removeFriendRequest } = useUser();

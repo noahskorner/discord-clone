@@ -1,7 +1,7 @@
 import { ReactElement } from 'react';
 import AppLayout from '../../components/layouts/app-layout';
-import PendingFriends from '../../components/layouts/app-layout/friends/pending-friends';
-import FriendHeader from '../../components/layouts/app-layout/friends/friend-header';
+import PendingFriends from '../../components/layouts/app-layout/friends/pending-friends/pending-friends';
+import FriendHeader from '../../components/layouts/app-layout/friends/friend-header/friend-header';
 import { NextPageLayout } from '../../utils/types/next-page-layout';
 import FriendSidebar from '../../components/layouts/app-layout/friends/friend-sidebar/friend-sidebar';
 
