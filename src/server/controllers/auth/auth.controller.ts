@@ -34,7 +34,7 @@ class AuthController {
       httpOnly: true,
       expires: this.getTokenExpirationDate(refreshToken),
       domain:
-        process.env.NODE_ENV === 'production' ? `*.${env.HOST}` : undefined,
+        process.env.NODE_ENV === 'production' ? `*${env.HOST}` : undefined,
     });
     return res.status(201).json(accessToken);
   });
@@ -52,7 +52,7 @@ class AuthController {
       httpOnly: true,
       expires: this.getTokenExpirationDate(refreshToken),
       domain:
-        process.env.NODE_ENV === 'production' ? `*.${env.HOST}` : undefined,
+        process.env.NODE_ENV === 'production' ? `*${env.HOST}` : undefined,
     });
     return res.status(200).json(accessToken);
   });
