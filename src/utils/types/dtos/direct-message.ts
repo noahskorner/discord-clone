@@ -7,9 +7,10 @@ class DirectMessageDto {
 
   constructor(directMessage: DirectMessage) {
     this.id = directMessage.id;
-    this.users = directMessage.users.map(
-      (dmu) => new DirectMessageUserDto(dmu),
-    );
+    this.users =
+      directMessage.users == null
+        ? []
+        : directMessage.users.map((dmu) => new DirectMessageUserDto(dmu));
   }
 }
 

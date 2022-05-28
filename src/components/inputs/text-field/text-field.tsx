@@ -19,7 +19,7 @@ interface TextFieldProps extends InputProps {
 }
 
 const TEXT_FIELD_CLASSES = {
-  primary: 'bg-white dark:bg-slate-900',
+  primary: 'bg-white dark:bg-slate-900 text-white',
   secondary: 'bg-slate-50 dark:bg-slate-700',
 };
 

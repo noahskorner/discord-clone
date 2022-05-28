@@ -5,16 +5,18 @@ import UserValidator from '../../validators/user';
 import CreateUserRequest from '../../../utils/types/requests/user/create-user';
 import ResetPasswordRequest from '../../../utils/types/requests/user/reset-password';
 import ConfirmResetPasswordRequest from '../../../utils/types/requests/user/confirm-reset-password';
-import FriendRequestDto from '../../../utils/types/dtos/friend-request';
 import FriendService from '../../services/user/friend';
+import DirectMessageService from '../../services/user/direct-message/direct-message.service';
 
 class UserController {
   private _userService;
   private _friendService;
+  private _directMessageService;
 
   constructor() {
     this._userService = new UserService();
     this._friendService = new FriendService();
+    this._directMessageService = new DirectMessageService();
   }
 
   public register = catchAsync(async (req: Request, res: Response) => {
@@ -53,6 +55,8 @@ class UserController {
     if (user === null) return res.sendStatus(400);
 
     user.friendRequests = await this._friendService.findByUserId(userId);
+    user.directMessages =
+      await this._directMessageService.findDirectMessagesByUserId(userId);
 
     return res.status(200).json(user);
   });

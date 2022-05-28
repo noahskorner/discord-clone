@@ -1,16 +1,16 @@
 import DirectMessageUser from '../../../server/db/models/direct-message-user.model';
 
 class DirectMessageUserDto {
-  public directMessageUserId: number;
-  public id: number;
+  public userId: number;
   public email: string;
   public username: string;
 
   constructor(directMessageUser: DirectMessageUser) {
-    this.directMessageUserId = directMessageUser.id;
-    this.id = directMessageUser.userId;
-    this.email = directMessageUser.user.email;
-    this.username = directMessageUser.user.username;
+    this.userId = directMessageUser.userId;
+    this.email =
+      directMessageUser.user != null ? directMessageUser.user.email : '';
+    this.username =
+      directMessageUser.user != null ? directMessageUser.user.username : '';
   }
 }
 

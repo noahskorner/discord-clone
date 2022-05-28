@@ -57,10 +57,7 @@ class User extends Model {
   friends!: Friend[];
 
   @HasMany(() => DirectMessage)
-  createdDirectMessages!: DirectMessage[];
-
-  @HasMany(() => DirectMessageUser)
-  directMessages!: DirectMessageUser[];
+  directMessages!: DirectMessage[];
 }
 
 export default User;

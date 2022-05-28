@@ -1,10 +1,10 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
-import Tooltip from '../../../feedback/tooltip';
-import { FriendIcon, IconSize, PlusIcon } from '../../../icons';
-import Sidebar from '../sidebar';
-import DirectMessagesModal from './direct-messages-modal';
+import Tooltip from '../../../../feedback/tooltip';
+import { FriendIcon, IconSize, PlusIcon } from '../../../../icons';
+import Sidebar from '../../sidebar';
+import DirectMessagesModal from '../direct-messages-modal';
 
 const FriendSidebar = () => {
   const router = useRouter();

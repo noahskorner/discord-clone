@@ -1,5 +1,6 @@
 import User from '../../../server/db/models/user.model';
 import RoleEnum from '../../enums/roles';
+import DirectMessageDto from './direct-message';
 import FriendRequestDto from './friend-request';
 
 class UserDto {
@@ -10,6 +11,7 @@ class UserDto {
   public createdAt: string;
   public roles: RoleEnum[];
   public friendRequests: FriendRequestDto[];
+  public directMessages: DirectMessageDto[];
 
   constructor(user: User) {
     this.id = user.id;
@@ -25,6 +27,12 @@ class UserDto {
       user.friends == null
         ? []
         : user.friends.map((friend) => new FriendRequestDto(friend));
+    this.directMessages =
+      user.directMessages == null
+        ? []
+        : user.directMessages.map(
+            (directMessage) => new DirectMessageDto(directMessage),
+          );
   }
 }
 
