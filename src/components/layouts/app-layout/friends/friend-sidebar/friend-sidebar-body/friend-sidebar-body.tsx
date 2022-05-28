@@ -1,11 +1,13 @@
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
+import useUser from '../../../../../../utils/hooks/use-user';
 import Tooltip from '../../../../../feedback/tooltip';
 import { FriendIcon, IconSize, PlusIcon } from '../../../../../icons';
 import DirectMessagesModal from '../direct-messages-modal';
 
 const FriendSidebarBody = () => {
+  const { user } = useUser();
   const router = useRouter();
   const [showDirectMessagesModal, setShowDirectMessagesModal] = useState(false);
 
@@ -27,7 +29,7 @@ const FriendSidebarBody = () => {
           <span>Friends</span>
         </span>
       </Link>
-      <div className="mt-4">
+      <div className="mt-4 mb-2">
         <div className="relative flex cursor-default items-center justify-between px-3">
           <div className="flex w-full items-center space-x-1 text-left text-xs font-semibold uppercase text-slate-300 hover:text-white">
             <h6>Direct Messages</h6>
@@ -46,6 +48,22 @@ const FriendSidebarBody = () => {
           />
         </div>
       </div>
+      {user?.directMessages.map((dm) => {
+        return (
+          <Link key={dm.id} href={`/direct-messages/${dm.id}`} passHref>
+            <span
+              className={`${
+                router.query.directMessageId === dm.id.toString()
+                  ? 'bg-slate-600 font-semibold text-white'
+                  : 'hover:bg-slate-600/20 hover:font-medium hover:text-white'
+              } flex cursor-pointer items-center justify-start space-x-4 rounded px-3 py-1 text-sm text-slate-300`}
+            >
+              <div className="h-8 w-8 rounded-full bg-fuchsia-800"></div>
+              <span>{dm.users[0].username}</span>
+            </span>
+          </Link>
+        );
+      })}
     </div>
   );
 };
