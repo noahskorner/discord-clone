@@ -4,6 +4,7 @@ import AuthValidator from '../../validators/auth';
 import UserService from '../../services/user/user.service';
 import jwtDecode from 'jwt-decode';
 import JwtToken from '../../../utils/types/interfaces/jwt-token';
+import { env } from 'process';
 
 const REFRESH_TOKEN_COOKIE = 'token';
 
@@ -32,6 +33,7 @@ class AuthController {
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
       expires: this.getTokenExpirationDate(refreshToken),
+      domain: process.env.NODE_ENV === 'production' ? env.HOST : undefined,
     });
     return res.status(201).json(accessToken);
   });
@@ -48,6 +50,7 @@ class AuthController {
       secure: process.env.NODE_ENV === 'production',
       httpOnly: true,
       expires: this.getTokenExpirationDate(refreshToken),
+      domain: process.env.NODE_ENV === 'production' ? env.HOST : undefined,
     });
     return res.status(200).json(accessToken);
   });
