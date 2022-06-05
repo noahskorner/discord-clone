@@ -18,7 +18,6 @@ Create the .env file in the root directory, checkout [.env.example](/.env.exampl
 
 `touch .env.local`
 
-
 To Start Server:
 
 `npm run dev`
@@ -26,3 +25,12 @@ To Start Server:
 To Visit App:
 
 `localhost:3000`
+
+## Things I wish I would've done differently
+
+- friend/friend_request to user_relationship
+- created request/response objects
+- organization of files (interfaces, dtos, etc.)
+- naming of direct_message vs message
+  - message_group?
+- completed testing suite

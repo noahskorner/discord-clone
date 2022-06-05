@@ -68,15 +68,13 @@ class DirectMessageService {
         model: DirectMessage,
       },
     );
-    const directMessagesWithUsers = await this.includeDirectMessageUsers(
-      directMessages,
-      userId,
-    );
+    const directMessagesWithUsers =
+      await this.findAllDirectMessageUsersExceptSelf(directMessages, userId);
 
     return directMessagesWithUsers.map((dm) => new DirectMessageDto(dm));
   }
 
-  private async includeDirectMessageUsers(
+  private async findAllDirectMessageUsersExceptSelf(
     directMessages: DirectMessage[],
     userId: number,
   ): Promise<DirectMessage[]> {
