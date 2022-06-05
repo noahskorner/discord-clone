@@ -1,4 +1,10 @@
-import { createContext, Dispatch, SetStateAction, useState } from 'react';
+import {
+  createContext,
+  Dispatch,
+  SetStateAction,
+  useCallback,
+  useState,
+} from 'react';
 import DirectMessageService from '../../services/direct-message-service';
 import useToasts from '../hooks/use-toasts';
 import useUser from '../hooks/use-user';
@@ -38,22 +44,28 @@ export const DirectMessageProvider = ({
 
   const { errorListToToasts } = useToasts();
 
-  const loadDirectMessage = async (directMessageId: string | number) => {
-    setLoading(true);
-    try {
-      const response = await DirectMessageService.get({
-        userId: user!.id,
-        directMessageId,
-      });
-      setDirectMessage(response.data);
-    } catch (error) {
-      setDirectMessage(null);
-      const { errors } = handleServiceError(error);
-      errorListToToasts(errors);
-    } finally {
-      setLoading(false);
-    }
-  };
+  const loadDirectMessage = useCallback(
+    async (directMessageId: string | number) => {
+      if (directMessageId == null || user == null) return;
+
+      setLoading(true);
+      try {
+        const response = await DirectMessageService.get({
+          userId: user.id,
+          directMessageId,
+        });
+        setDirectMessage(response.data);
+      } catch (error) {
+        setDirectMessage(null);
+        const { errors } = handleServiceError(error);
+        errorListToToasts(errors);
+      } finally {
+        setLoading(false);
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [user],
+  );
 
   return (
     <DirectMessageContext.Provider

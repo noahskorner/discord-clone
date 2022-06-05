@@ -10,6 +10,7 @@ import Friend from './friend.model';
 import ServerInvite from './server-invite.model';
 import DirectMessage from './direct-message.model';
 import DirectMessageUser from './direct-message-user.model';
+import Message from './message.model';
 
 sequelize.addModels([
   User,
@@ -22,6 +23,7 @@ sequelize.addModels([
   Friend,
   DirectMessage,
   DirectMessageUser,
+  Message,
 ]);
 
 const db = {
@@ -37,6 +39,7 @@ const db = {
   Friend,
   DirectMessage,
   DirectMessageUser,
+  Message,
 };
 
 export default db;

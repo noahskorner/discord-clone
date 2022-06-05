@@ -8,6 +8,7 @@ import {
   HasMany,
 } from 'sequelize-typescript';
 import DirectMessageUser from './direct-message-user.model';
+import Message from './message.model';
 import User from './user.model';
 
 @Table({ tableName: 'direct_message', underscored: true })
@@ -21,6 +22,9 @@ class DirectMessage extends Model {
 
   @HasMany(() => DirectMessageUser)
   users!: DirectMessageUser[];
+
+  @HasMany(() => Message)
+  messages!: Message[];
 }
 
 export default DirectMessage;

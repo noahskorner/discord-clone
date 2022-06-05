@@ -21,7 +21,7 @@ const ERROR_NOT_FRIENDS_WITH_ENTIRE_GROUP = new SystemError(
     },
   ],
 );
-const ERROR_DIRECT_MESSAGE_USER_NOT_FOUND = new SystemError(
+export const ERROR_DIRECT_MESSAGE_USER_NOT_FOUND = new SystemError(
   ErrorEnum.DIRECT_MESSAGE_USER_NOT_FOUND,
   [
     {

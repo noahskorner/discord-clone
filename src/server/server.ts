@@ -77,6 +77,8 @@ io.on(EventEnum.CONNECTION, (socket) => {
         `${socket.id} disconnected!`,
       );
     });
+
+    socket.on(EventEnum.DIRECT_MESSAGE, () => {});
   } catch (error) {
     // invalid token
     return socket.disconnect();

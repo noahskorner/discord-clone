@@ -12,6 +12,7 @@ enum EventEnum {
   RECEIVE_ICE_CANDIDATE = 'receive-ice-candidate',
   USER_CONNECTED = 'user-connected',
   USER_DISCONNECTED = 'user-disconnected',
+  DIRECT_MESSAGE = 'direct-message',
 }
 
 export default EventEnum;

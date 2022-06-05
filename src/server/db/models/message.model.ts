@@ -4,13 +4,14 @@ import {
   Column,
   DataType,
   ForeignKey,
-  HasOne,
   Model,
+  Table,
 } from 'sequelize-typescript';
 import MessageType from '../../../utils/enums/message-type';
-import Friend from './friend.model';
+import DirectMessage from './direct-message.model';
 import User from './user.model';
 
+@Table({ tableName: 'message', underscored: true })
 class Message extends Model {
   @Column(DataType.INTEGER)
   type!: MessageType;
@@ -22,13 +23,16 @@ class Message extends Model {
   @BelongsTo(() => User)
   sender!: User;
 
-  @ForeignKey(() => Friend)
+  @Column(DataType.STRING)
+  body!: string;
+
+  @ForeignKey(() => DirectMessage)
   @AllowNull
   @Column(DataType.INTEGER)
-  friendRequestId!: number;
+  directMessageId!: number;
 
-  @HasOne(() => Friend)
-  friendRequest!: Friend;
+  @BelongsTo(() => DirectMessage)
+  directMessage!: DirectMessage;
 }
 
 export default Message;

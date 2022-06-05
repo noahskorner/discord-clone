@@ -10,22 +10,27 @@ import { NextPageLayout } from '../../utils/types/next-page-layout';
 
 const DirectMessagePage: NextPageLayout = () => {
   const router = useRouter();
-  const { loadDirectMessage } = useDirectMessage();
+  const { directMessage, loading, loadDirectMessage } = useDirectMessage();
   const { directMessageId } = router.query as {
     directMessageId: string;
   };
 
   useEffect(() => {
     loadDirectMessage(directMessageId);
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [directMessageId]);
+  }, [directMessageId, loadDirectMessage]);
 
   return (
     <div className="relative z-0 flex h-full max-h-full w-full flex-col justify-between pr-1">
-      <div className="flex h-full w-full flex-col-reverse overflow-y-scroll p-4">
-        {directMessageId}
-      </div>
-      <ChannelTextArea placeholder="PLACEHOLDER" />
+      {!loading ? (
+        <div className="flex h-full w-full flex-col-reverse overflow-y-scroll p-4">
+          {directMessageId}
+        </div>
+      ) : (
+        <>Loading</>
+      )}
+      <ChannelTextArea
+        placeholder={`Message ${directMessage?.users[0].username}`}
+      />
     </div>
   );
 };

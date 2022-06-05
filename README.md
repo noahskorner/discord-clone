@@ -36,3 +36,5 @@ To Visit App:
   - message_group?
 - completed testing suite
 - my janky error handling
+- message architecture
+  - uneccessary coupling in my current architecture

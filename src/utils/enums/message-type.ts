@@ -1,6 +1,8 @@
 /* eslint-disable no-unused-vars */
 enum MessageType {
-  FRIEND_REQUEST,
+  DIRECT,
+  CHANNEL,
+  SERVER_INVITE,
 }
 
 export default MessageType;

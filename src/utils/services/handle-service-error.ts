@@ -9,6 +9,8 @@ import ErrorInterface from '../types/interfaces/error';
 const handleServiceError = (
   error: any,
 ): { status: number; errors: ErrorInterface[] } => {
+  console.log(error);
+
   let status = 500;
   let errors = [ERROR_UNKOWN];
 
