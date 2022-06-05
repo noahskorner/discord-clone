@@ -30,7 +30,9 @@ To Visit App:
 
 - friend/friend_request to user_relationship
 - created request/response objects
+  - throw vs return
 - organization of files (interfaces, dtos, etc.)
 - naming of direct_message vs message
   - message_group?
 - completed testing suite
+- my janky error handling

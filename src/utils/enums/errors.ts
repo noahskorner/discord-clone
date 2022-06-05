@@ -13,6 +13,8 @@ enum ErrorEnum {
   INVITE_SERVER_USER_INSUFFICIENT_PERMISSIONS = 'ServerInviteService.inviteUserToServer.InviteServerUserInsufficientPermissions',
   INVITE_SERVER_USER_ALREADY_EXISTS = 'ServerInviteService.inviteUserToServer.InviteServerUserAlreadyExists',
   CREATE_DIRECT_MESSAGE_NOT_FRIENDS_WITH_ENTIRE_GROUP = 'DirectMessageService.createDirectMessage.CreateDirectMessageNotFriendsWithEntireGroup',
+  DIRECT_MESSAGE_USER_NOT_FOUND = 'DirectMessageService.findById.DirectMessageUserNotFound',
+  DIRECT_MESSAGE_NOT_FOUND = 'DirectMessageService.findById.DirectMessageNotFound',
 }
 
 export default ErrorEnum;

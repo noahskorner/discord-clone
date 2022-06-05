@@ -11,6 +11,27 @@ class DirectMessageController {
     this._directMessageService = new DirectMessageService();
   }
 
+  public get = catchAsync(async (req: Request, res: Response) => {
+    try {
+      const directMessageId = parseInt(req.params.directMessageId);
+      const directMessage = await this._directMessageService.findById(
+        directMessageId,
+        req.user.id,
+      );
+
+      res.status(200).json(directMessage);
+    } catch (e: any) {
+      switch (e.type) {
+        case ErrorEnum.DIRECT_MESSAGE_USER_NOT_FOUND:
+          return res.status(403).json(e.errors);
+        case ErrorEnum.DIRECT_MESSAGE_NOT_FOUND:
+          return res.status(404).json(e.errors);
+        default:
+          return res.status(500).json([ERROR_UNKOWN]);
+      }
+    }
+  });
+
   public create = catchAsync(async (req: Request, res: Response) => {
     try {
       const createDirectMessageRequest = {

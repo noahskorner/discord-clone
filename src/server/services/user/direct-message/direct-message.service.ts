@@ -21,8 +21,52 @@ const ERROR_NOT_FRIENDS_WITH_ENTIRE_GROUP = new SystemError(
     },
   ],
 );
+const ERROR_DIRECT_MESSAGE_USER_NOT_FOUND = new SystemError(
+  ErrorEnum.DIRECT_MESSAGE_USER_NOT_FOUND,
+  [
+    {
+      message: "You aren't in this direct message buddy.",
+    },
+  ],
+);
+const ERROR_DIRECT_MESSAGE_NOT_FOUND = new SystemError(
+  ErrorEnum.DIRECT_MESSAGE_NOT_FOUND,
+  [
+    {
+      message: 'That direct message does not exist.',
+    },
+  ],
+);
 
 class DirectMessageService {
+  public async findById(id: number, userId: number) {
+    const userInDirectMesssage = await DirectMessageUser.findOne({
+      where: {
+        directMessageId: id,
+        userId,
+      },
+    });
+
+    if (userInDirectMesssage == null) throw ERROR_DIRECT_MESSAGE_USER_NOT_FOUND;
+
+    const directMessage = await DirectMessage.findByPk(id, {
+      include: [
+        {
+          model: DirectMessageUser,
+          include: [
+            {
+              model: User,
+            },
+          ],
+        },
+      ],
+    });
+
+    if (directMessage == null) throw ERROR_DIRECT_MESSAGE_NOT_FOUND;
+
+    return new DirectMessageDto(directMessage);
+  }
+
   public async createDirectMessage({
     userId,
     friendIds,
@@ -68,15 +112,15 @@ class DirectMessageService {
         model: DirectMessage,
       },
     );
-    const directMessagesWithUsers =
-      await this.findAllDirectMessageUsersExceptSelf(directMessages, userId);
+    const directMessagesWithUsers = await this.findAllDirectMessageUsers(
+      directMessages,
+    );
 
     return directMessagesWithUsers.map((dm) => new DirectMessageDto(dm));
   }
 
-  private async findAllDirectMessageUsersExceptSelf(
+  private async findAllDirectMessageUsers(
     directMessages: DirectMessage[],
-    userId: number,
   ): Promise<DirectMessage[]> {
     const directMessageIds = directMessages.map((dm) => dm.id);
     const directMessageUsers = await DirectMessageUser.findAll({
@@ -88,11 +132,6 @@ class DirectMessageService {
       include: [
         {
           model: User,
-          where: {
-            id: {
-              [Op.not]: userId,
-            },
-          },
         },
       ],
     });
