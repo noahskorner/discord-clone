@@ -13,7 +13,7 @@ const TextChannel = () => {
           channelType={channel?.type!}
         />
       </div>
-      <ChannelTextArea />
+      <ChannelTextArea placeholder={`Message #${channel?.name}`} />
     </div>
   );
 };

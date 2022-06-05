@@ -1,5 +1,6 @@
 import { AxiosResponse } from 'axios';
 import ChannelDto from '../utils/types/dtos/channel';
+import DirectMessageDto from '../utils/types/dtos/direct-message';
 import CreateDirectMessageRequest from '../utils/types/requests/user/direct-message/create-direct-message';
 import API from './api';
 
@@ -8,6 +9,15 @@ const DirectMessageService = {
     payload: CreateDirectMessageRequest,
   ): Promise<AxiosResponse<ChannelDto>> => {
     return API.post(`/user/${payload.userId}/direct-message`, payload);
+  },
+  get: ({
+    userId,
+    directMessageId,
+  }: {
+    userId: number;
+    directMessageId: string | number;
+  }): Promise<AxiosResponse<DirectMessageDto>> => {
+    return API.get(`/user/${userId}/direct-message/${directMessageId}`);
   },
 };
 
