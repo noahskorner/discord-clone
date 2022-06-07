@@ -66,6 +66,7 @@ class MessageService {
           model: User,
         },
       ],
+      order: [['created_at', 'DESC']],
       offset: skip,
       limit: take,
     });

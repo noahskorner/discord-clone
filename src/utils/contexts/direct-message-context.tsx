@@ -112,13 +112,13 @@ export const DirectMessageProvider = ({
         skip,
         take,
       });
-      setMessages(response.data);
+      setMessages((prev) => [...prev, ...response.data]);
     } catch (error) {
       setDirectMessage(null);
       const { errors } = handleServiceError(error);
       errorListToToasts(errors);
     } finally {
-      setLoading(false);
+      setLoadingMessages(false);
     }
   };
 
@@ -145,6 +145,12 @@ export const DirectMessageProvider = ({
     return [];
   };
 
+  const addMessage = (message: MessageDto) => {
+    setMessages((prev) => {
+      return [message, ...prev];
+    });
+  };
+
   useEffect(() => {
     if (
       socket == null ||
@@ -153,7 +159,7 @@ export const DirectMessageProvider = ({
       return;
 
     const handler = (message: MessageDto) => {
-      console.log(message);
+      addMessage(message);
     };
     socket.current.on(EventEnum.RECEIVE_DIRECT_MESSAGE, handler);
     () => {

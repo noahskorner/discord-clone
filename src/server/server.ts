@@ -9,6 +9,7 @@ import JoinServerRequest from '../utils/types/requests/events/join-server-reques
 import CreateDirectMessageRequest from '../utils/types/requests/user/direct-message/create-direct-message';
 import CreateMessageRequest from '../utils/types/requests/message/create-message';
 import MessageService from './services/message';
+import { SocketAddress } from 'net';
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -99,10 +100,13 @@ io.on(EventEnum.CONNECTION, (socket) => {
       EventEnum.SEND_DIRECT_MESSAGE,
       async (request: CreateMessageRequest) => {
         const messageService = new MessageService();
-        const message = await messageService.create(socket.user.id, request); // TODO: This could be done after emitting, but this is fine for now
+        const { message } = await messageService.create(
+          socket.user.id,
+          request,
+        ); // TODO: This could be done after emitting, but this is fine for now
 
-        socket.broadcast
-          .to(request.directMessageId?.toString())
+        io.sockets
+          .in(request.directMessageId!.toString())
           .emit(EventEnum.RECEIVE_DIRECT_MESSAGE, message);
       },
     );

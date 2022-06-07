@@ -14,12 +14,14 @@ class MessageSender {
 }
 
 class MessageDto {
+  public id: number;
   public type: MessageType;
   public sender: MessageSender;
   public body: string;
   public directMessageId?: number;
 
   constructor(message: Message) {
+    this.id = message.id;
     this.type = message.type;
     this.sender = new MessageSender(
       message.sender.id ?? 0,
