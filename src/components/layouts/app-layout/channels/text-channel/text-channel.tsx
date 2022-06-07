@@ -13,7 +13,12 @@ const TextChannel = () => {
           channelType={channel?.type!}
         />
       </div>
-      <ChannelTextArea placeholder={`Message #${channel?.name}`} />
+      <ChannelTextArea
+        value=""
+        onInput={() => {}}
+        onKeyDown={() => {}}
+        placeholder={`Message #${channel?.name}`}
+      />
     </div>
   );
 };
