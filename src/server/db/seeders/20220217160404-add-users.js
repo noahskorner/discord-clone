@@ -29,6 +29,18 @@ module.exports = {
           created_at: new Date(),
           updated_at: new Date(),
         },
+        {
+          id: 3,
+          username: 'test2',
+          email: 'test2@test.com',
+          password:
+            '$2b$10$NAuxXaLjfkhINbeN1KD9EONfRfQZZH60.VqOxHNWyDjkxYd3N6hSO',
+          is_verified: true,
+          verification_token: '',
+          password_reset_token: '',
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
       ],
       {},
     );

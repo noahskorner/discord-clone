@@ -15,6 +15,16 @@ module.exports = {
           created_at: new Date(),
           updated_at: new Date(),
         },
+        {
+          id: 2,
+          requester_id: 1,
+          addressee_id: 3,
+          accepted: true,
+          requested_at: new Date(),
+          accepted_at: new Date(),
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
       ],
       {},
     );

@@ -6,10 +6,8 @@ import app from './app';
 import jwt from 'jsonwebtoken';
 import RequestUser from '../utils/types/dtos/request-user';
 import JoinServerRequest from '../utils/types/requests/events/join-server-request';
-import CreateDirectMessageRequest from '../utils/types/requests/user/direct-message/create-direct-message';
 import CreateMessageRequest from '../utils/types/requests/message/create-message';
 import MessageService from './services/message';
-import { SocketAddress } from 'net';
 
 const server = createServer(app);
 const io = new Server(server, {

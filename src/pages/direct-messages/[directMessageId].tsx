@@ -43,6 +43,7 @@ const DirectMessagePage: NextPageLayout = () => {
     if (event.key === 'Enter') {
       const validationErrors = sendDirectMessage(body);
       console.log(validationErrors);
+      setBody('');
     }
   };
 
