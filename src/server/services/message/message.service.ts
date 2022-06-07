@@ -24,19 +24,17 @@ class MessageService {
     if (validationErrors.length > 0) return { errors: validationErrors };
 
     if (request.type === MessageType.DIRECT) {
-      const userInDirectMesssage = await this._directMessageService
-        .findById(request.directMessageId!, userId)
-        .catch((e) => {
-          console.log(e);
-          return null;
-        });
-      if (userInDirectMesssage == null)
-        throw ERROR_DIRECT_MESSAGE_USER_NOT_FOUND;
+      const isUserInDirectMessage = await this.getIsUserInDirectMessage(
+        request.directMessageId!,
+        userId,
+      );
+      if (!isUserInDirectMessage) throw ERROR_DIRECT_MESSAGE_USER_NOT_FOUND;
 
       const message = await Message.create({
         type: request.type,
         senderId: userId,
         body: request.body,
+        directMessageId: request.directMessageId,
       });
       const sender = await User.findByPk(userId)!;
       message.sender = sender!;
@@ -44,6 +42,46 @@ class MessageService {
       return { message: new MessageDto(message) };
     }
     throw new Error('Method not implemented.');
+  }
+
+  public async findAllByDirectMessageId(
+    userId: number,
+    directMessageId: number,
+    skip: number,
+    take: number,
+  ): Promise<MessageDto[]> {
+    const isUserInDirectMessage = await this.getIsUserInDirectMessage(
+      directMessageId,
+      userId,
+    );
+    if (!isUserInDirectMessage) throw ERROR_DIRECT_MESSAGE_USER_NOT_FOUND;
+
+    const messages = await Message.findAll({
+      where: {
+        type: MessageType.DIRECT,
+        directMessageId: directMessageId,
+      },
+      include: [
+        {
+          model: User,
+        },
+      ],
+      offset: skip,
+      limit: take,
+    });
+
+    return messages.map((message) => new MessageDto(message));
+  }
+
+  private async getIsUserInDirectMessage(
+    directMessageId: number,
+    userId: number,
+  ): Promise<boolean> {
+    const userInDirectMesssage = await this._directMessageService.findById(
+      directMessageId,
+      userId,
+    );
+    return userInDirectMesssage != null;
   }
 }
 

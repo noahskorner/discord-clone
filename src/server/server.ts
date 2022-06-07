@@ -6,6 +6,9 @@ import app from './app';
 import jwt from 'jsonwebtoken';
 import RequestUser from '../utils/types/dtos/request-user';
 import JoinServerRequest from '../utils/types/requests/events/join-server-request';
+import CreateDirectMessageRequest from '../utils/types/requests/user/direct-message/create-direct-message';
+import CreateMessageRequest from '../utils/types/requests/message/create-message';
+import MessageService from './services/message';
 
 const server = createServer(app);
 const io = new Server(server, {
@@ -78,7 +81,31 @@ io.on(EventEnum.CONNECTION, (socket) => {
       );
     });
 
-    socket.on(EventEnum.DIRECT_MESSAGE, () => {});
+    socket.on(
+      EventEnum.JOIN_DIRECT_MESSAGE,
+      async (directMessageId: number) => {
+        socket.join(directMessageId.toString());
+        const remoteSockets = await io
+          .in(directMessageId.toString())
+          .fetchSockets();
+        const currentUsers = remoteSockets.map(
+          (remoteSocket: any) => remoteSocket.user as RequestUser,
+        );
+        console.log(currentUsers);
+      },
+    );
+
+    socket.on(
+      EventEnum.SEND_DIRECT_MESSAGE,
+      async (request: CreateMessageRequest) => {
+        const messageService = new MessageService();
+        const message = await messageService.create(socket.user.id, request); // TODO: This could be done after emitting, but this is fine for now
+
+        socket.broadcast
+          .to(request.directMessageId?.toString())
+          .emit(EventEnum.RECEIVE_DIRECT_MESSAGE, message);
+      },
+    );
   } catch (error) {
     // invalid token
     return socket.disconnect();

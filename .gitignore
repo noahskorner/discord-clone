@@ -38,3 +38,4 @@ yarn-error.log*
 
 # config files
 src/server/db/config.json
+src/server/db/config.production.json
