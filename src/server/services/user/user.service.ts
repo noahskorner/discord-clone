@@ -258,7 +258,8 @@ class UserService {
       from: 'noahskorner@gmail.com',
       to: user.email,
       subject: `Welcome to ${env.APP_NAME}!`,
-      text: `${env.HOST}/user/verify-email/${user.verificationToken}`,
+      text: `Verify your email here ${env.HOST}/user/verify-email/${user.verificationToken} to join the community!`,
+      html: `<a href="${env.HOST}/user/verify-email/${user.verificationToken}">Click here</a> to verify your email and join the community!`,
     };
 
     await this._mailService.sendMail(mail);

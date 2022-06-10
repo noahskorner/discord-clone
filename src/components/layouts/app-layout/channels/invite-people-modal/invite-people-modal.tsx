@@ -39,7 +39,7 @@ const InvitePeopleModal = () => {
           </IconButton>
         </div>
         <div className="h-full space-y-4 px-4 pb-6 shadow">
-          <h2 className="font-bold">Invite friends to {server?.name} server</h2>
+          <h2 className="font-bold">Invite friends to {server?.name}</h2>
           <TextField
             value={searchText}
             onInput={setSearchText}

@@ -1,10 +1,12 @@
 const { Op } = require('sequelize');
+import env from '../../../../config/env.config';
 import DateUtils from '../../../../utils/date-utils';
 import ErrorEnum from '../../../../utils/enums/errors';
 import FriendRequestDto from '../../../../utils/types/dtos/friend-request';
 import SystemError from '../../../../utils/types/interfaces/system-error';
 import Friend from '../../../db/models/friend.model';
 import User from '../../../db/models/user.model';
+import MailService from '../../mail';
 import UserService from '../user.service';
 
 const ERROR_ADDRESSEE_NOT_FOUND = new SystemError(
@@ -56,9 +58,11 @@ const ERROR_FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_DELETE = new SystemError(
 
 class FriendService {
   private _userService: UserService;
+  private _mailService: MailService;
 
   constructor() {
     this._userService = new UserService();
+    this._mailService = new MailService();
   }
 
   public async createFriendRequest({
@@ -100,7 +104,11 @@ class FriendService {
     friend.requester = requester;
     friend.addressee = addressee;
 
-    return new FriendRequestDto(friend);
+    const friendRequestDto = new FriendRequestDto(friend);
+
+    this.sendEmailToAddressee(friendRequestDto);
+
+    return friendRequestDto;
   }
 
   public async findByUserId(userId: number): Promise<FriendRequestDto[]> {
@@ -155,6 +163,15 @@ class FriendService {
     await friend.destroy();
 
     return;
+  }
+
+  private sendEmailToAddressee(friendRequestDto: FriendRequestDto) {
+    this._mailService.sendMail({
+      to: friendRequestDto.addressee.email,
+      subject: `${friendRequestDto.requester.email} has sent you a friend request. `,
+      text: `Click here ${env.HOST}//friends/pending to accept it!`,
+      html: `<a href="${env.HOST}//friends/pending">Click here</a> to accept it!`,
+    });
   }
 }
 

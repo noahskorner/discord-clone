@@ -1,10 +1,10 @@
 import Mail from 'nodemailer/lib/mailer';
-import { env } from 'process';
 import transporter from '../../../config/smtp.config';
 
 class MailService {
   public sendMail = async (mailOptions: Mail.Options) => {
-    if (env.NODE_ENV !== 'test') transporter.sendMail(mailOptions);
+    if (process.env.NODE_ENV !== 'production')
+      transporter.sendMail(mailOptions);
   };
 }
 
