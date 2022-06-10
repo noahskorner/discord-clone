@@ -6,6 +6,7 @@ import handleServiceError from '../../../../../utils/services/handle-service-err
 import Tooltip from '../../../../feedback/tooltip';
 import { CloseIcon, IconSize, SearchIcon } from '../../../../icons';
 import TextField from '../../../../inputs/text-field';
+import ProfileImage from '../../profile-image/profile-image';
 
 const AllFriends = () => {
   const { user, friends, removeFriendRequest } = useUser();
@@ -49,7 +50,7 @@ const AllFriends = () => {
               className="flex h-14 w-full cursor-pointer items-center justify-between rounded-lg py-4 px-2 hover:bg-slate-600"
             >
               <div className="flex items-center justify-start space-x-2">
-                <div className="h-8 w-8 rounded-full bg-yellow-500"></div>
+                <ProfileImage height={32} width={32} />
                 <div className="flex flex-col space-y-[1px]">
                   <span className="text-sm font-bold">{friend.username}</span>
                   <span className="text-xs font-medium text-slate-300">

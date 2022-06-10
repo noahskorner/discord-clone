@@ -8,6 +8,7 @@ module.exports = {
       colors: {
         slate: {
           300: '#96989D',
+          400: '#a3a6aa',
           500: '#4f545c',
           600: 'rgba(79,84,92,0.4)',
           700: '#36393f',
@@ -46,6 +47,9 @@ module.exports = {
       },
       backdropBlur: {
         xs: '2px',
+      },
+      fontSize: {
+        xxs: '0.75rem',
       },
     },
   },

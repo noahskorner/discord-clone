@@ -3,10 +3,12 @@ import { ReactElement, useEffect, KeyboardEvent, useState } from 'react';
 import Spinner from '../../components/inputs/spinner';
 import AppLayout from '../../components/layouts/app-layout';
 import ChannelTextArea from '../../components/layouts/app-layout/channels/text-channel/channel-text-area';
+import DirectMessages from '../../components/layouts/app-layout/direct-messages';
 import FriendHeader from '../../components/layouts/app-layout/friends/friend-header/friend-header';
 import FriendSidebar from '../../components/layouts/app-layout/friends/friend-sidebar/friend-sidebar';
 import { DirectMessageProvider } from '../../utils/contexts/direct-message-context';
 import useDirectMessage from '../../utils/hooks/use-direct-message';
+import { getLabel } from '../../utils/types/dtos/direct-message';
 import { NextPageLayout } from '../../utils/types/next-page-layout';
 
 const DEFAULT_MESSAGE_TAKE = 50;
@@ -15,7 +17,6 @@ const DirectMessagePage: NextPageLayout = () => {
   const router = useRouter();
   const {
     directMessage,
-    messages,
     loading,
     loadingMessages,
     loadDirectMessage,
@@ -56,13 +57,7 @@ const DirectMessagePage: NextPageLayout = () => {
               <Spinner size="lg" />
             </div>
           )}
-          {messages.map((message) => {
-            return (
-              <div key={message.id} className="w-full p-2 hover:bg-slate-800">
-                {message.body}
-              </div>
-            );
-          })}
+          <DirectMessages />
         </div>
       ) : (
         <>Loading</>
@@ -71,7 +66,9 @@ const DirectMessagePage: NextPageLayout = () => {
         value={body}
         onInput={setBody}
         onKeyDown={handleKeyDown}
-        placeholder={`Message ${directMessage?.users[0].username ?? ''}`}
+        placeholder={`Message ${
+          directMessage != null ? getLabel(directMessage) : ''
+        }`}
       />
     </div>
   );

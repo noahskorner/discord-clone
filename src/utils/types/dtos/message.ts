@@ -15,6 +15,7 @@ class MessageSender {
 
 class MessageDto {
   public id: number;
+  public createdAt: string;
   public type: MessageType;
   public sender: MessageSender;
   public body: string;
@@ -22,6 +23,7 @@ class MessageDto {
 
   constructor(message: Message) {
     this.id = message.id;
+    this.createdAt = message.createdAt;
     this.type = message.type;
     this.sender = new MessageSender(
       message.sender.id ?? 0,

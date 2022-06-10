@@ -38,3 +38,4 @@ To Visit App:
 - my janky error handling
 - message architecture
   - uneccessary coupling in my current architecture
+- typescript classes vs interface

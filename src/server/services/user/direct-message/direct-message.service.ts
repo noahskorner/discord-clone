@@ -56,6 +56,11 @@ class DirectMessageService {
           include: [
             {
               model: User,
+              where: {
+                id: {
+                  [Op.not]: userId,
+                },
+              },
             },
           ],
         },
@@ -114,6 +119,7 @@ class DirectMessageService {
     );
     const directMessagesWithUsers = await this.findAllDirectMessageUsers(
       directMessages,
+      userId,
     );
 
     return directMessagesWithUsers.map((dm) => new DirectMessageDto(dm));
@@ -121,6 +127,7 @@ class DirectMessageService {
 
   private async findAllDirectMessageUsers(
     directMessages: DirectMessage[],
+    userId: number,
   ): Promise<DirectMessage[]> {
     const directMessageIds = directMessages.map((dm) => dm.id);
     const directMessageUsers = await DirectMessageUser.findAll({
@@ -132,6 +139,11 @@ class DirectMessageService {
       include: [
         {
           model: User,
+          where: {
+            id: {
+              [Op.not]: userId,
+            },
+          },
         },
       ],
     });

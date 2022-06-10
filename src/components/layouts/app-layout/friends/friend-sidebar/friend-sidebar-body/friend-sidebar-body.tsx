@@ -2,8 +2,10 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { useState } from 'react';
 import useUser from '../../../../../../utils/hooks/use-user';
+import { getLabel } from '../../../../../../utils/types/dtos/direct-message';
 import Tooltip from '../../../../../feedback/tooltip';
 import { FriendIcon, IconSize, PlusIcon } from '../../../../../icons';
+import ProfileImage from '../../../profile-image/profile-image';
 import DirectMessagesModal from '../direct-messages-modal';
 
 const FriendSidebarBody = () => {
@@ -58,8 +60,8 @@ const FriendSidebarBody = () => {
                   : 'hover:bg-slate-600/20 hover:font-medium hover:text-white'
               } flex cursor-pointer items-center justify-start space-x-4 rounded px-3 py-1 text-sm text-slate-300`}
             >
-              <div className="h-8 w-8 rounded-full bg-fuchsia-800"></div>
-              <span>{dm.users[0].username}</span>
+              <ProfileImage width={32} height={32} />
+              <span>{getLabel(dm)}</span>
             </span>
           </Link>
         );

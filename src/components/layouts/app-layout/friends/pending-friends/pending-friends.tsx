@@ -7,6 +7,7 @@ import FriendRequestDto from '../../../../../utils/types/dtos/friend-request';
 import Tooltip from '../../../../feedback/tooltip';
 import { CheckIcon, CloseIcon, IconSize, SearchIcon } from '../../../../icons';
 import TextField from '../../../../inputs/text-field';
+import ProfileImage from '../../profile-image/profile-image';
 
 const PendingFriends = () => {
   const {
@@ -84,7 +85,7 @@ const PendingFriends = () => {
               className="flex h-14 w-full cursor-pointer items-center justify-between rounded-lg py-4 px-2 hover:bg-slate-600"
             >
               <div className="flex items-center justify-start space-x-2">
-                <div className="h-8 w-8 rounded-full bg-orange-600"></div>
+                <ProfileImage height={32} width={32} />
                 <div className="flex flex-col space-y-[1px]">
                   <span className="text-sm font-bold">
                     {getPendingFriendUsername(pendingFriendRequest)}

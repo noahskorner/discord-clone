@@ -17,6 +17,12 @@ module.exports = {
           created_at: new Date(),
           updated_at: new Date(),
         },
+        {
+          direct_message_id: 1,
+          user_id: 3,
+          created_at: new Date(),
+          updated_at: new Date(),
+        },
       ],
       {},
     );
