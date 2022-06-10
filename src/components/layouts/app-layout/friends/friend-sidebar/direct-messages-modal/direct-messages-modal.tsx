@@ -7,7 +7,7 @@ import handleServiceError from '../../../../../../utils/services/handle-service-
 import useToasts from '../../../../../../utils/hooks/use-toasts';
 import DirectMessageService from '../../../../../../services/direct-message-service';
 import CreateDirectMessageRequest from '../../../../../../utils/types/requests/user/direct-message/create-direct-message';
-import { CheckIcon } from '../../../../../icons';
+import { CheckIcon, CloseIcon, IconSize } from '../../../../../icons';
 import FriendDto from '../../../../../../utils/types/dtos/friend';
 import { createPortal } from 'react-dom';
 import Spinner from '../../../../../inputs/spinner';
@@ -25,17 +25,20 @@ const DirectMessagesModal = ({
   const { errorListToToasts } = useToasts();
   const { friends } = useUser();
   const [searchText, setSearchText] = useState('');
-  const filteredFriends = friends.filter((f) =>
-    f.username.includes(searchText),
-  );
   const [selectedFriends, setSelectedFriends] = useState<FriendDto[]>([]);
+  const filteredFriends = friends.filter(
+    (f) =>
+      f.username.includes(searchText) &&
+      !selectedFriends.some((e) => e.friendId === f.friendId),
+  );
   const [loading, setLoading] = useState(false);
+  const [isSearchFocused, setIsSearchFocused] = useState(false);
 
   const handleClickAway = () => {
     setShowModal(false);
   };
 
-  const handleAddFriendBtnClick = async (friend: FriendDto) => {
+  const handleAddOrRemoveFriendBtnClick = async (friend: FriendDto) => {
     if (!selectedFriends.some((f) => f.friendId === friend.friendId))
       setSelectedFriends((prev) =>
         prev == null ? [friend] : [...prev, friend],
@@ -85,16 +88,37 @@ const DirectMessagesModal = ({
                   You can add 9 more friends.
                 </p>
               </div>
-              <TextField
-                value={searchText}
-                onInput={setSearchText}
-                placeholder="Type the username of a friend"
-              />
+              <div
+                className={`${isSearchFocused && 'ring-1 ring-indigo-600'} ${
+                  selectedFriends.length && 'pl-1'
+                } flex w-full items-center space-x-1 rounded-md bg-slate-900`}
+              >
+                {selectedFriends.map((friend) => {
+                  return (
+                    <button
+                      onClick={() => handleAddOrRemoveFriendBtnClick(friend)}
+                      className="flex h-full items-center space-x-1 rounded-sm bg-slate-600 p-1 text-sm font-light text-slate-200"
+                      key={friend.friendId}
+                    >
+                      <span>{friend.username}</span>
+                      <CloseIcon size={IconSize.sm} />
+                    </button>
+                  );
+                })}
+                <TextField
+                  value={searchText}
+                  onInput={setSearchText}
+                  onFocus={() => setIsSearchFocused(true)}
+                  onBlur={() => setIsSearchFocused(false)}
+                  placeholder="Type the username of a friend"
+                  showActiveState={false}
+                />
+              </div>
               {filteredFriends.length > 0 ? '' : <NoFriendsFound />}
               {filteredFriends.map((friend) => {
                 return (
                   <button
-                    onClick={() => handleAddFriendBtnClick(friend)}
+                    onClick={() => handleAddOrRemoveFriendBtnClick(friend)}
                     key={friend.friendId}
                     className="flex w-full items-center justify-between py-1 px-2 hover:bg-slate-600"
                   >
@@ -126,7 +150,8 @@ const DirectMessagesModal = ({
                 } hover-bg-indigo-700 fond-semibold relative flex w-full items-center justify-center rounded py-2 text-sm text-white`}
               >
                 <span className={`${loading ? 'opacity-0' : ''}`}>
-                  Create Group DM
+                  Create Group DM{' '}
+                  {`(${selectedFriends.length > 0 && selectedFriends.length})`}
                 </span>
                 {loading && <Spinner size="sm" className="absolute" />}
               </button>

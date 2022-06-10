@@ -11,11 +11,14 @@ import {
 interface TextFieldProps extends InputProps {
   value?: string | number;
   onInput?: Function;
+  onFocus?: Function;
+  onBlur?: Function;
   type?: 'text' | 'password' | 'textarea';
   icon?: JSX.Element;
   color?: 'primary' | 'secondary';
   trailingIcon?: JSX.Element;
   placeholder?: string;
+  showActiveState?: boolean;
 }
 
 const TEXT_FIELD_CLASSES = {
@@ -26,6 +29,8 @@ const TEXT_FIELD_CLASSES = {
 const TextField = ({
   value,
   onInput = () => {},
+  onFocus = () => {},
+  onBlur = () => {},
   type = 'text',
   label,
   placeholder,
@@ -33,10 +38,20 @@ const TextField = ({
   icon,
   color = 'primary',
   trailingIcon,
+  showActiveState = true,
 }: TextFieldProps) => {
   const textFieldRef = useRef<any>(null);
   const [showPassword, setShowPassword] = useState(false);
   const [isFocused, setIsFocused] = useState(false);
+
+  const handleOnFocus = () => {
+    setIsFocused(true);
+    onFocus();
+  };
+  const handleOnBlur = () => {
+    setIsFocused(false);
+    onBlur();
+  };
 
   return (
     <div className="relative w-full space-y-1 text-sm">
@@ -51,9 +66,9 @@ const TextField = ({
       {/* Text Field */}
       <div
         className={`${
-          errors.length
+          errors.length && showActiveState
             ? 'ring-1 ring-red-500'
-            : isFocused
+            : isFocused && showActiveState
             ? 'ring-1 ring-indigo-600'
             : ''
         } ${
@@ -69,8 +84,8 @@ const TextField = ({
               ref={textFieldRef}
               type={type !== 'password' ? type : showPassword ? 'text' : type}
               onInput={(e) => onInput((e.target as HTMLTextAreaElement).value)}
-              onFocus={() => setIsFocused(true)}
-              onBlur={() => setIsFocused(false)}
+              onFocus={handleOnFocus}
+              onBlur={handleOnBlur}
               value={value}
               className={`${TEXT_FIELD_CLASSES[color]} w-full rounded-md p-2`}
               placeholder={placeholder && placeholder}
@@ -90,7 +105,7 @@ const TextField = ({
           <textarea
             ref={textFieldRef}
             onInput={(e) => onInput((e.target as HTMLTextAreaElement).value)}
-            onFocus={() => setIsFocused(true)}
+            onFocus={handleOnFocus}
             onBlur={() => setIsFocused(false)}
             placeholder={placeholder && placeholder}
             value={value}
