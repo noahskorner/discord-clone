@@ -10,6 +10,7 @@ enum ErrorEnum {
   FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_UPDATE = 'FriendService.acceptFriendRequest.FriendRequestInsufficientPermissionsUpdate',
   FRIEND_REQUEST_INSUFFICIENT_PERMISSIONS_DELETE = 'FriendService.acceptFriendRequest.FriendRequestInsufficientPermissionsDelete',
   ADD_SERVER_USER_INSUFFICIENT_PERMISSIONS = 'ServerUserService.addUserToServer.AddServerUserInsufficientPermissions',
+  USER_NOT_FOUND = 'ServerUserService.addUserToServer.UserNotFound',
   INVITE_SERVER_USER_INSUFFICIENT_PERMISSIONS = 'ServerInviteService.inviteUserToServer.InviteServerUserInsufficientPermissions',
   INVITE_SERVER_USER_ALREADY_EXISTS = 'ServerInviteService.inviteUserToServer.InviteServerUserAlreadyExists',
   CREATE_DIRECT_MESSAGE_NOT_FRIENDS_WITH_ENTIRE_GROUP = 'DirectMessageService.createDirectMessage.CreateDirectMessageNotFriendsWithEntireGroup',

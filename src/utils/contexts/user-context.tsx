@@ -48,8 +48,7 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
           .filter((f) => f.accepted === false)
           .sort(
             (a, b) =>
-              new Date(a.requestedAt).getTime() -
-              new Date(b.requestedAt).getTime(),
+              new Date(a.createdAt).getTime() - new Date(b.createdAt).getTime(),
           )
       : [];
   const numIncomingPendingFriendRequests =

@@ -1,8 +1,8 @@
 import {
-  AllowNull,
   BelongsTo,
   Column,
   DataType,
+  Default,
   ForeignKey,
   Model,
 } from 'sequelize-typescript';
@@ -23,12 +23,9 @@ class Invitable extends Model {
   @BelongsTo(() => User, 'addressee_id')
   addressee!: User;
 
+  @Default(false)
   @Column(DataType.BOOLEAN)
   accepted!: boolean;
-
-  @AllowNull(false)
-  @Column(DataType.DATE)
-  requestedAt!: Date;
 
   @Column(DataType.DATE)
   acceptedAt!: Date;

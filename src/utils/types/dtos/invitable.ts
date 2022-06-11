@@ -13,7 +13,7 @@ class InvitableDto {
     username: string;
   };
   public accepted: boolean;
-  public requestedAt: Date;
+  public createdAt: Date;
   public acceptedAt: Date;
 
   constructor(invite: Invitable) {
@@ -29,7 +29,7 @@ class InvitableDto {
       username: invite.addressee.username,
     };
     this.accepted = invite.accepted;
-    this.requestedAt = invite.requestedAt;
+    this.createdAt = invite.createdAt;
     this.acceptedAt = invite.acceptedAt;
   }
 }

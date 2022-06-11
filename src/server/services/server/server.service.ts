@@ -95,12 +95,12 @@ class ServerService {
         },
       ]);
 
-    const userCanRead = await this.userCanRead(serverId, userId);
+    const userCanRead = await this.getIsUserInServer(serverId, userId);
     if (!userCanRead) throw ERROR_INSUFFICIENT_PERMISSIONS;
     else return new ServerDto(server);
   };
 
-  private userCanRead = async (
+  public getIsUserInServer = async (
     serverId: number,
     userId: number,
   ): Promise<boolean> => {

@@ -1,8 +1,11 @@
 import ErrorEnum from '../../../../utils/enums/errors';
 import ServerInviteDto from '../../../../utils/types/dtos/server-invite';
+import ErrorInterface from '../../../../utils/types/interfaces/error';
 import SystemError from '../../../../utils/types/interfaces/system-error';
 import ServerInvite from '../../../db/models/server-invite.model';
-import ServerUser from '../../../db/models/server-user.model';
+import User from '../../../db/models/user.model';
+import InviteValidator from '../../../validators/server/invite/invite.validator';
+import ServerService from '../server.service';
 
 const ERROR_USER_NOT_IN_SERVER = new SystemError(
   ErrorEnum.INVITE_SERVER_USER_INSUFFICIENT_PERMISSIONS,
@@ -21,9 +24,20 @@ const ERROR_INVITE_ALREADY_EXISTS = new SystemError(
     },
   ],
 );
+const ERROR_USER_NOT_FOUND = new SystemError(ErrorEnum.USER_NOT_FOUND, [
+  {
+    message: 'The user you are trying to invite does not exist.',
+  },
+]);
 
-class ServerUserService {
-  public async inviteUserToServer({
+class ServerInviteService {
+  private _serverService: ServerService;
+
+  constructor() {
+    this._serverService = new ServerService();
+  }
+
+  public async create({
     userId,
     serverId,
     addresseeId,
@@ -31,14 +45,22 @@ class ServerUserService {
     userId: number;
     serverId: number;
     addresseeId: number;
-  }): Promise<ServerInviteDto> {
-    const requesterBelongsToServer = await ServerUser.findOne({
-      where: {
-        serverId: serverId,
-        userId: userId,
-      },
-    });
-    if (requesterBelongsToServer == null) throw ERROR_USER_NOT_IN_SERVER;
+  }): Promise<{ serverInvite?: ServerInviteDto; errors?: ErrorInterface[] }> {
+    const validationErrors = InviteValidator.create({ addresseeId });
+    if (validationErrors.length > 0) {
+      return { errors: validationErrors };
+    }
+
+    const userIsInServer = await this._serverService.getIsUserInServer(
+      serverId,
+      userId,
+    );
+    if (!userIsInServer) throw ERROR_USER_NOT_IN_SERVER;
+
+    const requester = await User.findByPk(userId);
+
+    const addressee = await User.findByPk(addresseeId);
+    if (addressee == null) throw ERROR_USER_NOT_FOUND;
 
     const inviteAlreadyExists = await ServerInvite.findOne({
       where: {
@@ -47,14 +69,16 @@ class ServerUserService {
     });
     if (inviteAlreadyExists != null) throw ERROR_INVITE_ALREADY_EXISTS;
 
-    const invite = await ServerInvite.create({
+    const serverInvite = await ServerInvite.create({
       serverId: serverId,
       requesterId: userId,
       addresseeId: addresseeId,
     });
+    serverInvite.requester = requester!;
+    serverInvite.addressee = addressee;
 
-    return new ServerInviteDto(invite);
+    return { serverInvite: new ServerInviteDto(serverInvite) };
   }
 }
 
-export default ServerUserService;
+export default ServerInviteService;

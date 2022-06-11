@@ -98,7 +98,6 @@ class FriendService {
       requesterId,
       addresseeId: addressee.id,
       accepted: false,
-      requestedAt: DateUtils.UTC(),
     };
     const friend = await Friend.create(request);
     friend.requester = requester;

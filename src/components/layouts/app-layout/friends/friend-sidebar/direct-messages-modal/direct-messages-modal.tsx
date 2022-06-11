@@ -97,7 +97,7 @@ const DirectMessagesModal = ({
                   return (
                     <button
                       onClick={() => handleAddOrRemoveFriendBtnClick(friend)}
-                      className="flex h-full items-center space-x-1 rounded-sm bg-slate-600 p-1 text-sm font-light text-slate-200"
+                      className="flex h-full items-center space-x-1 whitespace-nowrap rounded-sm bg-slate-600 px-1 py-2 text-xs font-light text-slate-200"
                       key={friend.friendId}
                     >
                       <span>{friend.username}</span>
