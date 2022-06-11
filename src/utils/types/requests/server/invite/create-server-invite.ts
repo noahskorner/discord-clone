@@ -1,5 +1,5 @@
 interface CreateServerInviteRequest {
-  addresseeId: number;
+  friendId: number;
 }
 
 export default CreateServerInviteRequest;

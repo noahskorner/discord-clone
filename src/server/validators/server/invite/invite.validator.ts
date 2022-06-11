@@ -2,12 +2,12 @@ import ErrorInterface from '../../../../utils/types/interfaces/error';
 import CreateServerInviteRequest from '../../../../utils/types/requests/server/invite/create-server-invite';
 
 const InviteValidator = {
-  create: ({ addresseeId }: CreateServerInviteRequest) => {
+  create: ({ friendId }: CreateServerInviteRequest) => {
     const validationErrors: ErrorInterface[] = [];
-    if (addresseeId == null || isNaN(addresseeId))
+    if (friendId == null || isNaN(friendId))
       validationErrors.push({
-        field: 'addresseeId',
-        message: 'Must provide a valid addresseeId',
+        field: 'friendId',
+        message: 'Must provide a valid friendId',
       });
     return validationErrors;
   },

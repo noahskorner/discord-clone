@@ -2,6 +2,7 @@ import ErrorEnum from '../../../../utils/enums/errors';
 import ServerInviteDto from '../../../../utils/types/dtos/server-invite';
 import ErrorInterface from '../../../../utils/types/interfaces/error';
 import SystemError from '../../../../utils/types/interfaces/system-error';
+import Friend from '../../../db/models/friend.model';
 import ServerInvite from '../../../db/models/server-invite.model';
 import User from '../../../db/models/user.model';
 import InviteValidator from '../../../validators/server/invite/invite.validator';
@@ -22,16 +23,18 @@ const ERROR_INVITE_ALREADY_EXISTS = new SystemError(
   ErrorEnum.INVITE_SERVER_USER_ALREADY_EXISTS,
   [
     {
-      field: 'addresseeId',
-      message: 'User has already been ',
+      message: 'You have already invited this friend to this server.',
     },
   ],
 );
-const ERROR_USER_NOT_FOUND = new SystemError(ErrorEnum.USER_NOT_FOUND, [
-  {
-    message: 'The user you are trying to invite does not exist.',
-  },
-]);
+const ERROR_FRIEND_NOT_FOUND = new SystemError(
+  ErrorEnum.FRIEND_REQUEST_NOT_FOUND,
+  [
+    {
+      message: 'You must be friends with this user to invite them to a server',
+    },
+  ],
+);
 
 class ServerInviteService {
   private _serverService: ServerService;
@@ -47,13 +50,13 @@ class ServerInviteService {
   public async create({
     userId,
     serverId,
-    addresseeId,
+    friendId,
   }: {
     userId: number;
     serverId: number;
-    addresseeId: number;
+    friendId: number;
   }): Promise<{ serverInvite?: ServerInviteDto; errors?: ErrorInterface[] }> {
-    const validationErrors = InviteValidator.create({ addresseeId });
+    const validationErrors = InviteValidator.create({ friendId });
     if (validationErrors.length > 0) {
       return { errors: validationErrors };
     }
@@ -61,18 +64,18 @@ class ServerInviteService {
     const { requester, addressee } = await this.findRequesterAndAddressee({
       userId,
       serverId,
-      addresseeId,
+      friendId,
     });
 
     const serverInvite = await ServerInvite.create({
       serverId: serverId,
       requesterId: userId,
-      addresseeId: addresseeId,
+      addresseeId: addressee.id,
     });
     serverInvite.requester = requester!;
     serverInvite.addressee = addressee;
 
-    this.sendServerInviteDirectMessage({ userId, addresseeId });
+    this.sendServerInviteDirectMessage({ userId, addresseeId: addressee.id });
 
     return { serverInvite: new ServerInviteDto(serverInvite) };
   }
@@ -94,31 +97,67 @@ class ServerInviteService {
   private async findRequesterAndAddressee({
     userId,
     serverId,
-    addresseeId,
+    friendId,
   }: {
     userId: number;
     serverId: number;
-    addresseeId: number;
+    friendId: number;
   }) {
+    await this.throwIfUserNotInServer(serverId, userId);
+
+    const requester = await User.findByPk(userId);
+    const addressee = await this.findAddresseeFromFriendId(userId, friendId);
+
+    await this.throwIfInviteAlreadyExists(
+      requester!.id,
+      addressee.id,
+      serverId,
+    );
+
+    return { requester, addressee };
+  }
+
+  private async findAddresseeFromFriendId(userId: number, friendId: number) {
+    const friend = await Friend.findOne({
+      where: {
+        [Op.and]: [
+          { id: friendId },
+          { [Op.or]: [{ requesterId: userId }, { addresseeId: userId }] },
+        ],
+      },
+      include: [
+        { model: User, as: 'addressee' },
+        { model: User, as: 'requester' },
+      ],
+    }).catch((e) => {
+      console.log(e);
+      return null;
+    });
+    if (friend == null) throw ERROR_FRIEND_NOT_FOUND;
+    return friend.requesterId === userId ? friend.addressee : friend.requester;
+  }
+
+  private async throwIfUserNotInServer(serverId: number, userId: number) {
     const userIsInServer = await this._serverService.getIsUserInServer(
       serverId,
       userId,
     );
     if (!userIsInServer) throw ERROR_USER_NOT_IN_SERVER;
+  }
 
-    const requester = await User.findByPk(userId);
-
-    const addressee = await User.findByPk(addresseeId);
-    if (addressee == null) throw ERROR_USER_NOT_FOUND;
-
+  private async throwIfInviteAlreadyExists(
+    requesterId: number,
+    addresseeId: number,
+    serverId: number,
+  ) {
     const inviteAlreadyExists = await ServerInvite.findOne({
       where: {
-        addresseeId: addresseeId,
+        requesterId,
+        addresseeId,
+        serverId,
       },
     });
     if (inviteAlreadyExists != null) throw ERROR_INVITE_ALREADY_EXISTS;
-
-    return { requester, addressee };
   }
 
   private async sendServerInviteDirectMessage({

@@ -14,13 +14,13 @@ class ServerInviteController {
   public create = catchAsync(async (req: Request, res: Response) => {
     const userId = req.user.id;
     const serverId = parseInt(req.params.serverId);
-    const { addresseeId } = req.body;
+    const { friendId } = req.body;
 
     try {
       const { errors, serverInvite } = await this._serverInviteService.create({
         userId,
         serverId,
-        addresseeId,
+        friendId,
       });
       if (errors != null) return res.status(400).json(errors);
 
@@ -28,7 +28,7 @@ class ServerInviteController {
     } catch (e: any) {
       switch (e.type) {
         case ErrorEnum.INVITE_SERVER_USER_ALREADY_EXISTS:
-        case ErrorEnum.USER_NOT_FOUND:
+        case ErrorEnum.FRIEND_REQUEST_NOT_FOUND:
           return res.status(400).json(e.errors);
         case ErrorEnum.INVITE_SERVER_USER_INSUFFICIENT_PERMISSIONS:
           return res.status(403).json(e.errors);

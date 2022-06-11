@@ -15,6 +15,7 @@ import NoFriendsFound from './no-friends-found';
 import { useRouter } from 'next/router';
 import ProfileImage from '../../profile-image';
 import FriendDto from '../../../../../utils/types/dtos/friend';
+
 const InvitePeopleModal = () => {
   const router = useRouter();
   const { showInvitePeopleModal, setShowInvitePeopleModal } = useApp();
@@ -30,8 +31,8 @@ const InvitePeopleModal = () => {
       !(
         user.serverInvites.filter(
           (e) =>
-            e.addressee.id === f.id ||
-            (e.requester.id === f.id && e.serverId === server.id),
+            (e.addressee.id === f.id || e.requester.id === f.id) &&
+            e.serverId === server.id,
         ).length > 0
       )
     );
@@ -44,7 +45,7 @@ const InvitePeopleModal = () => {
   const handleInviteBtnClick = async (friend: FriendDto) => {
     if (server == null) return;
 
-    const payload = { addresseeId: friend.id };
+    const payload = { friendId: friend.friendId };
 
     const validationErrors = InviteValidator.create(payload);
     if (validationErrors.length) {
