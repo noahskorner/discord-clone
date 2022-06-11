@@ -2,6 +2,7 @@ import User from '../../../server/db/models/user.model';
 import RoleEnum from '../../enums/roles';
 import DirectMessageDto from './direct-message';
 import FriendRequestDto from './friend-request';
+import ServerInviteDto from './server-invite';
 
 class UserDto {
   public id: number;
@@ -12,6 +13,7 @@ class UserDto {
   public roles: RoleEnum[];
   public friendRequests: FriendRequestDto[];
   public directMessages: DirectMessageDto[];
+  public serverInvites: ServerInviteDto[] = [];
 
   constructor(user: User) {
     this.id = user.id;

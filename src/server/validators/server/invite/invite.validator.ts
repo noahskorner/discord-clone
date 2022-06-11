@@ -1,7 +1,8 @@
 import ErrorInterface from '../../../../utils/types/interfaces/error';
+import CreateServerInviteRequest from '../../../../utils/types/requests/server/invite/create-server-invite';
 
 const InviteValidator = {
-  create: ({ addresseeId }: { addresseeId: number }) => {
+  create: ({ addresseeId }: CreateServerInviteRequest) => {
     const validationErrors: ErrorInterface[] = [];
     if (addresseeId == null || isNaN(addresseeId))
       validationErrors.push({

@@ -7,16 +7,19 @@ import ResetPasswordRequest from '../../../utils/types/requests/user/reset-passw
 import ConfirmResetPasswordRequest from '../../../utils/types/requests/user/confirm-reset-password';
 import FriendService from '../../services/user/friend';
 import DirectMessageService from '../../services/user/direct-message/direct-message.service';
+import ServerInviteService from '../../services/server/invite';
 
 class UserController {
   private _userService;
   private _friendService;
   private _directMessageService;
+  private _serverInviteService;
 
   constructor() {
     this._userService = new UserService();
     this._friendService = new FriendService();
     this._directMessageService = new DirectMessageService();
+    this._serverInviteService = new ServerInviteService();
   }
 
   public register = catchAsync(async (req: Request, res: Response) => {
@@ -57,6 +60,9 @@ class UserController {
     user.friendRequests = await this._friendService.findByUserId(userId);
     user.directMessages =
       await this._directMessageService.findDirectMessagesByUserId(userId);
+    user.serverInvites = await this._serverInviteService.findAllByUserId(
+      userId,
+    );
 
     return res.status(200).json(user);
   });

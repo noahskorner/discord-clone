@@ -6,6 +6,7 @@ import ServerInvite from '../../../db/models/server-invite.model';
 import User from '../../../db/models/user.model';
 import InviteValidator from '../../../validators/server/invite/invite.validator';
 import ServerService from '../server.service';
+const { Op } = require('sequelize');
 
 const ERROR_USER_NOT_IN_SERVER = new SystemError(
   ErrorEnum.INVITE_SERVER_USER_INSUFFICIENT_PERMISSIONS,
@@ -78,6 +79,20 @@ class ServerInviteService {
     serverInvite.addressee = addressee;
 
     return { serverInvite: new ServerInviteDto(serverInvite) };
+  }
+
+  public async findAllByUserId(userId: number) {
+    const serverInvites = await ServerInvite.findAll({
+      where: { [Op.or]: [{ requesterId: userId }, { addresseeId: userId }] },
+      include: [
+        { model: User, as: 'addressee' },
+        { model: User, as: 'requester' },
+      ],
+    });
+
+    return serverInvites.map(
+      (serverInvite) => new ServerInviteDto(serverInvite),
+    );
   }
 }
 

@@ -5,6 +5,7 @@ import useToasts from '../hooks/use-toasts';
 import handleServiceError from '../services/handle-service-error';
 import FriendDto from '../types/dtos/friend';
 import FriendRequestDto from '../types/dtos/friend-request';
+import ServerInviteDto from '../types/dtos/server-invite';
 import UserDto from '../types/dtos/user';
 
 interface UserContextInterface {
@@ -19,6 +20,8 @@ interface UserContextInterface {
   replaceFriendRequest: (replacementFriend: FriendRequestDto) => void;
   // eslint-disable-next-line no-unused-vars
   removeFriendRequest: (friendId: number) => void;
+  // eslint-disable-next-line no-unused-vars
+  addServerInvite: (serverInvite: ServerInviteDto) => void;
 }
 
 const defaultValues = {
@@ -30,6 +33,7 @@ const defaultValues = {
   addFriendRequest: () => {},
   replaceFriendRequest: () => {},
   removeFriendRequest: () => {},
+  addServerInvite: () => {},
 };
 
 export const UserContext = createContext<UserContextInterface>(defaultValues);
@@ -113,6 +117,17 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
     );
   };
 
+  const addServerInvite = (serverInvite: ServerInviteDto) => {
+    setUser((prev) => {
+      return prev === null
+        ? prev
+        : {
+            ...prev,
+            serverInvites: [...prev.serverInvites, serverInvite],
+          };
+    });
+  };
+
   useEffect(() => {
     if (loadingAuth || requestUser == null) return;
 
@@ -146,6 +161,7 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
         addFriendRequest,
         replaceFriendRequest,
         removeFriendRequest,
+        addServerInvite,
       }}
     >
       {children}
