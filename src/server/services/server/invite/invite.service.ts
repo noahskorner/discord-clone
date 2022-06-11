@@ -5,6 +5,8 @@ import SystemError from '../../../../utils/types/interfaces/system-error';
 import ServerInvite from '../../../db/models/server-invite.model';
 import User from '../../../db/models/user.model';
 import InviteValidator from '../../../validators/server/invite/invite.validator';
+import MessageService from '../../message';
+import DirectMessageService from '../../user/direct-message/direct-message.service';
 import ServerService from '../server.service';
 const { Op } = require('sequelize');
 
@@ -33,9 +35,13 @@ const ERROR_USER_NOT_FOUND = new SystemError(ErrorEnum.USER_NOT_FOUND, [
 
 class ServerInviteService {
   private _serverService: ServerService;
+  private _directMessageService: DirectMessageService;
+  private _messageService: MessageService;
 
   constructor() {
     this._serverService = new ServerService();
+    this._directMessageService = new DirectMessageService();
+    this._messageService = new MessageService();
   }
 
   public async create({
@@ -52,6 +58,48 @@ class ServerInviteService {
       return { errors: validationErrors };
     }
 
+    const { requester, addressee } = await this.findRequesterAndAddressee({
+      userId,
+      serverId,
+      addresseeId,
+    });
+
+    const serverInvite = await ServerInvite.create({
+      serverId: serverId,
+      requesterId: userId,
+      addresseeId: addresseeId,
+    });
+    serverInvite.requester = requester!;
+    serverInvite.addressee = addressee;
+
+    this.sendServerInviteDirectMessage({ userId, addresseeId });
+
+    return { serverInvite: new ServerInviteDto(serverInvite) };
+  }
+
+  public async findAllByUserId(userId: number) {
+    const serverInvites = await ServerInvite.findAll({
+      where: { [Op.or]: [{ requesterId: userId }, { addresseeId: userId }] },
+      include: [
+        { model: User, as: 'addressee' },
+        { model: User, as: 'requester' },
+      ],
+    });
+
+    return serverInvites.map(
+      (serverInvite) => new ServerInviteDto(serverInvite),
+    );
+  }
+
+  private async findRequesterAndAddressee({
+    userId,
+    serverId,
+    addresseeId,
+  }: {
+    userId: number;
+    serverId: number;
+    addresseeId: number;
+  }) {
     const userIsInServer = await this._serverService.getIsUserInServer(
       serverId,
       userId,
@@ -70,29 +118,29 @@ class ServerInviteService {
     });
     if (inviteAlreadyExists != null) throw ERROR_INVITE_ALREADY_EXISTS;
 
-    const serverInvite = await ServerInvite.create({
-      serverId: serverId,
-      requesterId: userId,
-      addresseeId: addresseeId,
-    });
-    serverInvite.requester = requester!;
-    serverInvite.addressee = addressee;
-
-    return { serverInvite: new ServerInviteDto(serverInvite) };
+    return { requester, addressee };
   }
 
-  public async findAllByUserId(userId: number) {
-    const serverInvites = await ServerInvite.findAll({
-      where: { [Op.or]: [{ requesterId: userId }, { addresseeId: userId }] },
-      include: [
-        { model: User, as: 'addressee' },
-        { model: User, as: 'requester' },
-      ],
-    });
+  private async sendServerInviteDirectMessage({
+    userId,
+    addresseeId,
+  }: {
+    userId: number;
+    addresseeId: number;
+  }) {
+    return;
+    // const directMessage =
+    //   await this._directMessageService.getOrCreateDirectMessage({
+    //     userId,
+    //     addresseeId,
+    //   });
 
-    return serverInvites.map(
-      (serverInvite) => new ServerInviteDto(serverInvite),
-    );
+    // const createMessageRequest: CreateMessageRequest = {
+    //   type: MessageType.DIRECT,
+    //   body: '',
+    // };
+
+    // await this._messageService.create();
   }
 }
 

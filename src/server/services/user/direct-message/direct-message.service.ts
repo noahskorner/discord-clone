@@ -125,6 +125,42 @@ class DirectMessageService {
     return directMessagesWithUsers.map((dm) => new DirectMessageDto(dm));
   }
 
+  public async getOrCreateDirectMessage({
+    userId,
+    addresseeId,
+  }: {
+    userId: number;
+    addresseeId: number;
+  }) {
+    const existingDirectMessageIds: any[] = await db.sequelize.query(
+      'SELECT direct_message_id FROM direct_message_user WHERE user_id = ? OR user_id = ? GROUP BY direct_message_id HAVING COUNT(*) = 2',
+      {
+        replacements: [addresseeId, userId],
+        mapToModel: false,
+      },
+    );
+
+    if (existingDirectMessageIds.length == 0) {
+      const directMessage = await DirectMessage.create(
+        {
+          createdById: userId,
+          users: [{ userId }, { userId: addresseeId }],
+        },
+        {
+          include: [{ model: DirectMessageUser }],
+        },
+      );
+      return await this.findById(directMessage.id, userId);
+    } else {
+      const directMessage = await this.findById(
+        existingDirectMessageIds[0],
+        userId,
+      );
+
+      return directMessage;
+    }
+  }
+
   private async findAllDirectMessageUsers(
     directMessages: DirectMessage[],
     userId: number,

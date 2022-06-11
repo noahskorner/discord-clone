@@ -109,12 +109,12 @@ const InvitePeopleModal = () => {
                   </div>
                   <button
                     onClick={() => handleInviteBtnClick(friend)}
-                    className="flex items-center justify-center rounded border border-green-600 px-5 py-[0.35rem] text-xs font-medium text-white hover:bg-green-600"
+                    className="relative flex items-center justify-center rounded border border-green-600 px-5 py-[0.35rem] text-xs font-medium text-white hover:bg-green-600"
                   >
                     <span className={`${loading ? 'opacity-0' : ''}`}>
                       Invite
                     </span>
-                    {loading && <Spinner size="sm" />}
+                    {loading && <Spinner size="sm" className="absolute" />}
                   </button>
                 </div>
               );
@@ -123,6 +123,7 @@ const InvitePeopleModal = () => {
             <div className="space-y-4">
               <NoFriendsFound />
               <button
+                disabled={loading}
                 onClick={handleAddFriendsBtnClick}
                 className="center w-full cursor-pointer rounded bg-indigo-600 py-2 text-sm text-white hover:bg-indigo-800"
               >
