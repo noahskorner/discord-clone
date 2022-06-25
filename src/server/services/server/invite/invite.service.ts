@@ -193,7 +193,7 @@ class ServerInviteService {
       });
 
     const createMessageRequest: CreateMessageRequest = {
-      type: MessageType.DIRECT,
+      type: MessageType.SERVER_INVITE,
       body: `${requesterUsername} has invited you to join ${serverName}!`,
       directMessageId: directMessage!.id,
       serverInviteId: serverInviteId,

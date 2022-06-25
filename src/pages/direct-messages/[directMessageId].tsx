@@ -53,7 +53,7 @@ const DirectMessagePage: NextPageLayout = () => {
   return (
     <div className="relative z-0 flex h-full max-h-full w-full flex-col justify-between pr-1">
       {!loading ? (
-        <div className="flex h-full w-full flex-col-reverse overflow-y-scroll">
+        <div className="flex h-full w-full flex-col-reverse overflow-x-hidden overflow-y-scroll">
           {loadingMessages && (
             <div className="center w-full">
               <Spinner size="lg" />

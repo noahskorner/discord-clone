@@ -1,5 +1,6 @@
 import Message from '../../../server/db/models/message.model';
 import MessageType from '../../enums/message-type';
+import ServerDto from './server';
 
 class MessageSender {
   public userId: number;
@@ -20,18 +21,25 @@ class MessageDto {
   public sender: MessageSender;
   public body: string;
   public directMessageId?: number;
+  public serverInviteId?: number;
+  public server?: ServerDto;
 
   constructor(message: Message) {
     this.id = message.id;
     this.createdAt = message.createdAt;
     this.type = message.type;
     this.sender = new MessageSender(
-      message.sender.id ?? 0,
-      message.sender.email ?? '',
-      message.sender.username ?? '',
+      message.sender?.id ?? 0,
+      message.sender?.email ?? '',
+      message.sender?.username ?? '',
     );
     this.body = message.body;
     this.directMessageId = message.directMessageId;
+    this.serverInviteId = message.serverInviteId;
+    this.server =
+      message.serverInvite?.server != null
+        ? new ServerDto(message.serverInvite.server)
+        : undefined;
   }
 }
 

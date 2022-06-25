@@ -4,11 +4,13 @@ import ErrorInterface from '../../../utils/types/interfaces/error';
 import CreateMessageRequest from '../../../utils/types/requests/message/create-message';
 import Message from '../../db/models/message.model';
 import ServerInvite from '../../db/models/server-invite.model';
+import Server from '../../db/models/server.model';
 import User from '../../db/models/user.model';
 import MessageValidator from '../../validators/message';
 import DirectMessageService, {
   ERROR_DIRECT_MESSAGE_USER_NOT_FOUND,
 } from '../user/direct-message/direct-message.service';
+const { Op } = require('sequelize');
 
 class MessageService {
   private _directMessageService: DirectMessageService;
@@ -49,7 +51,15 @@ class MessageService {
 
     const messages = await Message.findAll({
       where: {
-        type: MessageType.DIRECT,
+        [Op.and]: [
+          { directMessageId: directMessageId },
+          {
+            [Op.or]: [
+              { type: MessageType.DIRECT },
+              { type: MessageType.SERVER_INVITE },
+            ],
+          },
+        ],
         directMessageId: directMessageId,
       },
       include: [
@@ -58,6 +68,7 @@ class MessageService {
         },
         {
           model: ServerInvite,
+          include: [{ model: Server }],
         },
       ],
       order: [['created_at', 'DESC']],
