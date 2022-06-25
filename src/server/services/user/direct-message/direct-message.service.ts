@@ -155,9 +155,12 @@ class DirectMessageService {
   ): Promise<number | null> {
     const existingDirectMessageIds = (
       (await db.sequelize.query(
-        'SELECT direct_message_id FROM direct_message_user WHERE user_id IN(:userIds) GROUP BY direct_message_id HAVING COUNT(*) = :numUserIds',
+        'SELECT direct_message_id FROM direct_message_user WHERE user_id IN (:userIds) GROUP BY direct_message_id HAVING COUNT(*) = :numUserIds',
         {
-          replacements: [{ userIds }, { numUserIds: userIds.length }],
+          replacements: {
+            userIds,
+            numUserIds: userIds.length,
+          },
           mapToModel: false,
           raw: true,
         },

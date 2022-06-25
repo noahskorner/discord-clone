@@ -8,6 +8,7 @@ import FriendHeader from '../../components/layouts/app-layout/friends/friend-hea
 import FriendSidebar from '../../components/layouts/app-layout/friends/friend-sidebar/friend-sidebar';
 import { DirectMessageProvider } from '../../utils/contexts/direct-message-context';
 import useDirectMessage from '../../utils/hooks/use-direct-message';
+import useUser from '../../utils/hooks/use-user';
 import { getLabel } from '../../utils/types/dtos/direct-message';
 import { NextPageLayout } from '../../utils/types/next-page-layout';
 
@@ -26,6 +27,7 @@ const DirectMessagePage: NextPageLayout = () => {
   const { directMessageId } = router.query as {
     directMessageId: string;
   };
+  const { user } = useUser();
   const [body, setBody] = useState('');
 
   useEffect(() => {
@@ -67,7 +69,7 @@ const DirectMessagePage: NextPageLayout = () => {
         onInput={setBody}
         onKeyDown={handleKeyDown}
         placeholder={`Message ${
-          directMessage != null ? getLabel(directMessage) : ''
+          directMessage != null ? getLabel(user!.id, directMessage) : ''
         }`}
       />
     </div>

@@ -6,6 +6,7 @@ import SystemError from '../../../../utils/types/interfaces/system-error';
 import CreateMessageRequest from '../../../../utils/types/requests/message/create-message';
 import Friend from '../../../db/models/friend.model';
 import ServerInvite from '../../../db/models/server-invite.model';
+import Server from '../../../db/models/server.model';
 import User from '../../../db/models/user.model';
 import InviteValidator from '../../../validators/server/invite/invite.validator';
 import MessageService from '../../message';
@@ -77,10 +78,14 @@ class ServerInviteService {
     serverInvite.requester = requester!;
     serverInvite.addressee = addressee;
 
+    const server = await Server.findByPk(serverId);
+
     this.sendServerInviteDirectMessage({
       userId,
+      requesterUsername: requester!.username,
       addresseeId: addressee.id,
       friendId,
+      serverName: server!.name,
       serverInviteId: serverInvite.id,
     });
 
@@ -167,11 +172,15 @@ class ServerInviteService {
 
   private async sendServerInviteDirectMessage({
     userId,
+    requesterUsername,
     addresseeId,
+    serverName,
     friendId,
     serverInviteId,
   }: {
     userId: number;
+    requesterUsername: string;
+    serverName: string;
     addresseeId: number;
     friendId: number;
     serverInviteId: number;
@@ -183,16 +192,14 @@ class ServerInviteService {
         friendId,
       });
 
-    console.log(directMessage);
+    const createMessageRequest: CreateMessageRequest = {
+      type: MessageType.DIRECT,
+      body: `${requesterUsername} has invited you to join ${serverName}!`,
+      directMessageId: directMessage!.id,
+      serverInviteId: serverInviteId,
+    };
 
-    // const createMessageRequest: CreateMessageRequest = {
-    //   type: MessageType.DIRECT,
-    //   body: '{user} has invited you to join {server}!',
-    //   directMessageId: directMessage?.id,
-    //   serverInviteId: serverInviteId,
-    // };
-
-    // await this._messageService.create(userId, createMessageRequest);
+    await this._messageService.create(userId, createMessageRequest);
   }
 }
 

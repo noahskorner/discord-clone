@@ -16,6 +16,7 @@ import useSocket from '../hooks/use-socket';
 import useToasts from '../hooks/use-toasts';
 import useUser from '../hooks/use-user';
 import handleServiceError from '../services/handle-service-error';
+import SetUtils from '../set-utils';
 import DirectMessageDto from '../types/dtos/direct-message';
 import MessageDto from '../types/dtos/message';
 import ErrorInterface from '../types/interfaces/error';
@@ -24,7 +25,7 @@ import CreateMessageRequest from '../types/requests/message/create-message';
 interface DirectMessageContextInterface {
   loading: boolean;
   loadingMessages: boolean;
-  messages: MessageDto[];
+  messages: Set<MessageDto>;
   directMessage: DirectMessageDto | null;
   setDirectMessage: Dispatch<SetStateAction<DirectMessageDto | null>>;
   // eslint-disable-next-line no-unused-vars
@@ -45,7 +46,7 @@ interface DirectMessageContextInterface {
 const defaultValues = {
   loading: false,
   loadingMessages: false,
-  messages: [],
+  messages: new Set<MessageDto>(),
   directMessage: null,
   setDirectMessage: () => {},
   loadDirectMessage: async () => {},
@@ -66,7 +67,7 @@ export const DirectMessageProvider = ({
   const { user } = useUser();
   const { socket } = useSocket();
   const [loading, setLoading] = useState<boolean>(defaultValues.loading);
-  const [messages, setMessages] = useState<MessageDto[]>(
+  const [messages, setMessages] = useState<Set<MessageDto>>(
     defaultValues.messages,
   );
   const [loadingMessages, setLoadingMessages] = useState<boolean>(
@@ -108,6 +109,8 @@ export const DirectMessageProvider = ({
     skip: number,
     take: number,
   ) => {
+    if (skip === 0) setMessages(new Set());
+
     setLoadingMessages(true);
     try {
       const response = await MessageService.list({
@@ -115,7 +118,13 @@ export const DirectMessageProvider = ({
         skip,
         take,
       });
-      setMessages((prev) => [...prev, ...response.data]);
+
+      response.data.forEach((message) => {
+        setMessages((prev) => {
+          if (SetUtils.some(prev, (e) => e.id === message.id)) return prev;
+          return prev.add(message);
+        });
+      });
     } catch (error) {
       setDirectMessage(null);
       const { errors } = handleServiceError(error);
@@ -150,7 +159,7 @@ export const DirectMessageProvider = ({
 
   const addMessage = (message: MessageDto) => {
     setMessages((prev) => {
-      return [message, ...prev];
+      return prev.add(message);
     });
   };
 
