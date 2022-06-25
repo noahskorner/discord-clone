@@ -13,14 +13,17 @@ import ServerDto from '../types/dtos/server';
 
 interface ServersContextInterface {
   servers: ServerDto[];
-  setServers: Dispatch<SetStateAction<ServerDto[]>>;
   loading: boolean;
+  setServers: Dispatch<SetStateAction<ServerDto[]>>;
+  // eslint-disable-next-line no-unused-vars
+  addServer: (server: ServerDto) => void;
 }
 
 const defaultValues = {
   servers: [],
   setServers: () => {},
   loading: false,
+  addServer: () => {},
 };
 
 export const ServersContext =
@@ -35,6 +38,12 @@ export const ServersProvider = ({ children }: ServersProviderInterface) => {
   const { danger } = useToasts();
   const [servers, setServers] = useState<ServerDto[]>(defaultValues.servers);
   const [loading, setLoading] = useState(defaultValues.loading);
+
+  const addServer = (server: ServerDto) => {
+    setServers((prev) => {
+      return prev.some((e) => e.id === server.id) ? prev : [...prev, server];
+    });
+  };
 
   useEffect(() => {
     if (loadingAuth) return;
@@ -61,7 +70,9 @@ export const ServersProvider = ({ children }: ServersProviderInterface) => {
   }, [loadingAuth]);
 
   return (
-    <ServersContext.Provider value={{ servers, loading, setServers }}>
+    <ServersContext.Provider
+      value={{ servers, loading, setServers, addServer }}
+    >
       {children}
     </ServersContext.Provider>
   );

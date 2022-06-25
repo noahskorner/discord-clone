@@ -41,6 +41,8 @@ interface DirectMessageContextInterface {
     // eslint-disable-next-line no-unused-vars
     take: number,
   ) => Promise<void>;
+  // eslint-disable-next-line no-unused-vars
+  acceptServerInviteMessage: (messageId: number) => void;
 }
 
 const defaultValues = {
@@ -52,6 +54,7 @@ const defaultValues = {
   loadDirectMessage: async () => {},
   sendDirectMessage: () => [],
   loadMessages: async () => {},
+  acceptServerInviteMessage: () => {},
 };
 
 export const DirectMessageContext =
@@ -163,6 +166,23 @@ export const DirectMessageProvider = ({
     });
   };
 
+  const acceptServerInviteMessage = (messageId: number) => {
+    setMessages((prev) => {
+      const original = SetUtils.find(prev, (e) => e.id === messageId);
+      return new Set([
+        ...Array.from(prev).filter((e) => e.id !== messageId),
+        {
+          ...original,
+          serverInvite: {
+            ...original!.serverInvite,
+            accepted: true,
+            acceptedAt: new Date(),
+          },
+        } as MessageDto,
+      ]);
+    });
+  };
+
   useEffect(() => {
     if (
       socket == null ||
@@ -190,6 +210,7 @@ export const DirectMessageProvider = ({
         loadDirectMessage,
         sendDirectMessage,
         loadMessages,
+        acceptServerInviteMessage,
       }}
     >
       {children}

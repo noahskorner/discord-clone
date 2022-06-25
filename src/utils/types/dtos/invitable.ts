@@ -20,13 +20,13 @@ class InvitableDto {
     this.id = invite.id;
     this.requester = {
       id: invite.requesterId,
-      email: invite.requester.email,
-      username: invite.requester.username,
+      email: invite.requester?.email ?? '',
+      username: invite.requester?.username ?? '',
     };
     this.addressee = {
       id: invite.addresseeId,
-      email: invite.addressee.email,
-      username: invite.addressee.username,
+      email: invite.addressee?.email ?? '',
+      username: invite.addressee?.username ?? '',
     };
     this.accepted = invite.accepted;
     this.createdAt = invite.createdAt;

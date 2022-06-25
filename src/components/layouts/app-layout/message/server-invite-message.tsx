@@ -1,7 +1,14 @@
 import Link from 'next/link';
+import { useRouter } from 'next/router';
+import { useState } from 'react';
+import ServerUserService from '../../../../services/server-user-service';
 import DateUtils from '../../../../utils/date-utils';
+import useDirectMessage from '../../../../utils/hooks/use-direct-message';
+import useToasts from '../../../../utils/hooks/use-toasts';
 import useUser from '../../../../utils/hooks/use-user';
+import handleServiceError from '../../../../utils/services/handle-service-error';
 import MessageDto from '../../../../utils/types/dtos/message';
+import Spinner from '../../../inputs/spinner';
 import ProfileImage from '../profile-image';
 
 interface ServerInviteMessageProps {
@@ -9,8 +16,31 @@ interface ServerInviteMessageProps {
 }
 
 const ServerInviteMessage = ({ message }: ServerInviteMessageProps) => {
+  const [loading, setLoading] = useState(false);
   const { user } = useUser();
   const userIsRequester = user?.id === message.sender.userId;
+  const { errorListToToasts } = useToasts();
+  const { acceptServerInviteMessage } = useDirectMessage();
+  const router = useRouter();
+
+  const handleJoinServerBtnClick = async () => {
+    if (message.serverInvite == null) return;
+
+    setLoading(true);
+    try {
+      await ServerUserService.create(message.server!.id, {
+        serverInviteId: message.serverInvite.id,
+      });
+
+      acceptServerInviteMessage(message.id);
+      router.push(`/servers/${message.server!.id}`);
+    } catch (e: any) {
+      const { errors } = handleServiceError(e);
+      errorListToToasts(errors);
+    } finally {
+      setLoading(false);
+    }
+  };
 
   const header = `You${
     userIsRequester ? ' ' : ' were '
@@ -41,15 +71,20 @@ const ServerInviteMessage = ({ message }: ServerInviteMessageProps) => {
                 {message.server?.name}
               </h5>
             </div>
-            {userIsRequester ? (
+            {userIsRequester || message.serverInvite?.accepted ? (
               <Link href={`/servers/${message.server?.id}`} passHref>
                 <span className="center cursor-pointer rounded bg-green-700 px-5 py-3 text-xs hover:bg-green-900">
                   Joined
                 </span>
               </Link>
             ) : (
-              <button className="center rounded bg-green-700 px-5 py-3 text-xs hover:bg-green-900">
-                Join
+              <button
+                disabled={loading}
+                onClick={handleJoinServerBtnClick}
+                className="center rounded  bg-green-700 px-5 py-3 text-xs hover:bg-green-900"
+              >
+                <span className={`${loading ? 'opacity-0' : ''}`}>Join</span>
+                {loading && <Spinner size="sm" className="absolute" />}
               </button>
             )}
           </div>

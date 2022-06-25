@@ -2,6 +2,7 @@ import { createContext, Dispatch, SetStateAction, useState } from 'react';
 import ServerService from '../../services/server-service';
 import ChannelType from '../enums/channel-type';
 import EventEnum from '../enums/events';
+import useServers from '../hooks/use-servers';
 import useSocket from '../hooks/use-socket';
 import useToasts from '../hooks/use-toasts';
 import handleServiceError from '../services/handle-service-error';
@@ -43,6 +44,7 @@ interface ServerProviderInterface {
 export const ServerProvider = ({ children }: ServerProviderInterface) => {
   const [loading, setLoading] = useState<boolean>(defaultValues.loading);
   const [server, setServer] = useState<ServerDto | null>(defaultValues.server);
+  const { addServer } = useServers();
   const { socket } = useSocket();
   const isHomePage = server == null;
 
@@ -66,7 +68,9 @@ export const ServerProvider = ({ children }: ServerProviderInterface) => {
     setLoading(true);
     try {
       const response = await ServerService.get(serverId);
+
       setServer(response.data);
+      addServer(response.data);
       socket?.current.emit(EventEnum.JOIN_SERVER, {
         serverId,
       } as JoinServerRequest);
