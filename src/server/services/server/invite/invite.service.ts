@@ -1,7 +1,9 @@
 import ErrorEnum from '../../../../utils/enums/errors';
+import MessageType from '../../../../utils/enums/message-type';
 import ServerInviteDto from '../../../../utils/types/dtos/server-invite';
 import ErrorInterface from '../../../../utils/types/interfaces/error';
 import SystemError from '../../../../utils/types/interfaces/system-error';
+import CreateMessageRequest from '../../../../utils/types/requests/message/create-message';
 import Friend from '../../../db/models/friend.model';
 import ServerInvite from '../../../db/models/server-invite.model';
 import User from '../../../db/models/user.model';
@@ -75,7 +77,12 @@ class ServerInviteService {
     serverInvite.requester = requester!;
     serverInvite.addressee = addressee;
 
-    this.sendServerInviteDirectMessage({ userId, addresseeId: addressee.id });
+    this.sendServerInviteDirectMessage({
+      userId,
+      addresseeId: addressee.id,
+      friendId,
+      serverInviteId: serverInvite.id,
+    });
 
     return { serverInvite: new ServerInviteDto(serverInvite) };
   }
@@ -129,10 +136,8 @@ class ServerInviteService {
         { model: User, as: 'addressee' },
         { model: User, as: 'requester' },
       ],
-    }).catch((e) => {
-      console.log(e);
-      return null;
     });
+
     if (friend == null) throw ERROR_FRIEND_NOT_FOUND;
     return friend.requesterId === userId ? friend.addressee : friend.requester;
   }
@@ -163,23 +168,31 @@ class ServerInviteService {
   private async sendServerInviteDirectMessage({
     userId,
     addresseeId,
+    friendId,
+    serverInviteId,
   }: {
     userId: number;
     addresseeId: number;
+    friendId: number;
+    serverInviteId: number;
   }) {
-    return;
-    // const directMessage =
-    //   await this._directMessageService.getOrCreateDirectMessage({
-    //     userId,
-    //     addresseeId,
-    //   });
+    const directMessage =
+      await this._directMessageService.getOrCreateDirectMessage({
+        userId,
+        addresseeId,
+        friendId,
+      });
+
+    console.log(directMessage);
 
     // const createMessageRequest: CreateMessageRequest = {
     //   type: MessageType.DIRECT,
-    //   body: '',
+    //   body: '{user} has invited you to join {server}!',
+    //   directMessageId: directMessage?.id,
+    //   serverInviteId: serverInviteId,
     // };
 
-    // await this._messageService.create();
+    // await this._messageService.create(userId, createMessageRequest);
   }
 }
 

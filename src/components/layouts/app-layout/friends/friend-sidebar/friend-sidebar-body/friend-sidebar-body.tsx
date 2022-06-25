@@ -61,7 +61,7 @@ const FriendSidebarBody = () => {
               } flex cursor-pointer items-center justify-start space-x-4 rounded px-3 py-1 text-sm text-slate-300`}
             >
               <ProfileImage width={32} height={32} />
-              <span className="truncate text-sm">{getLabel(dm)}</span>
+              <span className="truncate text-sm">{getLabel(user.id, dm)}</span>
             </span>
           </Link>
         );

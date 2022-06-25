@@ -14,7 +14,10 @@ const validateType = (
       field: 'type',
       message: 'Must provide a messsage type.',
     });
-  else if (type === MessageType.DIRECT && directMessageId == null) {
+  else if (
+    (type === MessageType.DIRECT || type === MessageType.SERVER_INVITE) &&
+    directMessageId == null
+  ) {
     errors.push({
       field: 'type',
       message: 'Must provide a directMessageId',

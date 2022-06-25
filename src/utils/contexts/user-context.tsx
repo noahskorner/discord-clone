@@ -3,6 +3,7 @@ import UserService from '../../services/user-service';
 import useAuth from '../hooks/use-auth';
 import useToasts from '../hooks/use-toasts';
 import handleServiceError from '../services/handle-service-error';
+import DirectMessageDto from '../types/dtos/direct-message';
 import FriendDto from '../types/dtos/friend';
 import FriendRequestDto from '../types/dtos/friend-request';
 import ServerInviteDto from '../types/dtos/server-invite';
@@ -22,6 +23,8 @@ interface UserContextInterface {
   removeFriendRequest: (friendId: number) => void;
   // eslint-disable-next-line no-unused-vars
   addServerInvite: (serverInvite: ServerInviteDto) => void;
+  // eslint-disable-next-line no-unused-vars
+  addDirectMessage: (directMessage: DirectMessageDto) => void;
 }
 
 const defaultValues = {
@@ -34,6 +37,7 @@ const defaultValues = {
   replaceFriendRequest: () => {},
   removeFriendRequest: () => {},
   addServerInvite: () => {},
+  addDirectMessage: () => {},
 };
 
 export const UserContext = createContext<UserContextInterface>(defaultValues);
@@ -128,6 +132,16 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
     });
   };
 
+  const addDirectMessage = (directMessage: DirectMessageDto) => {
+    setUser((prev) => {
+      if (prev == null) return prev;
+      return {
+        ...prev,
+        directMessages: [...prev?.directMessages, directMessage],
+      };
+    });
+  };
+
   useEffect(() => {
     if (loadingAuth || requestUser == null) return;
 
@@ -162,6 +176,7 @@ export const UserProvder = ({ children }: UserProviderInterface) => {
         replaceFriendRequest,
         removeFriendRequest,
         addServerInvite,
+        addDirectMessage,
       }}
     >
       {children}

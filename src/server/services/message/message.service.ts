@@ -3,6 +3,7 @@ import MessageDto from '../../../utils/types/dtos/message';
 import ErrorInterface from '../../../utils/types/interfaces/error';
 import CreateMessageRequest from '../../../utils/types/requests/message/create-message';
 import Message from '../../db/models/message.model';
+import ServerInvite from '../../db/models/server-invite.model';
 import User from '../../db/models/user.model';
 import MessageValidator from '../../validators/message';
 import DirectMessageService, {
@@ -24,24 +25,14 @@ class MessageService {
     if (validationErrors.length > 0) return { errors: validationErrors };
 
     if (request.type === MessageType.DIRECT) {
-      const isUserInDirectMessage = await this.getIsUserInDirectMessage(
-        request.directMessageId!,
-        userId,
-      );
-      if (!isUserInDirectMessage) throw ERROR_DIRECT_MESSAGE_USER_NOT_FOUND;
-
-      const message = await Message.create({
-        type: request.type,
-        senderId: userId,
-        body: request.body,
-        directMessageId: request.directMessageId,
-      });
-      const sender = await User.findByPk(userId)!;
-      message.sender = sender!;
-
+      const message = await this.createDirectMesssage(userId, request);
       return { message: new MessageDto(message) };
+    } else if (request.type === MessageType.SERVER_INVITE) {
+      const message = await this.createServerInviteMessage(userId, request);
+      return { message: new MessageDto(message) };
+    } else {
+      throw new Error('Method not implemented.');
     }
-    throw new Error('Method not implemented.');
   }
 
   public async findAllByDirectMessageId(
@@ -65,6 +56,9 @@ class MessageService {
         {
           model: User,
         },
+        {
+          model: ServerInvite,
+        },
       ],
       order: [['created_at', 'DESC']],
       offset: skip,
@@ -72,6 +66,51 @@ class MessageService {
     });
 
     return messages.map((message) => new MessageDto(message));
+  }
+
+  private async createDirectMesssage(
+    userId: number,
+    request: CreateMessageRequest,
+  ) {
+    const isUserInDirectMessage = await this.getIsUserInDirectMessage(
+      request.directMessageId!,
+      userId,
+    );
+    if (!isUserInDirectMessage) throw ERROR_DIRECT_MESSAGE_USER_NOT_FOUND;
+
+    const message = await Message.create({
+      type: request.type,
+      senderId: userId,
+      body: request.body,
+      directMessageId: request.directMessageId,
+    });
+    const sender = await User.findByPk(userId)!;
+    message.sender = sender!;
+
+    return message;
+  }
+
+  private async createServerInviteMessage(
+    userId: number,
+    request: CreateMessageRequest,
+  ) {
+    const isUserInDirectMessage = await this.getIsUserInDirectMessage(
+      request.directMessageId!,
+      userId,
+    );
+    if (!isUserInDirectMessage) throw ERROR_DIRECT_MESSAGE_USER_NOT_FOUND;
+
+    const message = await Message.create({
+      type: request.type,
+      senderId: userId,
+      body: request.body,
+      directMessageId: request.directMessageId,
+      serverInviteId: request.serverInviteId,
+    });
+    const sender = await User.findByPk(userId)!;
+    message.sender = sender!;
+
+    return message;
   }
 
   private async getIsUserInDirectMessage(

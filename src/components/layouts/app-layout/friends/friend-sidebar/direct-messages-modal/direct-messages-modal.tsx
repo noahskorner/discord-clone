@@ -11,6 +11,7 @@ import { CheckIcon, CloseIcon, IconSize } from '../../../../../icons';
 import FriendDto from '../../../../../../utils/types/dtos/friend';
 import { createPortal } from 'react-dom';
 import Spinner from '../../../../../inputs/spinner';
+import { useRouter } from 'next/router';
 
 interface DirectMessagesModalProps {
   showModal: boolean;
@@ -21,7 +22,7 @@ const DirectMessagesModal = ({
   showModal,
   setShowModal,
 }: DirectMessagesModalProps) => {
-  const { user } = useUser();
+  const { user, addDirectMessage } = useUser();
   const { errorListToToasts } = useToasts();
   const { friends } = useUser();
   const [searchText, setSearchText] = useState('');
@@ -33,6 +34,7 @@ const DirectMessagesModal = ({
   );
   const [loading, setLoading] = useState(false);
   const [isSearchFocused, setIsSearchFocused] = useState(false);
+  const router = useRouter();
 
   const handleClickAway = () => {
     setShowModal(false);
@@ -56,9 +58,13 @@ const DirectMessagesModal = ({
         userId: user!.id,
         friendIds: selectedFriends.map((f) => f.friendId),
       };
+
       const response = await DirectMessageService.create(payload);
-      console.log(response);
+      const directMessage = response.data;
+
+      addDirectMessage(directMessage);
       setShowModal(false);
+      router.push(`/direct-messages/${directMessage.id}`);
     } catch (error) {
       const { errors } = handleServiceError(error);
       errorListToToasts(errors);

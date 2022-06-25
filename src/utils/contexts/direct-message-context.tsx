@@ -1,3 +1,4 @@
+import { useRouter } from 'next/router';
 import {
   createContext,
   Dispatch,
@@ -75,6 +76,7 @@ export const DirectMessageProvider = ({
     defaultValues.directMessage,
   );
   const { errorListToToasts, danger } = useToasts();
+  const router = useRouter();
 
   const loadDirectMessage = useCallback(
     async (directMessageId: string | number) => {
@@ -92,6 +94,7 @@ export const DirectMessageProvider = ({
         setDirectMessage(null);
         const { errors } = handleServiceError(error);
         errorListToToasts(errors);
+        router.push('/');
       } finally {
         setLoading(false);
       }

@@ -128,37 +128,58 @@ class DirectMessageService {
   public async getOrCreateDirectMessage({
     userId,
     addresseeId,
+    friendId,
   }: {
     userId: number;
     addresseeId: number;
+    friendId: number;
   }) {
-    const existingDirectMessageIds: any[] = await db.sequelize.query(
-      'SELECT direct_message_id FROM direct_message_user WHERE user_id = ? OR user_id = ? GROUP BY direct_message_id HAVING COUNT(*) = 2',
-      {
-        replacements: [addresseeId, userId],
-        mapToModel: false,
-      },
-    );
+    const existingDirectMessageId = await this.findExistingDirectMessageId([
+      userId,
+      addresseeId,
+    ]);
 
-    if (existingDirectMessageIds.length == 0) {
-      const directMessage = await DirectMessage.create(
-        {
-          createdById: userId,
-          users: [{ userId }, { userId: addresseeId }],
-        },
-        {
-          include: [{ model: DirectMessageUser }],
-        },
-      );
-      return await this.findById(directMessage.id, userId);
-    } else {
-      const directMessage = await this.findById(
-        existingDirectMessageIds[0],
+    if (existingDirectMessageId == null) {
+      const { directMessage } = await this.createDirectMessage({
         userId,
-      );
-
+        friendIds: [friendId],
+      });
       return directMessage;
+    } else {
+      return await this.findById(existingDirectMessageId, userId);
     }
+  }
+
+  private async findExistingDirectMessageId(
+    userIds: number[],
+  ): Promise<number | null> {
+    const existingDirectMessageIds = (
+      (await db.sequelize.query(
+        'SELECT direct_message_id FROM direct_message_user WHERE user_id IN(:userIds) GROUP BY direct_message_id HAVING COUNT(*) = :numUserIds',
+        {
+          replacements: [{ userIds }, { numUserIds: userIds.length }],
+          mapToModel: false,
+          raw: true,
+        },
+      )) as [{ direct_message_id: number }[], unknown]
+    )[0].map((e) => e.direct_message_id);
+
+    const possibleDirectMessages = await DirectMessage.findAll({
+      where: {
+        id: existingDirectMessageIds,
+      },
+      include: [{ model: DirectMessageUser }],
+    });
+
+    const existingDirectMessages = possibleDirectMessages.filter((x) => {
+      return (
+        x.users.map((y) => y.id).filter((z) => userIds.includes(z)).length ===
+        userIds.length
+      );
+    });
+
+    if (existingDirectMessageIds.length < 1) return null;
+    return existingDirectMessages[0].id;
   }
 
   private async findAllDirectMessageUsers(

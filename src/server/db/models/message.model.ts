@@ -9,6 +9,7 @@ import {
 } from 'sequelize-typescript';
 import MessageType from '../../../utils/enums/message-type';
 import DirectMessage from './direct-message.model';
+import ServerInvite from './server-invite.model';
 import User from './user.model';
 
 @Table({ tableName: 'message', underscored: true })
@@ -33,6 +34,14 @@ class Message extends Model {
 
   @BelongsTo(() => DirectMessage)
   directMessage!: DirectMessage;
+
+  @ForeignKey(() => ServerInvite)
+  @AllowNull
+  @Column(DataType.INTEGER)
+  serverInviteId!: number;
+
+  @BelongsTo(() => ServerInvite)
+  serverInvite!: ServerInvite;
 }
 
 export default Message;
