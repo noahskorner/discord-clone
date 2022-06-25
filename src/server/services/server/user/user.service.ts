@@ -1,56 +1,47 @@
+import DateUtils from '../../../../utils/date-utils';
 import ErrorEnum from '../../../../utils/enums/errors';
 import ServerRoleEnum from '../../../../utils/enums/server-roles';
 import ServerUserDto from '../../../../utils/types/dtos/server-user';
 import SystemError from '../../../../utils/types/interfaces/system-error';
+import ServerInvite from '../../../db/models/server-invite.model';
 import ServerUser from '../../../db/models/server-user.model';
 import User from '../../../db/models/user.model';
-import ServerService from '../server.service';
 
-const ERROR_USER_NOT_IN_SERVER = new SystemError(
-  ErrorEnum.ADD_SERVER_USER_INSUFFICIENT_PERMISSIONS,
-  [
-    {
-      message: 'Must belong to server to invite users to it.',
-    },
-  ],
-);
-const ERROR_USER_NOT_FOUND = new SystemError(ErrorEnum.USER_NOT_FOUND, [
+const ERROR_NOT_INVITED = new SystemError(ErrorEnum.NOT_INVITED, [
   {
-    message: 'The user you are trying to add does not exist.',
+    message: 'You are not invited to this server, pal.',
   },
 ]);
 
 class ServerUserService {
-  private _serverService;
-
-  constructor() {
-    this._serverService = new ServerService();
-  }
-
-  public async addUserToServer({
+  public async create({
     userId,
-    serverId,
-    addUserId,
+    serverInviteId,
   }: {
     userId: number;
-    serverId: number;
-    addUserId: number;
+    serverInviteId: number;
   }): Promise<ServerUserDto> {
-    const isUserInServer = await this._serverService.getIsUserInServer(
-      serverId,
-      userId,
-    );
-    if (!isUserInServer) throw ERROR_USER_NOT_IN_SERVER;
+    const serverInvite = await ServerInvite.findOne({
+      where: {
+        addresseeId: userId,
+        id: serverInviteId,
+      },
+      include: [{ model: User, as: 'addressee' }],
+    });
 
-    const addUser = await User.findByPk(addUserId);
-    if (addUser == null) throw ERROR_USER_NOT_FOUND;
+    if (serverInvite == null) throw ERROR_NOT_INVITED;
+
+    serverInvite.update({
+      accepted: true,
+      acceptedAt: DateUtils.UTC(),
+    });
 
     const serverUser = await ServerUser.create({
-      serverId,
-      userId,
+      serverId: serverInvite.serverId,
+      userId: userId,
       role: ServerRoleEnum.MEMBER,
     });
-    serverUser.user = addUser;
+    serverUser.user = serverInvite.addressee;
 
     return new ServerUserDto(serverUser);
   }

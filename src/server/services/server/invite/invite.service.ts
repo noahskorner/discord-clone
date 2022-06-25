@@ -34,7 +34,7 @@ const ERROR_FRIEND_NOT_FOUND = new SystemError(
   ErrorEnum.FRIEND_REQUEST_NOT_FOUND,
   [
     {
-      message: 'You must be friends with this user to invite them to a server',
+      message: 'You must be friends with this user to invite them to a server.',
     },
   ],
 );

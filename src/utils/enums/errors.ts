@@ -16,6 +16,7 @@ enum ErrorEnum {
   CREATE_DIRECT_MESSAGE_NOT_FRIENDS_WITH_ENTIRE_GROUP = 'DirectMessageService.createDirectMessage.CreateDirectMessageNotFriendsWithEntireGroup',
   DIRECT_MESSAGE_USER_NOT_FOUND = 'DirectMessageService.findById.DirectMessageUserNotFound',
   DIRECT_MESSAGE_NOT_FOUND = 'DirectMessageService.findById.DirectMessageNotFound',
+  NOT_INVITED = 'InviteServer.accept.NotInvited',
 }
 
 export default ErrorEnum;
