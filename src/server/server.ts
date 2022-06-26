@@ -1,23 +1,24 @@
 import { createServer } from 'http';
-import { Server } from 'socket.io';
+import app from './app';
 import env from '../config/env.config';
 import EventEnum from '../utils/enums/events';
-import app from './app';
 import jwt from 'jsonwebtoken';
 import RequestUser from '../utils/types/dtos/request-user';
 import JoinServerRequest from '../utils/types/requests/events/join-server-request';
 import CreateMessageRequest from '../utils/types/requests/message/create-message';
 import MessageService from './services/message';
+import WebSocket from '../utils/types/web-socket';
 
 const server = createServer(app);
-const io = new Server(server, {
+
+const webSocket = new WebSocket(server, {
   cors: {
     origin: env.HOST,
     methods: '*',
   },
 });
 
-io.on(EventEnum.CONNECTION, (socket) => {
+webSocket.on(EventEnum.CONNECTION, (socket) => {
   const accessToken = socket.handshake.query.accessToken as string | undefined;
 
   if (accessToken == null) return socket.disconnect();
@@ -46,12 +47,14 @@ io.on(EventEnum.CONNECTION, (socket) => {
       async ({ serverId }: JoinServerRequest) => {
         socket.join(serverId.toString());
 
-        const remoteSockets = await io.in(serverId.toString()).fetchSockets();
+        const remoteSockets = await webSocket
+          .in(serverId.toString())
+          .fetchSockets();
         const currentUsers = remoteSockets.map(
           (remoteSocket: any) => remoteSocket.user as RequestUser,
         );
 
-        io.sockets
+        webSocket.sockets
           .in(serverId.toString())
           .emit(EventEnum.JOIN_SERVER, currentUsers);
       },
@@ -83,8 +86,9 @@ io.on(EventEnum.CONNECTION, (socket) => {
     socket.on(
       EventEnum.JOIN_DIRECT_MESSAGE,
       async (directMessageId: number) => {
+        console.log('JOINED');
         socket.join(directMessageId.toString());
-        const remoteSockets = await io
+        const remoteSockets = await webSocket
           .in(directMessageId.toString())
           .fetchSockets();
         const currentUsers = remoteSockets.map(
@@ -103,7 +107,7 @@ io.on(EventEnum.CONNECTION, (socket) => {
           request,
         ); // TODO: This could be done after emitting, but this is fine for now
 
-        io.sockets
+        webSocket.sockets
           .in(request.directMessageId!.toString())
           .emit(EventEnum.RECEIVE_DIRECT_MESSAGE, message);
       },
@@ -114,4 +118,5 @@ io.on(EventEnum.CONNECTION, (socket) => {
   }
 });
 
+export const io = () => webSocket;
 export default server;

@@ -185,12 +185,19 @@ class ServerInviteService {
     friendId: number;
     serverInviteId: number;
   }) {
-    const directMessage =
+    const { directMessage, created } =
       await this._directMessageService.getOrCreateDirectMessage({
         userId,
         addresseeId,
         friendId,
       });
+
+    // if (created) {
+    //   const socket = await io.findByUserId(addresseeId);
+    //   if (socket != null) {
+    //     io.to(socket.id).emit(EventEnum.DIRECT_MESSAGE_CREATED, directMessage);
+    //   }
+    // }
 
     const createMessageRequest: CreateMessageRequest = {
       type: MessageType.SERVER_INVITE,
@@ -199,7 +206,15 @@ class ServerInviteService {
       serverInviteId: serverInviteId,
     };
 
-    await this._messageService.create(userId, createMessageRequest);
+    const { message } = await this._messageService.create(
+      userId,
+      createMessageRequest,
+    );
+
+    // io.in(directMessage.id.toString()).emit(
+    //   EventEnum.RECEIVE_DIRECT_MESSAGE,
+    //   message,
+    // );
   }
 }
 

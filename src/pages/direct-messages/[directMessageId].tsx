@@ -44,8 +44,7 @@ const DirectMessagePage: NextPageLayout = () => {
 
   const handleKeyDown = (event: KeyboardEvent<HTMLInputElement>) => {
     if (event.key === 'Enter') {
-      const validationErrors = sendDirectMessage(body);
-      console.log(validationErrors);
+      sendDirectMessage(body);
       setBody('');
     }
   };

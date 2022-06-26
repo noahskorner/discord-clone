@@ -22,20 +22,19 @@ interface SocketProviderInterface {
 
 export const SocketProvider = ({ children }: SocketProviderInterface) => {
   const { accessToken } = useAuth();
-  const socket: any = null;
-  // const socket = useRef(
-  //   io(BASE_URL, {
-  //     query: { accessToken },
-  //   }),
-  // );
+  const socket = useRef(
+    io(BASE_URL, {
+      query: { accessToken },
+    }),
+  );
 
-  // useEffect(() => {
-  //   socket.current.connect();
+  useEffect(() => {
+    socket.current.connect();
 
-  //   () => {
-  //     socket.current.disconnect();
-  //   };
-  // }, []);
+    () => {
+      socket.current.disconnect();
+    };
+  }, []);
   return (
     <SocketContext.Provider value={{ socket }}>
       {children}

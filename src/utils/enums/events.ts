@@ -15,6 +15,7 @@ enum EventEnum {
   JOIN_DIRECT_MESSAGE = 'join-direct-message',
   SEND_DIRECT_MESSAGE = 'send-direct-message',
   RECEIVE_DIRECT_MESSAGE = 'receive-direct-message',
+  DIRECT_MESSAGE_CREATED = 'direct-message-created',
 }
 
 export default EventEnum;

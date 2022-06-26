@@ -144,9 +144,15 @@ class DirectMessageService {
         userId,
         friendIds: [friendId],
       });
-      return directMessage;
+      if (directMessage == null) throw new Error();
+
+      return { directMessage, created: true };
     } else {
-      return await this.findById(existingDirectMessageId, userId);
+      const directMessage = await this.findById(
+        existingDirectMessageId,
+        userId,
+      );
+      return { directMessage, created: false };
     }
   }
 

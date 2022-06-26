@@ -162,7 +162,7 @@ export const DirectMessageProvider = ({
 
   const addMessage = (message: MessageDto) => {
     setMessages((prev) => {
-      return prev.add(message);
+      return new Set([message, ...Array.from(prev)]);
     });
   };
 
