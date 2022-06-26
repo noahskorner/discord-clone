@@ -6,13 +6,15 @@ export const getLabel = (
   directMessage: DirectMessageDto,
 ) => {
   return directMessage?.users != null && directMessage.users.length > 0
-    ? directMessage.users
-        .filter((e) => e.userId !== currentUserId)
-        .reduce((a, b, index) => {
-          return index !== directMessage.users.length - 1
-            ? a + `${b.username}, `
-            : a + b.username;
-        }, '')
+    ? directMessage.users.length === 1
+      ? directMessage.users[0].username
+      : directMessage.users
+          .filter((e) => e.userId !== currentUserId)
+          .reduce((a, b, index) => {
+            return index !== directMessage.users.length - 1
+              ? a + `${b.username}, `
+              : a + b.username;
+          }, '')
     : [];
 };
 

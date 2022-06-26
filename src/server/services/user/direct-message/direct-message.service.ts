@@ -187,7 +187,7 @@ class DirectMessageService {
       );
     });
 
-    if (existingDirectMessageIds.length < 1) return null;
+    if (existingDirectMessages.length < 1) return null;
     return existingDirectMessages[0].id;
   }
 

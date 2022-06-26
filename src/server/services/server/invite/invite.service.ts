@@ -1,5 +1,7 @@
 import ErrorEnum from '../../../../utils/enums/errors';
+import EventEnum from '../../../../utils/enums/events';
 import MessageType from '../../../../utils/enums/message-type';
+import DirectMessageDto from '../../../../utils/types/dtos/direct-message';
 import ServerInviteDto from '../../../../utils/types/dtos/server-invite';
 import ErrorInterface from '../../../../utils/types/interfaces/error';
 import SystemError from '../../../../utils/types/interfaces/system-error';
@@ -43,11 +45,13 @@ class ServerInviteService {
   private _serverService: ServerService;
   private _directMessageService: DirectMessageService;
   private _messageService: MessageService;
+  // private _io: WebSocket;
 
   constructor() {
     this._serverService = new ServerService();
     this._directMessageService = new DirectMessageService();
     this._messageService = new MessageService();
+    // (global as any).io = (global as any).io;
   }
 
   public async create({
@@ -192,12 +196,10 @@ class ServerInviteService {
         friendId,
       });
 
-    // if (created) {
-    //   const socket = await io.findByUserId(addresseeId);
-    //   if (socket != null) {
-    //     io.to(socket.id).emit(EventEnum.DIRECT_MESSAGE_CREATED, directMessage);
-    //   }
-    // }
+    if (created) {
+      this.emitDirectMessageToUser(userId, directMessage);
+      this.emitDirectMessageToUser(addresseeId, directMessage);
+    }
 
     const createMessageRequest: CreateMessageRequest = {
       type: MessageType.SERVER_INVITE,
@@ -211,10 +213,21 @@ class ServerInviteService {
       createMessageRequest,
     );
 
-    // io.in(directMessage.id.toString()).emit(
-    //   EventEnum.RECEIVE_DIRECT_MESSAGE,
-    //   message,
-    // );
+    (global as any).io
+      .in(directMessage.id.toString())
+      .emit(EventEnum.RECEIVE_DIRECT_MESSAGE, message);
+  }
+
+  private async emitDirectMessageToUser(
+    userId: number,
+    directMessage: DirectMessageDto,
+  ) {
+    const socket = await (global as any).io.findByUserId(userId);
+    if (socket != null) {
+      (global as any).io
+        .to(socket.id)
+        .emit(EventEnum.DIRECT_MESSAGE_CREATED, directMessage);
+    }
   }
 }
 

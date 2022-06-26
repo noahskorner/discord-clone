@@ -11,14 +11,14 @@ import WebSocket from '../utils/types/web-socket';
 
 const server = createServer(app);
 
-const webSocket = new WebSocket(server, {
+export const io = new WebSocket(server, {
   cors: {
     origin: env.HOST,
     methods: '*',
   },
 });
 
-webSocket.on(EventEnum.CONNECTION, (socket) => {
+io.on(EventEnum.CONNECTION, (socket) => {
   const accessToken = socket.handshake.query.accessToken as string | undefined;
 
   if (accessToken == null) return socket.disconnect();
@@ -47,14 +47,12 @@ webSocket.on(EventEnum.CONNECTION, (socket) => {
       async ({ serverId }: JoinServerRequest) => {
         socket.join(serverId.toString());
 
-        const remoteSockets = await webSocket
-          .in(serverId.toString())
-          .fetchSockets();
+        const remoteSockets = await io.in(serverId.toString()).fetchSockets();
         const currentUsers = remoteSockets.map(
           (remoteSocket: any) => remoteSocket.user as RequestUser,
         );
 
-        webSocket.sockets
+        io.sockets
           .in(serverId.toString())
           .emit(EventEnum.JOIN_SERVER, currentUsers);
       },
@@ -86,9 +84,8 @@ webSocket.on(EventEnum.CONNECTION, (socket) => {
     socket.on(
       EventEnum.JOIN_DIRECT_MESSAGE,
       async (directMessageId: number) => {
-        console.log('JOINED');
         socket.join(directMessageId.toString());
-        const remoteSockets = await webSocket
+        const remoteSockets = await io
           .in(directMessageId.toString())
           .fetchSockets();
         const currentUsers = remoteSockets.map(
@@ -107,7 +104,7 @@ webSocket.on(EventEnum.CONNECTION, (socket) => {
           request,
         ); // TODO: This could be done after emitting, but this is fine for now
 
-        webSocket.sockets
+        io.sockets
           .in(request.directMessageId!.toString())
           .emit(EventEnum.RECEIVE_DIRECT_MESSAGE, message);
       },
@@ -118,5 +115,5 @@ webSocket.on(EventEnum.CONNECTION, (socket) => {
   }
 });
 
-export const io = () => webSocket;
+(global as any).io = io; // fuck you typescript
 export default server;
