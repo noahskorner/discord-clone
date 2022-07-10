@@ -11,7 +11,10 @@ export const getLabel = (
       : directMessage.users
           .filter((e) => e.userId !== currentUserId)
           .reduce((a, b, index) => {
-            return index !== directMessage.users.length - 1
+            return index !==
+              directMessage.users.filter((e) => e.userId !== currentUserId)
+                .length -
+                1
               ? a + `${b.username}, `
               : a + b.username;
           }, '')

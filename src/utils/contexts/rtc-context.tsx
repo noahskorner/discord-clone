@@ -42,6 +42,7 @@ export const RTCProvider = ({ children }: RTCProviderInterface) => {
 
     const stream = await navigator.mediaDevices.getUserMedia({
       audio: true,
+      video: true,
     });
     stream.getTracks().forEach((track) => {
       peerConnection.addTrack(track, stream);
@@ -87,7 +88,9 @@ export const RTCProvider = ({ children }: RTCProviderInterface) => {
   };
 
   const receiveCandidateHandler = async (candidate: RTCIceCandidate) => {
-    await peerConnectionRef.current?.addIceCandidate(candidate);
+    if (candidate != null) {
+      await peerConnectionRef.current?.addIceCandidate(candidate);
+    }
   };
 
   useEffect(() => {
